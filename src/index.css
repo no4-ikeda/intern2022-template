@@ -117,15 +117,6 @@ textarea.memo {
   border: solid 1px #000000;
 }
 
-/* バリデーション処理*/
-input .error::after {
-  display: inline-block;
-}
-input:user-invalid ~ .error::after {
-  content: "※";
-  color: #ff0000;
-}
-
 /* 新規作成ボタン*/
 .createNew {
   opacity: 0;
@@ -140,11 +131,9 @@ input:user-invalid ~ .error::after {
   text-align: left;
 }
 
-/* 新規作成モーダル*/
+/* 新規作成,編集モーダル*/
 .createNewModal,
-.detailModal,
-.editModal,
-.holidayModal {
+.editModal {
   display: inline-block;
   border: 2px solid #000000;
   position: fixed;
@@ -154,7 +143,22 @@ input:user-invalid ~ .error::after {
   background-color: #ffffff;
   z-index: 10;
   width: 350px;
-  height: 350px;
+  height: 440px;
+}
+
+/* 詳細、祝日*/
+.detailModal,
+.holidayModal {
+  display: inline-block;
+  border: 2px solid #000000;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  z-index: 10;
+  width: 300px;
+  height: 300px;
 }
 
 /* 予定確認画面*/
@@ -174,4 +178,14 @@ span.memo {
 .icons {
   padding-top: 10px;
   padding-left: 10px;
+}
+
+/* バリデーションスタイル*/
+.error {
+  display: none;
+  padding-left: 10px;
+  color: #ff0000;
+}
+.caution {
+  padding-top: 0px;
 }

@@ -6,9 +6,8 @@ import useFetchHoliday from "./hooks/useFetchHoliday";
 
 type Props = {
   day: Dayjs;
-  rowIdx: number;
 };
-type State = {
+export type State = {
   title: string;
   date: string;
   startTime: string;

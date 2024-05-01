@@ -20,36 +20,3 @@ export default function useFetchHoliday(indicatedYear: number) {
 
   return holiday;
 }
-
-// export type Fetch = {
-//   holiday: string;
-// };
-
-// export default function GetHoliday(yearIndicated: number) {
-//   const urlTop = "https://holidays-jp.github.io/api/v1/";
-//   const urlBottom = "/date.json";
-//   const year: string = yearIndicated.toString();
-//   const url = urlTop + year + urlBottom;
-
-//   fetch(url)
-//     .then((response) => response.json())
-//     .then((data) => {
-//       return data as Fetch[];
-//     })
-//     .catch(() => alert("error"));
-// }
-
-// export default async function GetHoliday(yearIndicated: number) {
-//   const urlTop = "https://holidays-jp.github.io/api/v1/";
-//   const urlBottom = "/date.json";
-//   const year: string = yearIndicated.toString();
-//   const url = urlTop + year + urlBottom;
-
-//   const response = await fetch(url);
-//   if (!response.ok) {
-//     throw new Error("ネットワークのエラーまたはデータの取得に失敗しました。");
-//   }
-//   const holidays: Fetch[] = (await response.json()) as Fetch[];
-
-//   return holidays;
-// }
