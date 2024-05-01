@@ -1,70 +1,177 @@
-:root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
+/* ヘッダー*/
+.calenderHeader {
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  padding-top: 100px;
+  padding-left: 100px;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* 曜日*/
+.dayOfWeek {
+  width: 1050px;
+  margin: auto;
+  color: #666666;
+  border-collapse: collapse;
+}
+td {
+  border-top: 2px solid #cccccc;
+  border-left: 2px solid #cccccc;
+  border-right: 2px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+/* カレンダー、グリッド設定*/
+.gridParent {
+  display: grid;
+  grid-template-columns: 150px 150px 150px 150px 150px 150px 150px;
+  grid-auto-rows: minmax(120px, auto);
+  place-content: center;
+}
+.gridChild {
+  border: 1px solid #cccccc;
+  text-align: center;
+  color: #666666;
+}
+
+/* 当日、月による色分け*/
+.today {
+  color: #12bd45;
+  border-top: solid #12bd45;
+}
+.differentMonth {
+  color: #cccccc;
+}
+
+/* カレンダー上部*/
+.calendar {
+  padding-right: 720px;
+  padding-left: 20px;
+  padding-top: 12px;
+}
+.yearMonth {
+  padding-left: 20px;
+  padding-top: 12px;
+  padding-right: 20px;
+}
+
+/* 祝日、予定*/
+.holiday,
+.dayEvent {
+  background-color: #12bd45;
+  font-size: 11px;
+  color: #ffffff;
+  margin-left: 2px;
+  margin-right: 2px;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  padding-left: 5px;
+  margin-bottom: 1px;
+  border-radius: 2px;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+/* モーダルの外側*/
+.outOfModal {
+  background-color: rgba(0, 0, 0, 0);
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+
+/* モーダルヘッダー*/
+.eventHeader {
+  padding-right: 170px;
+}
+.editHeader,
+.detailHeader {
+  padding-right: 150px;
+}
+.holidayHeader {
+  padding-right: 190px;
+}
+.headerIcons {
+  padding-left: 5px;
+}
+
+/* モーダル入力画面*/
+input.title,
+input.date {
+  display: block;
+  padding: 5px;
+  margin: 10px;
+  width: 90%;
+  border: solid 1px #000000;
+}
+input.startTime,
+input.endTime {
+  display: inline-block;
+  padding: 5px;
+  border: solid 1px #000000;
+  margin: 10px;
+  width: 40%;
+}
+textarea.memo {
+  display: block;
+  padding: 5px;
+  margin: 10px;
+  width: 90%;
+  height: 90px;
+  border: solid 1px #000000;
+}
+
+/* バリデーション処理*/
+input .error::after {
+  display: inline-block;
+}
+input:user-invalid ~ .error::after {
+  content: "※";
+  color: #ff0000;
+}
+
+/* 新規作成ボタン*/
+.createNew {
+  opacity: 0;
+  cursor: pointer;
+}
+.createNew:hover {
+  opacity: 0.5;
+  background-color: #12bd45;
+  color: #ffffff;
+  font-size: 15px;
+  line-height: 15px;
+  text-align: left;
+}
+
+/* 新規作成モーダル*/
+.createNewModal,
+.detailModal,
+.editModal,
+.holidayModal {
+  display: inline-block;
+  border: 2px solid #000000;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  z-index: 10;
+  width: 350px;
+  height: 350px;
+}
+
+/* 予定確認画面*/
+.detailTitle,
+.detailDate,
+.detailTime,
+.detailMemo {
+  display: flex;
+  margin-top: 15px;
+}
+span.title,
+span.date,
+span.time,
+span.memo {
+  padding: 10px;
+}
+.icons {
+  padding-top: 10px;
+  padding-left: 10px;
 }
