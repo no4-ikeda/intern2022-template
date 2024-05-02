@@ -17,7 +17,7 @@ export default function EventModal() {
   const [endTime, setEndTime] = useState<string>("");
   const [memo, setMemo] = useState<string>("");
 
-  // 保存ボタンが押されたとき、内容を格納する
+  // 送信ボタンが押されたとき
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const calendarEvent = {
@@ -135,7 +135,7 @@ export default function EventModal() {
       >
         {/**モーダル内容 */}
         <form className="createNewModal">
-          <header className="modalHeader">
+          <header>
             <span className="eventHeader">予定の作成</span>
             <button
               className="headerIcons"
@@ -212,7 +212,7 @@ export default function EventModal() {
           <div>
             <textarea
               id="memo"
-              placeholder="メモ"
+              placeholder="memo"
               className="memo"
               onChange={(e) => setMemo(e.target.value)}
             ></textarea>

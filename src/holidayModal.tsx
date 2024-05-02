@@ -27,13 +27,15 @@ export default function HolidayModal() {
         }
       >
         <div className="holidayModal">
-          <span className="holidayHeader">予定の確認</span>
-          <button
-            className="headerIcons"
-            onClick={() => setShowHolidayModal(false)}
-          >
-            <IoCloseSharp />
-          </button>
+          <header>
+            <span className="holidayHeader">予定の確認</span>
+            <button
+              className="headerIcons"
+              onClick={() => setShowHolidayModal(false)}
+            >
+              <IoCloseSharp />
+            </button>
+          </header>
 
           <div className="detailTitle">
             <span className="icons">

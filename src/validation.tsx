@@ -30,9 +30,7 @@ export default function validate(props: Props) {
   if (props.endTime == "") {
     errorMessage.endTime = "終了時刻は必須項目です";
   }
-  if (props.memo == "") {
-    errorMessage.memo = "メモは必須項目です";
-  } else if (props.memo.length > 255) {
+  if (props.memo.length > 255) {
     errorMessage.memo = "メモは２５５文字以内で入力してください";
   }
 

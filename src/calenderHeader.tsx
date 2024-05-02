@@ -9,12 +9,17 @@ dayjs.locale(ja);
 
 export default function CalenderHeader() {
   const { monthIndex, setMonthIndex } = useContext(YearMonthContext);
+
+  {
+    /** 次月、前月ボタンを押したとき */
+  }
   const handleBackMonth = () => {
     setMonthIndex(monthIndex - 1);
   };
   const handelNextMonth = () => {
     setMonthIndex(monthIndex + 1);
   };
+
   return (
     <>
       <span className="calenderHeader">

@@ -16,25 +16,20 @@ export const Month = ({ month }: Props) => {
 
   return (
     <>
-      <table className="dayOfWeek">
-        <thead>
-          <tr>
-            <td>日曜日</td>
-            <td>月曜日</td>
-            <td>火曜日</td>
-            <td>水曜日</td>
-            <td>木曜日</td>
-            <td>金曜日</td>
-            <td>土曜日</td>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+      <div className="dayOfWeek">
+        <div className="dayOfWeekItem">日曜日</div>
+        <div className="dayOfWeekItem">月曜日</div>
+        <div className="dayOfWeekItem">火曜日</div>
+        <div className="dayOfWeekItem">水曜日</div>
+        <div className="dayOfWeekItem">木曜日</div>
+        <div className="dayOfWeekItem">金曜日</div>
+        <div className="dayOfWeekItem">土曜日</div>
+      </div>
       <div className="gridParent">
         {currentMonth.map<React.ReactElement>((row: Dayjs[], i: number) => (
           <React.Fragment key={i}>
             {row.map<React.ReactElement>((day: Dayjs, idx: number) => (
-              <Day day={day} key={idx} rowIdx={i} />
+              <Day day={day} key={idx} />
             ))}
           </React.Fragment>
         ))}

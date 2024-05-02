@@ -27,32 +27,34 @@ export default function DetailModal() {
         }
       >
         <div className="detailModal">
-          <span className="detailHeader">予定の確認</span>
-          <button
-            className="headerIcons"
-            onClick={() => {
-              setShowDetailModal(false);
-              setShowEditModal(true);
-            }}
-          >
-            <IoPencil />
-          </button>
-          <button
-            className="headerIcons"
-            type="submit"
-            onClick={() => {
-              dispatchCalEvent({ type: "delete", payload: selectedEvent });
-              setShowDetailModal(false);
-            }}
-          >
-            <IoTrash />
-          </button>
-          <button
-            className="headerIcons"
-            onClick={() => setShowDetailModal(false)}
-          >
-            <IoCloseSharp />
-          </button>
+          <header>
+            <span className="detailHeader">予定の確認</span>
+            <button
+              className="headerIcons"
+              onClick={() => {
+                setShowDetailModal(false);
+                setShowEditModal(true);
+              }}
+            >
+              <IoPencil />
+            </button>
+            <button
+              className="headerIcons"
+              type="submit"
+              onClick={() => {
+                dispatchCalEvent({ type: "delete", payload: selectedEvent });
+                setShowDetailModal(false);
+              }}
+            >
+              <IoTrash />
+            </button>
+            <button
+              className="headerIcons"
+              onClick={() => setShowDetailModal(false)}
+            >
+              <IoCloseSharp />
+            </button>
+          </header>
 
           <div className="detailTitle">
             <span className="icons">

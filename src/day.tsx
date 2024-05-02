@@ -38,7 +38,6 @@ export const Day = ({ day }: Props) => {
   );
   const holidayToday = holidayValues[holidayIndex];
 
-  // 今月分だけを表示
   const thisMonth = day.month() === monthIndex && true;
 
   // 今日を色付け
@@ -55,47 +54,53 @@ export const Day = ({ day }: Props) => {
   }, [savedEvents, day]);
 
   return (
-    <div className="gridChild">
+    <div
+      className="gridChild"
+      onClick={() => {
+        setDaySelected(day);
+        setShowModal(true);
+      }}
+    >
       <div>
-        {/* 当日にtodayというクラス名にする */}
-        <div className={getCalenderToday() ? "today" : ""}>
-          <span className={thisMonth ? "" : "differentMonth"}>
-            {day.format("D")}日
-          </span>
+        <div>
+          {/* 当日にtodayというクラス名にする */}
+          <div className={getCalenderToday() ? "today" : ""}>
+            {/** 今月分だけ色を変える */}
+            <span className={thisMonth ? "" : "differentMonth"}>
+              {day.format("D")}日
+            </span>
+          </div>
         </div>
-      </div>
 
-      {/* 祝日表示 */}
-      <div
-        className="holiday"
-        onClick={() => {
-          setShowHolidayModal(true);
-          setDaySelected(day);
-        }}
-      >
-        {holidayToday}
-      </div>
-      {dayEvents.map((evt, idx) => (
+        {/* 祝日表示 */}
         <div
-          key={idx}
-          className="dayEvent"
-          onClick={() => {
-            setSelectedEvent(evt);
-            setShowDetailModal(true);
+          className="holiday"
+          onClick={(e) => {
+            setShowHolidayModal(true);
+            setDaySelected(day);
+            e.stopPropagation();
           }}
         >
-          {evt.title}
+          {holidayToday}
         </div>
-      ))}
 
-      <div
-        onClick={() => {
-          setDaySelected(day);
-          setShowModal(true);
-        }}
-        className="createNew"
-      >
-        新規作成...
+        {/** 予定表示 */}
+        {dayEvents.map((evt, idx) => (
+          <div
+            key={idx}
+            className="dayEvent"
+            onClick={(e) => {
+              setSelectedEvent(evt);
+              setShowDetailModal(true);
+              e.stopPropagation();
+            }}
+          >
+            {evt.title}
+          </div>
+        ))}
+
+        {/** 新規作成ボタン */}
+        <div className="createNew">新規作成...</div>
       </div>
     </div>
   );

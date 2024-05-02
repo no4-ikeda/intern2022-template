@@ -10,6 +10,9 @@ import DetailModal from "./detailModal";
 import HolidayModal from "./holidayModal";
 
 export default function App() {
+  {
+    /** 現在表示している月 */
+  }
   const [currentMonth, setCurrentMonth] = useState(getMonth());
   const {
     monthIndex,

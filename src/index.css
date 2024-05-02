@@ -7,28 +7,49 @@
 
 /* 曜日*/
 .dayOfWeek {
-  width: 1050px;
-  margin: auto;
-  color: #666666;
-  border-collapse: collapse;
+  display: grid;
+  grid-template-columns: 150px 150px 150px 150px 150px 150px 150px;
+  place-content: center;
 }
-td {
-  border-top: 2px solid #cccccc;
-  border-left: 2px solid #cccccc;
-  border-right: 2px solid #cccccc;
-  border-bottom: 1px solid #cccccc;
+.dayOfWeekItem {
+  border: 1px solid #cccccc;
+  color: #666666;
 }
 
 /* カレンダー、グリッド設定*/
 .gridParent {
   display: grid;
   grid-template-columns: 150px 150px 150px 150px 150px 150px 150px;
-  grid-auto-rows: minmax(120px, auto);
+  grid-auto-rows: 120px;
   place-content: center;
 }
 .gridChild {
   border: 1px solid #cccccc;
   text-align: center;
+  color: #666666;
+  overflow: hidden;
+  cursor: pointer;
+}
+.gridChild:hover {
+  overflow: auto;
+  .createNew {
+    opacity: 0.5;
+    background-color: #12bd45;
+    color: #ffffff;
+    font-size: 15px;
+    line-height: 15px;
+    text-align: left;
+  }
+}
+
+/* 曜日*/
+.dayOfWeek {
+  display: grid;
+  grid-template-columns: 150px 150px 150px 150px 150px 150px 150px;
+  place-content: center;
+}
+.dayOfWeekItem {
+  border: 1px solid #cccccc;
   color: #666666;
 }
 
@@ -120,15 +141,6 @@ textarea.memo {
 /* 新規作成ボタン*/
 .createNew {
   opacity: 0;
-  cursor: pointer;
-}
-.createNew:hover {
-  opacity: 0.5;
-  background-color: #12bd45;
-  color: #ffffff;
-  font-size: 15px;
-  line-height: 15px;
-  text-align: left;
 }
 
 /* 新規作成,編集モーダル*/
@@ -146,7 +158,7 @@ textarea.memo {
   height: 440px;
 }
 
-/* 詳細、祝日*/
+/* 詳細、祝日モーダル*/
 .detailModal,
 .holidayModal {
   display: inline-block;

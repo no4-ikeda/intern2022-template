@@ -14,6 +14,9 @@ export default function EditModal() {
   const { setShowEditModal, dispatchCalEvent, selectedEvent } =
     useContext(YearMonthContext);
 
+  {
+    /** selectedEventがtrueならば初期値にイベントの中身を、falseなら空 */
+  }
   const [title, setTitle] = useState<string>(
     selectedEvent ? selectedEvent.title : ""
   );
@@ -33,6 +36,9 @@ export default function EditModal() {
     return null;
   }
 
+  {
+    /** 送信ボタンを押されたとき */
+  }
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const calendarEvent = {
@@ -153,31 +159,39 @@ export default function EditModal() {
         onClick={(e) => e.target === e.currentTarget && setShowEditModal(false)}
       >
         <form className="editModal">
-          <span className="editHeader">予定の編集</span>
-          <button className="headerIcons" type="submit" onClick={handleSubmit}>
-            <FaCheck />
-          </button>
-          <button
-            className="headerIcons"
-            type="submit"
-            onClick={() => {
-              dispatchCalEvent({ type: "delete", payload: selectedEvent });
-              setShowEditModal(false);
-            }}
-          >
-            <IoTrash />
-          </button>
-          <button
-            className="headerIcons"
-            onClick={() => setShowEditModal(false)}
-          >
-            <IoCloseSharp />
-          </button>
+          <header>
+            <span className="editHeader">予定の編集</span>
+            <button
+              className="headerIcons"
+              type="submit"
+              onClick={handleSubmit}
+            >
+              <FaCheck />
+            </button>
+            <button
+              className="headerIcons"
+              type="submit"
+              onClick={() => {
+                dispatchCalEvent({ type: "delete", payload: selectedEvent });
+                setShowEditModal(false);
+              }}
+            >
+              <IoTrash />
+            </button>
+            <button
+              className="headerIcons"
+              onClick={() => setShowEditModal(false)}
+            >
+              <IoCloseSharp />
+            </button>
+          </header>
+
           <div>
             <input
               id="title"
               type="text"
               placeholder="タイトルを入力"
+              value={title}
               className="title"
               onChange={(e) => setTitle(e.target.value)}
             ></input>
@@ -210,6 +224,7 @@ export default function EditModal() {
               id="startTime"
               type="time"
               placeholder="--:--"
+              value={startTime}
               className="startTime"
               onChange={(e) => setStartTime(e.target.value)}
             />
@@ -218,6 +233,7 @@ export default function EditModal() {
               id="endTime"
               type="time"
               placeholder="--:--"
+              value={endTime}
               className="endTime"
               onChange={(e) => setEndTime(e.target.value)}
             />
@@ -237,7 +253,8 @@ export default function EditModal() {
           <div>
             <textarea
               id="memo"
-              placeholder="メモ"
+              placeholder="memo"
+              value={memo}
               className="memo"
               onChange={(e) => setMemo(e.target.value)}
             ></textarea>
