@@ -1,39 +1,14 @@
-import type { ReactNode } from "react";
 import { useState, useEffect, useReducer } from "react";
-import YearMonthContext from "./context";
+import YearMonthContext from "./Context";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
+import type { Action, ScheduleState, WrapperProps } from "~/types/types";
 
-//
-type Props = {
-  children: ReactNode;
-};
-
-type State = {
-  title: string;
-  date: string;
-  startTime: string;
-  endTime: string;
-  memo: string;
-  id: number;
-};
-
-type PushAction = {
-  type: "push";
-  payload: State;
-};
-type UpdateAction = {
-  type: "update";
-  payload: State;
-};
-type DeleteAction = {
-  type: "delete";
-  payload: State;
-};
-export type Action = PushAction | UpdateAction | DeleteAction;
-
-//追加、編集、削除処理
-const savedEventsReducer = (stateList: State[], { type, payload }: Action) => {
+// 追加、編集、削除処理
+const savedEventsReducer = (
+  stateList: ScheduleState[],
+  { type, payload }: Action
+) => {
   switch (type) {
     case "push":
       return [...stateList, payload];
@@ -46,23 +21,25 @@ const savedEventsReducer = (stateList: State[], { type, payload }: Action) => {
   }
 };
 
-//ストレージに入った予定を返す
-const initEvents = (): State[] => {
+// ストレージに入った予定を返す
+const initEvents = (): ScheduleState[] => {
   const storageEvents = localStorage.getItem("savedEvents");
-  const parsedEvents: State[] = storageEvents
-    ? (JSON.parse(storageEvents) as State[])
+  const parsedEvents: ScheduleState[] = storageEvents
+    ? (JSON.parse(storageEvents) as ScheduleState[])
     : [];
   return parsedEvents;
 };
 
-const ContextWrapper = (props: Props) => {
-  const [monthIndex, setMonthIndex] = useState<number>(dayjs().month());
+const ContextWrapper = (props: WrapperProps) => {
   const [daySelected, setDaySelected] = useState<Dayjs>(dayjs());
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const [showEditModal, setShowEditModal] = useState<boolean>(false);
-  const [showDetailModal, setShowDetailModal] = useState<boolean>(false);
-  const [showHolidayModal, setShowHolidayModal] = useState<boolean>(false);
-  const [selectedEvent, setSelectedEvent] = useState<State | null>(null);
+  const [isShowCreateNewModal, setIsShowCreateNewModal] =
+    useState<boolean>(false);
+  const [isShowEditModal, setIsShowEditModal] = useState<boolean>(false);
+  const [isShowDetailModal, setIsShowDetailModal] = useState<boolean>(false);
+  const [isShowHolidayModal, setIsShowHolidayModal] = useState<boolean>(false);
+  const [selectedEvent, setSelectedEvent] = useState<ScheduleState | null>(
+    null
+  );
   const [holiday, setHoliday] = useState<string[]>([]);
   const [savedEvents, dispatchCalEvent] = useReducer(
     savedEventsReducer,
@@ -70,7 +47,7 @@ const ContextWrapper = (props: Props) => {
     initEvents
   );
 
-  //savedEventが更新されたとき実行
+  // savedEventが更新されたとき実行
   useEffect(() => {
     localStorage.setItem("savedEvents", JSON.stringify(savedEvents));
   }, [savedEvents]);
@@ -78,18 +55,16 @@ const ContextWrapper = (props: Props) => {
   return (
     <YearMonthContext.Provider
       value={{
-        monthIndex,
-        setMonthIndex,
         daySelected,
         setDaySelected,
-        showModal,
-        setShowModal,
-        showEditModal,
-        setShowEditModal,
-        showDetailModal,
-        setShowDetailModal,
-        showHolidayModal,
-        setShowHolidayModal,
+        isShowCreateNewModal,
+        setIsShowCreateNewModal,
+        isShowEditModal,
+        setIsShowEditModal,
+        isShowDetailModal,
+        setIsShowDetailModal,
+        isShowHolidayModal,
+        setIsShowHolidayModal,
         selectedEvent,
         setSelectedEvent,
         holiday,

@@ -1,19 +1,9 @@
-import React, { useContext } from "react";
-import { Day } from "./day";
+import type React from "react";
+import { Day } from "./Day";
 import type { Dayjs } from "dayjs";
-import YearMonthContext from "./context/context";
+import type { MonthProps } from "./types/types";
 
-type Props = {
-  month: Dayjs[][];
-};
-
-export const Month = ({ month }: Props) => {
-  // カレンダーの余分な行を削除する
-  const { monthIndex } = useContext(YearMonthContext);
-  const currentMonth = month.filter((row) => {
-    return row[0].month() === monthIndex || row[6].month() === monthIndex;
-  });
-
+export const Month = ({ currentPageMonth, dateMatrix }: MonthProps) => {
   return (
     <>
       <div className="dayOfWeek">
@@ -26,12 +16,8 @@ export const Month = ({ month }: Props) => {
         <div className="dayOfWeekItem">土曜日</div>
       </div>
       <div className="gridParent">
-        {currentMonth.map<React.ReactElement>((row: Dayjs[], i: number) => (
-          <React.Fragment key={i}>
-            {row.map<React.ReactElement>((day: Dayjs, idx: number) => (
-              <Day day={day} key={idx} />
-            ))}
-          </React.Fragment>
+        {dateMatrix.map<React.ReactElement>((date: Dayjs, idx: number) => (
+          <Day currentPageMonth={currentPageMonth} date={date} key={idx} />
         ))}
       </div>
     </>

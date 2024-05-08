@@ -3,55 +3,53 @@ import { useState, useContext, useCallback } from "react";
 import YearMonthContext from "./context/Context";
 import { IoCloseSharp } from "react-icons/io5";
 import { FaCheck } from "react-icons/fa";
-import { IoTrash } from "react-icons/io5";
 import { FiAlertTriangle } from "react-icons/fi";
 import validate from "./hooks/useValidation";
 
-export default function EditModal() {
+export default function CreateNewModal() {
   // スウェーデンの日付形式で、今日をYYYY-MM-DDで取ってくる
   const today = new Date().toLocaleDateString("sv-SE");
 
-  const { setIsShowEditModal, dispatchCalEvent, selectedEvent } =
+  const { setIsShowCreateNewModal, dispatchCalEvent } =
     useContext(YearMonthContext);
+  const [title, setTitle] = useState<string>("");
+  const [date, setDate] = useState<string>(today);
+  const [startTime, setStartTime] = useState<string>("");
+  const [endTime, setEndTime] = useState<string>("");
+  const [memo, setMemo] = useState<string>("");
 
-  // selectedEventがtrueならば初期値にイベントの中身を、falseなら空 */
+  // 送信ボタンが押されたとき
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const calendarEvent = {
+      title: title,
+      date: date,
+      startTime: startTime,
+      endTime: endTime,
+      memo: memo,
+      id: Date.now(),
+    };
 
-  const [title, setTitle] = useState<string>(
-    selectedEvent ? selectedEvent.title : ""
-  );
-  const [date, setDate] = useState<string>(
-    selectedEvent ? selectedEvent.date : ""
-  );
-  const [startTime, setStartTime] = useState<string>(
-    selectedEvent ? selectedEvent.startTime : ""
-  );
-  const [endTime, setEndTime] = useState<string>(
-    selectedEvent ? selectedEvent.endTime : ""
-  );
-  const [memo, setMemo] = useState<string>(
-    selectedEvent ? selectedEvent.memo : ""
-  );
+    const isCalendarEventValid = validate(calendarEvent);
+    // エラーメッセージが何もないときsubmit処理が行われる
+    if (isCalendarEventValid) {
+      dispatchCalEvent({ type: "push", payload: calendarEvent });
+      setIsShowCreateNewModal(false);
+    }
+  };
 
   // モーダルの外側を押したときモーダルを消す
   const handleClickOutOfModal = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      e.target === e.currentTarget && setIsShowEditModal(false);
+      e.target === e.currentTarget && setIsShowCreateNewModal(false);
     },
-    [setIsShowEditModal]
+    [setIsShowCreateNewModal]
   );
 
-  // 削除、クローズボタンが押されたとき
-  const handleClickTrash = useCallback(() => {
-    if (selectedEvent == null) {
-      return null;
-    }
-    dispatchCalEvent({ type: "delete", payload: selectedEvent });
-    setIsShowEditModal(false);
-  }, [dispatchCalEvent, selectedEvent, setIsShowEditModal]);
-
+  // ×ボタンが押されたとき
   const handleClickClose = useCallback(() => {
-    setIsShowEditModal(false);
-  }, [setIsShowEditModal]);
+    setIsShowCreateNewModal(false);
+  }, [setIsShowCreateNewModal]);
 
   // テキストボックスの値が変化したとき、Stateにセットされる
   const handleChangeTitle = useCallback(
@@ -85,66 +83,29 @@ export default function EditModal() {
     []
   );
 
-  if (selectedEvent == null) {
-    return null;
-  }
-
-  // 送信ボタンを押されたとき
-
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    const calendarEvent = {
-      title: title,
-      date: date,
-      startTime: startTime,
-      endTime: endTime,
-      memo: memo,
-      id: selectedEvent ? selectedEvent.id : Date.now(),
-    };
-
-    const isCalendarEventValid = validate(calendarEvent);
-    if (isCalendarEventValid) {
-      if (selectedEvent) {
-        dispatchCalEvent({ type: "update", payload: calendarEvent });
-        setIsShowEditModal(false);
-      } else {
-        dispatchCalEvent({ type: "push", payload: calendarEvent });
-        setIsShowEditModal(false);
-      }
-    }
-  };
-
   return (
     <>
       <div className="outOfModal" onClick={(e) => handleClickOutOfModal(e)}>
-        <form className="editModal">
+        {/**モーダル内容 */}
+        <form className="createNewModal">
           <header>
-            <span className="editHeader">予定の編集</span>
+            <span className="eventHeader">予定の作成</span>
             <button
               className="headerIcons"
               type="submit"
-              onClick={(e) => handleSubmit(e)}
+              onClick={handleSubmit}
             >
               <FaCheck />
-            </button>
-            <button
-              className="headerIcons"
-              type="submit"
-              onClick={handleClickTrash}
-            >
-              <IoTrash />
             </button>
             <button className="headerIcons" onClick={handleClickClose}>
               <IoCloseSharp />
             </button>
           </header>
-
           <div>
             <input
               id="title"
               type="text"
               placeholder="タイトルを入力"
-              value={title}
               className="title"
               onChange={(e) => handleChangeTitle(e)}
             ></input>
@@ -177,7 +138,6 @@ export default function EditModal() {
               id="startTime"
               type="time"
               placeholder="--:--"
-              value={startTime}
               className="startTime"
               onChange={(e) => handleChangeStartTime(e)}
             />
@@ -186,7 +146,6 @@ export default function EditModal() {
               id="endTime"
               type="time"
               placeholder="--:--"
-              value={endTime}
               className="endTime"
               onChange={(e) => handleChangeEndTime(e)}
             />
@@ -207,7 +166,6 @@ export default function EditModal() {
             <textarea
               id="memo"
               placeholder="memo"
-              value={memo}
               className="memo"
               onChange={(e) => handleChangeMemo(e)}
             ></textarea>

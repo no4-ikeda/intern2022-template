@@ -1,23 +1,21 @@
-import { useContext } from "react";
 import src from "./img/calender.png";
-import YearMonthContext from "./context/context";
 import dayjs from "dayjs";
 import ja from "dayjs/locale/ja";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
+import type { CurrentPageMonthProps } from "./types/types";
 
 dayjs.locale(ja);
 
-export default function CalenderHeader() {
-  const { monthIndex, setMonthIndex } = useContext(YearMonthContext);
-
-  {
-    /** 次月、前月ボタンを押したとき */
-  }
+export default function CalenderHeader({
+  currentPageMonth,
+  setCurrentPageMonth,
+}: CurrentPageMonthProps) {
+  // 次月、前月ボタンを押したとき
   const handleBackMonth = () => {
-    setMonthIndex(monthIndex - 1);
+    setCurrentPageMonth((currentPageMonth) => currentPageMonth - 1);
   };
   const handelNextMonth = () => {
-    setMonthIndex(monthIndex + 1);
+    setCurrentPageMonth((currentPageMonth) => currentPageMonth + 1);
   };
 
   return (
@@ -29,7 +27,7 @@ export default function CalenderHeader() {
           <MdChevronLeft />
         </button>
         <label className="yearMonth">
-          {dayjs(dayjs().month(monthIndex)).format("YYYY MMMM")}
+          {dayjs(dayjs().month(currentPageMonth)).format("YYYY MMMM")}
         </label>
         <button onClick={handelNextMonth} className="toNextMonth">
           <MdChevronRight />

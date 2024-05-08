@@ -1,37 +1,26 @@
 import type { Dayjs } from "dayjs";
 import type { Dispatch, SetStateAction } from "react";
 import React from "react";
-import type { Action } from "./contextWrapper";
-
-type State = {
-  title: string;
-  date: string;
-  startTime: string;
-  endTime: string;
-  memo: string;
-  id: number;
-};
+import type { ScheduleState, Action } from "~/types/types";
 
 const YearMonthContext = React.createContext(
   {} as {
-    monthIndex: number;
-    setMonthIndex: React.Dispatch<React.SetStateAction<number>>;
     daySelected: Dayjs;
     setDaySelected: Dispatch<SetStateAction<Dayjs>>;
-    showModal: boolean;
-    setShowModal: Dispatch<SetStateAction<boolean>>;
-    showEditModal: boolean;
-    setShowEditModal: Dispatch<SetStateAction<boolean>>;
-    showDetailModal: boolean;
-    setShowDetailModal: Dispatch<SetStateAction<boolean>>;
-    showHolidayModal: boolean;
-    setShowHolidayModal: Dispatch<SetStateAction<boolean>>;
-    selectedEvent: State | null;
-    setSelectedEvent: Dispatch<SetStateAction<State | null>>;
+    isShowCreateNewModal: boolean;
+    setIsShowCreateNewModal: Dispatch<SetStateAction<boolean>>;
+    isShowEditModal: boolean;
+    setIsShowEditModal: Dispatch<SetStateAction<boolean>>;
+    isShowDetailModal: boolean;
+    setIsShowDetailModal: Dispatch<SetStateAction<boolean>>;
+    isShowHolidayModal: boolean;
+    setIsShowHolidayModal: Dispatch<SetStateAction<boolean>>;
+    selectedEvent: ScheduleState | null;
+    setSelectedEvent: Dispatch<SetStateAction<ScheduleState | null>>;
     holiday: string[];
     setHoliday: Dispatch<SetStateAction<string[]>>;
     dispatchCalEvent: (args: Action) => void;
-    savedEvents: State[];
+    savedEvents: ScheduleState[];
   }
 );
 export default YearMonthContext;

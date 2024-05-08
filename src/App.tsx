@@ -1,39 +1,43 @@
-import { useEffect, useContext } from "react";
+import { useContext, useMemo } from "react";
 import { useState } from "react";
-import { getMonth } from "./getDate";
-import { Month } from "./month";
-import CalenderHeader from "./calenderHeader";
-import YearMonthContext from "./context/context";
-import EventModal from "./eventModal";
-import EditModal from "./editModal";
-import DetailModal from "./detailModal";
-import HolidayModal from "./holidayModal";
+import { getMonth } from "./hooks/useDateMatrix";
+import { Month } from "./Month";
+import CalenderHeader from "./CalenderHeader";
+import YearMonthContext from "./context/Context";
+import CreateNewModal from "./CreateNewModal";
+import EditModal from "./EditModal";
+import DetailModal from "./DetailModal";
+import HolidayModal from "./HolidayModal";
+import dayjs from "dayjs";
 
 export default function App() {
-  {
-    /** 現在表示している月 */
-  }
-  const [currentMonth, setCurrentMonth] = useState(getMonth());
   const {
-    monthIndex,
-    showModal,
-    showEditModal,
-    showDetailModal,
-    showHolidayModal,
+    isShowCreateNewModal,
+    isShowEditModal,
+    isShowDetailModal,
+    isShowHolidayModal,
   } = useContext(YearMonthContext);
 
-  useEffect(() => {
-    setCurrentMonth(getMonth(monthIndex));
-  }, [monthIndex]);
+  // 現在ページに表示されている月 0~11
+  const [currentPageMonth, setCurrentPageMonth] = useState<number>(
+    dayjs().month()
+  );
+
+  const dateMatrix = useMemo(() => {
+    return getMonth(currentPageMonth);
+  }, [currentPageMonth]);
 
   return (
     <>
-      {showModal && <EventModal />}
-      {showEditModal && <EditModal />}
-      {showDetailModal && <DetailModal />}
-      {showHolidayModal && <HolidayModal />}
-      <CalenderHeader />
-      <Month month={currentMonth} />
+      {isShowCreateNewModal && <CreateNewModal />}
+      {isShowEditModal && <EditModal />}
+      {isShowDetailModal && <DetailModal />}
+      {isShowHolidayModal && <HolidayModal />}
+      <CalenderHeader
+        currentPageMonth={currentPageMonth}
+        setCurrentPageMonth={setCurrentPageMonth}
+      />
+      <Month currentPageMonth={currentPageMonth} dateMatrix={dateMatrix} />
     </>
   );
 }

@@ -1,12 +1,12 @@
-import { useContext } from "react";
+import { useCallback, useContext } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 import { MdTitle } from "react-icons/md";
-import YearMonthContext from "./context/context";
+import YearMonthContext from "./context/Context";
 import { IoIosCalendar } from "react-icons/io";
 import { GoClock } from "react-icons/go";
 
 export default function HolidayModal() {
-  const { setShowHolidayModal, daySelected, holiday } =
+  const { setIsShowHolidayModal, daySelected, holiday } =
     useContext(YearMonthContext);
 
   const holidayKeys = Object.keys(holiday);
@@ -17,22 +17,26 @@ export default function HolidayModal() {
   );
   const holidaySelected = holidayValues[holidayIndex];
 
+  // モーダルの外側を押したときモーダルを消す
+  const handleClickOutOfModal = useCallback(
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      e.target === e.currentTarget && setIsShowHolidayModal(false);
+    },
+    [setIsShowHolidayModal]
+  );
+
+  // ×ボタンが押されたとき
+  const handleClickClose = useCallback(() => {
+    setIsShowHolidayModal(false);
+  }, [setIsShowHolidayModal]);
+
   return (
     <>
-      {/**モーダルの外側を押したときモーダルを消す*/}
-      <div
-        className="outOfModal"
-        onClick={(e) =>
-          e.target === e.currentTarget && setShowHolidayModal(false)
-        }
-      >
+      <div className="outOfModal" onClick={(e) => handleClickOutOfModal(e)}>
         <div className="holidayModal">
           <header>
             <span className="holidayHeader">予定の確認</span>
-            <button
-              className="headerIcons"
-              onClick={() => setShowHolidayModal(false)}
-            >
+            <button className="headerIcons" onClick={handleClickClose}>
               <IoCloseSharp />
             </button>
           </header>

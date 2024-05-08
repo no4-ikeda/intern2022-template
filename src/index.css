@@ -98,10 +98,10 @@
 }
 
 /* モーダルヘッダー*/
-.eventHeader {
-  padding-right: 170px;
+.eventHeader,
+.editHeader {
+  padding-right: 190px;
 }
-.editHeader,
 .detailHeader {
   padding-right: 150px;
 }

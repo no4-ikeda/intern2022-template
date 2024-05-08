@@ -1,101 +1,107 @@
 import dayjs from "dayjs";
-import { useContext, useEffect, useState } from "react";
-import type { Dayjs } from "dayjs";
-import YearMonthContext from "./context/context";
+import { useCallback, useContext, useMemo } from "react";
+import YearMonthContext from "./context/Context";
 import useFetchHoliday from "./hooks/useFetchHoliday";
+import type { DayProps, ScheduleState } from "./types/types";
 
-type Props = {
-  day: Dayjs;
-};
-export type State = {
-  title: string;
-  date: string;
-  startTime: string;
-  endTime: string;
-  memo: string;
-  id: number;
-};
-
-export const Day = ({ day }: Props) => {
-  const [dayEvents, setDayEvents] = useState<State[]>([]);
+export const Day = ({ currentPageMonth, date }: DayProps) => {
   const {
     setDaySelected,
-    setShowModal,
+    setIsShowCreateNewModal,
     savedEvents,
     setSelectedEvent,
-    setShowDetailModal,
-    setShowHolidayModal,
-    monthIndex,
+    setIsShowDetailModal,
+    setIsShowHolidayModal,
+    holiday,
   } = useContext(YearMonthContext);
 
   // カスタムフックから祝日を取得
-  const holiday = useFetchHoliday(day.year());
-  const holidayKeys = Object.keys(holiday);
-  const holidayValues = Object.values(holiday);
+  useFetchHoliday(dayjs(new Date(dayjs().year(), currentPageMonth)).year());
+  const holidayKeys: string[] = Object.keys(holiday);
+  const holidayValues: string[] = Object.values(holiday);
 
   const holidayIndex = holidayKeys.findIndex(
-    (data) => data === day.format("YYYY-MM-DD")
+    (data) => data === date.format("YYYY-MM-DD")
   );
   const holidayToday = holidayValues[holidayIndex];
 
-  const thisMonth = day.month() === monthIndex && true;
-
   // 今日を色付け
-  const getCalenderToday = (): boolean => {
-    return day.format("DD-MM-YY") === dayjs().format("DD-MM-YY") ? true : false;
+  const isToday = (): boolean => {
+    return date.format("DD-MM-YY") === dayjs().format("DD-MM-YY");
   };
 
   // savedEventsから１日分のイベントを取り出す
-  useEffect(() => {
-    const events: State[] = savedEvents.filter(
-      (evt) => dayjs(evt.date).format("DD-MM-YY") === day.format("DD-MM-YY")
+  const dayEvents = useMemo(() => {
+    const events: ScheduleState[] = savedEvents.filter(
+      (event) =>
+        dayjs(event.date).format("DD-MM-YY") === date.format("DD-MM-YY")
     );
-    setDayEvents(events);
-  }, [savedEvents, day]);
+    return events;
+  }, [savedEvents, date]);
+
+  // 表示されている月を区別する
+  const currentMonthIndex = dayjs(
+    new Date(dayjs().year(), currentPageMonth)
+  ).month();
+
+  // 日付のセルが押されたとき
+  const handleClickCreateNew = useCallback(() => {
+    setDaySelected(date);
+    setIsShowCreateNewModal(true);
+  }, [date, setDaySelected, setIsShowCreateNewModal]);
+
+  // 祝日がクリックされたとき
+  const handleClickHoliday = useCallback(
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      setIsShowHolidayModal(true);
+      setDaySelected(date);
+      e.stopPropagation();
+    },
+    [date, setDaySelected, setIsShowHolidayModal]
+  );
+
+  // 予定がクリックされたとき
+  const handleClickEvent = useCallback(
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>, event: ScheduleState) => {
+      setSelectedEvent(event);
+      setIsShowDetailModal(true);
+      e.stopPropagation();
+    },
+    [setIsShowDetailModal, setSelectedEvent]
+  );
 
   return (
-    <div
-      className="gridChild"
-      onClick={() => {
-        setDaySelected(day);
-        setShowModal(true);
-      }}
-    >
+    <div className="gridChild" onClick={handleClickCreateNew}>
       <div>
         <div>
           {/* 当日にtodayというクラス名にする */}
-          <div className={getCalenderToday() ? "today" : ""}>
+          <div className={isToday() ? "today" : ""}>
             {/** 今月分だけ色を変える */}
-            <span className={thisMonth ? "" : "differentMonth"}>
-              {day.format("D")}日
+            <span
+              className={
+                date.month() === currentMonthIndex ? "" : "differentMonth"
+              }
+            >
+              {date.format("D")}日
             </span>
           </div>
         </div>
 
         {/* 祝日表示 */}
-        <div
-          className="holiday"
-          onClick={(e) => {
-            setShowHolidayModal(true);
-            setDaySelected(day);
-            e.stopPropagation();
-          }}
-        >
+        <div className="holiday" onClick={(e) => handleClickHoliday(e)}>
           {holidayToday}
         </div>
 
         {/** 予定表示 */}
-        {dayEvents.map((evt, idx) => (
+        {dayEvents.map((event, idx) => (
           <div
             key={idx}
             className="dayEvent"
             onClick={(e) => {
-              setSelectedEvent(evt);
-              setShowDetailModal(true);
-              e.stopPropagation();
+              handleClickEvent(e, event);
             }}
           >
-            {evt.title}
+            {event.title}
           </div>
         ))}
 
