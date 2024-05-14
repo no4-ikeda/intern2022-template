@@ -2,13 +2,17 @@ import type React from "react";
 import { useState, useContext, useCallback } from "react";
 import YearMonthContext from "./context/Context";
 import type { EditModalContainerProps } from "./types/types";
-import Validate from "./hooks/Validate";
 import EditModalPresenter from "./EditModalPresenter";
 import dayjs from "dayjs";
 
 export default function EditModalContainer({
   selectedSchedule,
   handleClickSubmit,
+  titleError,
+  dateError,
+  startTimeError,
+  endTimeError,
+  memoError,
 }: EditModalContainerProps) {
   // 今日をYYYY-MM-DDで取ってくる
   const today = dayjs().format("YYYY-MM-DD");
@@ -32,14 +36,6 @@ export default function EditModalContainer({
   const [memo, setMemo] = useState<string>(
     selectedSchedule ? selectedSchedule.memo : ""
   );
-
-  // エラーメッセージ
-  const [errorMessageTitle, setErrorMessageTitle] = useState<string>("");
-  const [errorMessageDate, setErrorMessageDate] = useState<string>("");
-  const [errorMessageStartTime, setErrorMessageStartTime] =
-    useState<string>("");
-  const [errorMessageEndTime, setErrorMessageEndTime] = useState<string>("");
-  const [errorMessageMemo, setErrorMessageMemo] = useState<string>("");
 
   // モーダルの外側を押したときモーダルを消す
   const handleClickOutOfModal = useCallback(
@@ -98,10 +94,10 @@ export default function EditModalContainer({
     return null;
   }
 
-  // 送信ボタンを押されたとき
+  // 送信ボタンが押されたとき
 
   const handleSubmit = () => {
-    const calendarEvent = {
+    const calendarSchedule = {
       title: title,
       date: date,
       startTime: startTime,
@@ -110,55 +106,7 @@ export default function EditModalContainer({
       id: selectedSchedule ? selectedSchedule.id : Date.now(),
     };
 
-    const titleEmpty = () => {
-      setErrorMessageTitle("タイトルは必須項目です");
-    };
-    const titleOverFlow = () => {
-      setErrorMessageTitle("予定は１０文字以下で入力してください");
-    };
-    const validTitle = () => {
-      setErrorMessageTitle("");
-    };
-    const invalidDate = () => {
-      setErrorMessageDate("有効な日付を入力してください");
-    };
-    const validDate = () => {
-      setErrorMessageDate("");
-    };
-    const startTimeEmpty = () => {
-      setErrorMessageStartTime("開始時刻は必須項目です");
-    };
-    const validStartTime = () => {
-      setErrorMessageStartTime("");
-    };
-    const endTimeEmpty = () => {
-      setErrorMessageEndTime("終了時刻は必須項目です");
-    };
-    const validEndTime = () => {
-      setErrorMessageEndTime("");
-    };
-    const memoOvarFlow = () => {
-      setErrorMessageMemo("メモは２５５文字以内で入力してください");
-    };
-    const validMemo = () => {
-      setErrorMessageMemo("");
-    };
-    void Validate({
-      calendarEvent,
-      titleEmpty,
-      titleOverFlow,
-      validTitle,
-      invalidDate,
-      validDate,
-      startTimeEmpty,
-      validStartTime,
-      endTimeEmpty,
-      validEndTime,
-      memoOvarFlow,
-      validMemo,
-    });
-
-    handleClickSubmit(calendarEvent);
+    handleClickSubmit(calendarSchedule, selectedSchedule);
   };
 
   return (
@@ -173,11 +121,11 @@ export default function EditModalContainer({
       handleChangeEndTime={handleChangeEndTime}
       handleChangeMemo={handleChangeMemo}
       today={today}
-      errorMessageTitle={errorMessageTitle}
-      errorMessageDate={errorMessageDate}
-      errorMessageStartTime={errorMessageStartTime}
-      errorMessageEndTime={errorMessageEndTime}
-      errorMessageMemo={errorMessageMemo}
+      titleError={titleError}
+      dateError={dateError}
+      startTimeError={startTimeError}
+      endTimeError={endTimeError}
+      memoError={memoError}
       title={title}
       date={date}
       startTime={startTime}

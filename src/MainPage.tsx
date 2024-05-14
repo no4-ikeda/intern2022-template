@@ -1,5 +1,4 @@
-import { useCallback, useContext } from "react";
-import { useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { useDateMatrix } from "./hooks/useDateMatrix";
 import { Month } from "./Month";
 import CalenderHeader from "./CalenderHeader";
@@ -10,7 +9,14 @@ import DetailModalContainer from "./DetailModalContainer";
 import HolidayModalContainer from "./HolidayModalContainer";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
-import type { Schedule } from "./types/types";
+import type {
+  Schedule,
+  DateError,
+  EndTimeError,
+  MemoError,
+  StartTimeError,
+  TitleError,
+} from "./types/types";
 import useFetchHoliday from "./hooks/useFetchHoliday";
 
 export default function App() {
@@ -80,23 +86,64 @@ export default function App() {
     [setIsShowDetailModal]
   );
 
+  // エラーメッセージの有無
+  const [titleError, setTitleError] = useState<TitleError | undefined>();
+  const [dateError, setDateError] = useState<DateError | undefined>();
+  const [startTimeError, setStartTimeError] = useState<
+    StartTimeError | undefined
+  >();
+  const [endTimeError, setEndTimeError] = useState<EndTimeError | undefined>();
+  const [memoError, setMemoError] = useState<MemoError | undefined>();
+
   //入力された値の妥当性チェック
   const handleClickSubmit = useCallback(
-    (scheduleEntered: Schedule, selectedSchedule: Schedule | null = null) => {
+    (enteredSchedule: Schedule, selectedSchedule: Schedule | null = null) => {
+      if (enteredSchedule.title == "") {
+        setTitleError("empty");
+      } else if (enteredSchedule.title.length > 10) {
+        setTitleError("length");
+      } else {
+        setTitleError(undefined);
+      }
+
+      if (dayjs(enteredSchedule.date, "YYYY-MM-DD", true).isValid()) {
+        setDateError(undefined);
+      } else {
+        setDateError("invalid");
+      }
+
+      if (enteredSchedule.startTime == "") {
+        setStartTimeError("empty");
+      } else {
+        setStartTimeError(undefined);
+      }
+
+      if (enteredSchedule.endTime == "") {
+        setEndTimeError("empty");
+      } else {
+        setEndTimeError(undefined);
+      }
+
+      if (enteredSchedule.memo.length > 255) {
+        setMemoError("length");
+      } else {
+        setMemoError(undefined);
+      }
+
       if (
-        scheduleEntered.title !== "" &&
-        scheduleEntered.title.length <= 10 &&
-        dayjs(scheduleEntered.date, "YYYY-MM-DD", true).isValid() &&
-        scheduleEntered.startTime !== "" &&
-        scheduleEntered.endTime !== "" &&
-        scheduleEntered.memo.length <= 255
+        enteredSchedule.title !== "" &&
+        enteredSchedule.title.length <= 10 &&
+        dayjs(enteredSchedule.date, "YYYY-MM-DD", true).isValid() &&
+        enteredSchedule.startTime !== "" &&
+        enteredSchedule.endTime !== "" &&
+        enteredSchedule.memo.length <= 255
       ) {
         // エラーメッセージが何もないときsubmit処理が行われる
         if (selectedSchedule) {
-          dispatchCalEvent({ type: "update", payload: scheduleEntered });
+          dispatchCalEvent({ type: "update", payload: enteredSchedule });
           setIsShowEditModal(false);
         } else {
-          dispatchCalEvent({ type: "push", payload: scheduleEntered });
+          dispatchCalEvent({ type: "push", payload: enteredSchedule });
           setIsShowEditModal(false);
           setIsShowCreateNewModal(false);
         }
@@ -108,12 +155,24 @@ export default function App() {
   return (
     <>
       {isShowCreateNewModal && (
-        <CreateNewModalContainer handleClickSubmit={handleClickSubmit} />
+        <CreateNewModalContainer
+          handleClickSubmit={handleClickSubmit}
+          titleError={titleError}
+          dateError={dateError}
+          startTimeError={startTimeError}
+          endTimeError={endTimeError}
+          memoError={memoError}
+        />
       )}
       {isShowEditModal && (
         <EditModalContainer
           selectedSchedule={selectedSchedule}
           handleClickSubmit={handleClickSubmit}
+          titleError={titleError}
+          dateError={dateError}
+          startTimeError={startTimeError}
+          endTimeError={endTimeError}
+          memoError={memoError}
         />
       )}
       {isShowDetailModal && (

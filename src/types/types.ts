@@ -72,30 +72,25 @@ export type DetailModalContainerProps = {
 };
 
 export type CreateNewModalContainerProps = {
-  handleClickSubmit: (scheduleEntered: Schedule) => void;
+  handleClickSubmit: (enteredSchedule: Schedule) => void;
+  titleError: TitleError | undefined;
+  dateError: DateError | undefined;
+  startTimeError: StartTimeError | undefined;
+  endTimeError: EndTimeError | undefined;
+  memoError: MemoError | undefined;
 };
 
 export type EditModalContainerProps = {
   selectedSchedule: Schedule | null;
   handleClickSubmit: (
-    scheduleEntered: Schedule,
+    enteredSchedule: Schedule,
     selectedSchedule?: Schedule | null
   ) => void;
-};
-
-export type ValidateProps = {
-  calendarEvent: Schedule;
-  titleEmpty: () => void;
-  titleOverFlow: () => void;
-  validTitle: () => void;
-  invalidDate: () => void;
-  validDate: () => void;
-  startTimeEmpty: () => void;
-  validStartTime: () => void;
-  endTimeEmpty: () => void;
-  validEndTime: () => void;
-  memoOvarFlow: () => void;
-  validMemo: () => void;
+  titleError: TitleError | undefined;
+  dateError: DateError | undefined;
+  startTimeError: StartTimeError | undefined;
+  endTimeError: EndTimeError | undefined;
+  memoError: MemoError | undefined;
 };
 
 export type DayPresenterProps = {
@@ -128,11 +123,11 @@ export type CreateNewModalPresenterProps = {
   handleChangeMemo: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   date: string;
   today: string;
-  errorMessageTitle: string;
-  errorMessageDate: string;
-  errorMessageStartTime: string;
-  errorMessageEndTime: string;
-  errorMessageMemo: string;
+  titleError: TitleError | undefined;
+  dateError: DateError | undefined;
+  startTimeError: StartTimeError | undefined;
+  endTimeError: EndTimeError | undefined;
+  memoError: MemoError | undefined;
 };
 
 export type EditModalPresenterProps = {
@@ -148,11 +143,11 @@ export type EditModalPresenterProps = {
   handleChangeEndTime: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleChangeMemo: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   today: string;
-  errorMessageTitle: string;
-  errorMessageDate: string;
-  errorMessageStartTime: string;
-  errorMessageEndTime: string;
-  errorMessageMemo: string;
+  titleError: TitleError | undefined;
+  dateError: DateError | undefined;
+  startTimeError: StartTimeError | undefined;
+  endTimeError: EndTimeError | undefined;
+  memoError: MemoError | undefined;
   title: string;
   date: string;
   startTime: string;
@@ -177,4 +172,42 @@ export type HolidayModalPresenterProps = {
   handleClickClose: () => void;
   holidayName: string;
   selectedDay: Dayjs;
+};
+
+export type TitleError = "empty" | "length";
+export type DateError = "invalid";
+export type StartTimeError = "empty";
+export type EndTimeError = "empty";
+export type MemoError = "length";
+
+export type ValidateTitleProps = {
+  titleError: TitleError;
+};
+export type ValidateDateProps = {
+  dateError: DateError;
+};
+export type ValidateStartTimeProps = {
+  startTimeError: StartTimeError;
+};
+export type ValidateEndTimeProps = {
+  endTimeError: EndTimeError;
+};
+export type ValidateMemoProps = {
+  memoError: MemoError;
+};
+
+export type TitleErrorProps = {
+  titleErrorMessage: string;
+};
+export type DateErrorProps = {
+  dateErrorMessage: string;
+};
+export type StartTimeErrorProps = {
+  startTimeErrorMessage: string;
+};
+export type EndTimeErrorProps = {
+  endTimeErrorMessage: string;
+};
+export type MemoErrorProps = {
+  memoErrorMessage: string;
 };
