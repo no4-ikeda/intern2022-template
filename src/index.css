@@ -113,29 +113,54 @@
 }
 
 /* モーダル入力画面*/
-input.title,
-input.date {
+input.validTitle,
+input.validDate {
   display: block;
   padding: 5px;
   margin: 10px;
   width: 90%;
   border: solid 1px #000000;
 }
-input.startTime,
-input.endTime {
+input.validStartTime,
+input.validEndTime {
   display: inline-block;
   padding: 5px;
   border: solid 1px #000000;
   margin: 10px;
   width: 40%;
 }
-textarea.memo {
+textarea.validMemo {
   display: block;
   padding: 5px;
   margin: 10px;
   width: 90%;
   height: 90px;
   border: solid 1px #000000;
+}
+/* エラー時入力画面*/
+input.invalidTitle,
+input.invalidDate {
+  display: block;
+  padding: 5px;
+  margin: 10px;
+  width: 90%;
+  border: solid 1px #ff0000;
+}
+input.invalidStartTime,
+input.invalidEndTime {
+  display: inline-block;
+  padding: 5px;
+  border: solid 1px #ff0000;
+  margin: 10px;
+  width: 40%;
+}
+textarea.invalidMemo {
+  display: block;
+  padding: 5px;
+  margin: 10px;
+  width: 90%;
+  height: 90px;
+  border: solid 1px #ff0000;
 }
 
 /* 新規作成ボタン*/
@@ -193,11 +218,18 @@ span.memo {
 }
 
 /* バリデーションスタイル*/
-.error {
+.isNormally {
   display: none;
   padding-left: 10px;
-  color: #ff0000;
 }
-.caution {
+.isError {
+  color: #ff0000;
+  display: flex;
+}
+.isNormallyCaution {
+  display: none;
+}
+.isErrorCaution {
+  display: block;
   padding-top: 0px;
 }
