@@ -2,7 +2,7 @@ import { useCallback, useContext, useState } from "react";
 import { useDateMatrix } from "./hooks/useDateMatrix";
 import { Month } from "./Month";
 import CalenderHeader from "./CalenderHeader";
-import YearMonthContext from "./context/Context";
+import YearMonthContext from "./context/YearMonthContext";
 import CreateNewModalContainer from "./CreateNewModalContainer";
 import EditModalContainer from "./EditModalContainer";
 import DetailModalContainer from "./DetailModalContainer";
@@ -19,7 +19,7 @@ import type {
 } from "./types/types";
 import useFetchHoliday from "./hooks/useFetchHoliday";
 
-export default function App() {
+export default function MainPage() {
   const {
     isShowCreateNewModal,
     setIsShowCreateNewModal,

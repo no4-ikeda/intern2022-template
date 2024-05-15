@@ -2,11 +2,11 @@ import { FaCheck } from "react-icons/fa";
 import { IoTrash, IoCloseSharp } from "react-icons/io5";
 import type { EditModalPresenterProps } from "./types/types";
 import {
-  ValidateTitle,
-  ValidateDate,
-  ValidateStartTime,
-  ValidateEndTime,
-  ValidateMemo,
+  TitleErrorMessageContainer,
+  DateErrorMessageContainer,
+  StartTimeErrorMessageContainer,
+  EndTimeErrorMessageContainer,
+  MemoErrorMessageContainer,
 } from "./ErrorMessageContainer";
 
 export default function EditModalPresenter({
@@ -65,7 +65,9 @@ export default function EditModalPresenter({
               className={titleError ? "invalidTitle" : "validTitle"}
               onChange={(e) => handleTitleChange(e)}
             ></input>
-            {titleError && <ValidateTitle titleError={titleError} />}
+            {titleError && (
+              <TitleErrorMessageContainer titleError={titleError} />
+            )}
           </div>
           <div>
             <input
@@ -77,7 +79,7 @@ export default function EditModalPresenter({
               className={dateError ? "invalidDate" : "validDate"}
               onChange={(e) => handleDateChange(e)}
             />
-            {dateError && <ValidateDate dateError={dateError} />}
+            {dateError && <DateErrorMessageContainer dateError={dateError} />}
           </div>
           <div>
             <input
@@ -98,9 +100,11 @@ export default function EditModalPresenter({
               onChange={(e) => handleEndTimeChange(e)}
             />
             {startTimeError && (
-              <ValidateStartTime startTimeError={startTimeError} />
+              <StartTimeErrorMessageContainer startTimeError={startTimeError} />
             )}
-            {endTimeError && <ValidateEndTime endTimeError={endTimeError} />}
+            {endTimeError && (
+              <EndTimeErrorMessageContainer endTimeError={endTimeError} />
+            )}
           </div>
           <div>
             <textarea
@@ -110,7 +114,7 @@ export default function EditModalPresenter({
               className={memoError ? "invalidMemo" : "validMemo"}
               onChange={(e) => handleMemoChange(e)}
             ></textarea>
-            {memoError && <ValidateMemo memoError={memoError} />}
+            {memoError && <MemoErrorMessageContainer memoError={memoError} />}
           </div>
         </div>
       </div>

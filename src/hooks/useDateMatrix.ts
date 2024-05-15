@@ -4,9 +4,10 @@ import { useMemo } from "react";
 
 dayjs.locale(ja);
 
-export function useDateMatrix(currentPageMonth = dayjs().month()) {
+export function useDateMatrix(currentPageMonth: number) {
   const dateMatrix: dayjs.Dayjs[] = useMemo(() => {
     // 現在の年を取得
+    // 2024年0月＝2023年12月という風に年は固定で月だけで年月を計算する
     const year = dayjs().year();
 
     // 月の最終日を取得

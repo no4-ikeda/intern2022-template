@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import YearMonthContext from "~/context/Context";
+import YearMonthContext from "~/context/YearMonthContext";
 
 export default function useFetchHoliday(indicatedYear: number) {
   const { setHoliday } = useContext(YearMonthContext);

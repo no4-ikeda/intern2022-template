@@ -1,5 +1,5 @@
 import { useState, useEffect, useReducer } from "react";
-import YearMonthContext from "./Context";
+import YearMonthContext from "./YearMonthContext";
 import type { Action, Schedule, WrapperProps } from "~/types/types";
 
 // 追加、編集、削除処理

@@ -7,7 +7,9 @@ import type {
   TitleErrorProps,
 } from "./types/types";
 
-export function TitleError({ titleErrorMessage }: TitleErrorProps) {
+export function TitleErrorMessagePresenter({
+  titleErrorMessage,
+}: TitleErrorProps) {
   return (
     <span
       id="titleError"
@@ -23,7 +25,9 @@ export function TitleError({ titleErrorMessage }: TitleErrorProps) {
   );
 }
 
-export function DateError({ dateErrorMessage }: DateErrorProps) {
+export function DateErrorMessagePresenter({
+  dateErrorMessage,
+}: DateErrorProps) {
   return (
     <span
       id="dateError"
@@ -38,7 +42,9 @@ export function DateError({ dateErrorMessage }: DateErrorProps) {
     </span>
   );
 }
-export function StartTimeError({ startTimeErrorMessage }: StartTimeErrorProps) {
+export function StartTimeErrorMessagePresenter({
+  startTimeErrorMessage,
+}: StartTimeErrorProps) {
   return (
     <span
       id="startTimeError"
@@ -55,7 +61,9 @@ export function StartTimeError({ startTimeErrorMessage }: StartTimeErrorProps) {
     </span>
   );
 }
-export function EndTimeError({ endTimeErrorMessage }: EndTimeErrorProps) {
+export function EndTimeErrorMessagePresenter({
+  endTimeErrorMessage,
+}: EndTimeErrorProps) {
   return (
     <span
       id="endTimeError"
@@ -70,7 +78,9 @@ export function EndTimeError({ endTimeErrorMessage }: EndTimeErrorProps) {
     </span>
   );
 }
-export function MemoError({ memoErrorMessage }: MemoErrorProps) {
+export function MemoErrorMessagePresenter({
+  memoErrorMessage,
+}: MemoErrorProps) {
   return (
     <span
       id="memoError"

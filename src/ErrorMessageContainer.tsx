@@ -6,14 +6,14 @@ import type {
   ValidateMemoProps,
 } from "~/types/types";
 import {
-  DateError,
-  EndTimeError,
-  MemoError,
-  StartTimeError,
-  TitleError,
+  DateErrorMessagePresenter,
+  EndTimeErrorMessagePresenter,
+  MemoErrorMessagePresenter,
+  StartTimeErrorMessagePresenter,
+  TitleErrorMessagePresenter,
 } from "./ErrorMessagePresenter";
 
-export function ValidateTitle({ titleError }: ValidateTitleProps) {
+export function TitleErrorMessageContainer({ titleError }: ValidateTitleProps) {
   let titleErrorMessage;
 
   if (titleError == "empty") {
@@ -24,28 +24,36 @@ export function ValidateTitle({ titleError }: ValidateTitleProps) {
     titleErrorMessage = "";
   }
 
-  return <TitleError titleErrorMessage={titleErrorMessage} />;
+  return <TitleErrorMessagePresenter titleErrorMessage={titleErrorMessage} />;
 }
 
-export function ValidateDate({ dateError }: ValidateDateProps) {
+export function DateErrorMessageContainer({ dateError }: ValidateDateProps) {
   let dateErrorMessage;
   if (dateError) {
     dateErrorMessage = "有効な日付を入力してください";
   } else {
     dateErrorMessage = "";
   }
-  return <DateError dateErrorMessage={dateErrorMessage} />;
+  return <DateErrorMessagePresenter dateErrorMessage={dateErrorMessage} />;
 }
-export function ValidateStartTime({ startTimeError }: ValidateStartTimeProps) {
+export function StartTimeErrorMessageContainer({
+  startTimeError,
+}: ValidateStartTimeProps) {
   let startTimeErrorMessage;
   if (startTimeError) {
     startTimeErrorMessage = "開始時刻は必須項目です";
   } else {
     startTimeErrorMessage = "";
   }
-  return <StartTimeError startTimeErrorMessage={startTimeErrorMessage} />;
+  return (
+    <StartTimeErrorMessagePresenter
+      startTimeErrorMessage={startTimeErrorMessage}
+    />
+  );
 }
-export function ValidateEndTime({ endTimeError }: ValidateEndTimeProps) {
+export function EndTimeErrorMessageContainer({
+  endTimeError,
+}: ValidateEndTimeProps) {
   let endTimeErrorMessage;
 
   if (endTimeError) {
@@ -53,14 +61,16 @@ export function ValidateEndTime({ endTimeError }: ValidateEndTimeProps) {
   } else {
     endTimeErrorMessage = "";
   }
-  return <EndTimeError endTimeErrorMessage={endTimeErrorMessage} />;
+  return (
+    <EndTimeErrorMessagePresenter endTimeErrorMessage={endTimeErrorMessage} />
+  );
 }
-export function ValidateMemo({ memoError }: ValidateMemoProps) {
+export function MemoErrorMessageContainer({ memoError }: ValidateMemoProps) {
   let memoErrorMessage;
   if (memoError) {
     memoErrorMessage = "メモは２５５文字以内で入力してください";
   } else {
     memoErrorMessage = "";
   }
-  return <MemoError memoErrorMessage={memoErrorMessage} />;
+  return <MemoErrorMessagePresenter memoErrorMessage={memoErrorMessage} />;
 }

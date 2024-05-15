@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { useContext, useMemo } from "react";
-import YearMonthContext from "./context/Context";
+import YearMonthContext from "./context/YearMonthContext";
 import type { DayContainerProps, Schedule } from "./types/types";
 import DayPresentation from "./DayPresenter";
 

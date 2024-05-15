@@ -1,5 +1,5 @@
 import { useCallback, useContext } from "react";
-import YearMonthContext from "./context/Context";
+import YearMonthContext from "./context/YearMonthContext";
 import type { DetailModalContainerProps } from "./types/types";
 import DetailModalPresenter from "./DetailModalPresenter";
 
