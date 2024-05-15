@@ -1,24 +1,30 @@
 import { FaCheck } from "react-icons/fa";
-import { FiAlertTriangle } from "react-icons/fi";
 import { IoTrash, IoCloseSharp } from "react-icons/io5";
 import type { EditModalPresenterProps } from "./types/types";
+import {
+  ValidateTitle,
+  ValidateDate,
+  ValidateStartTime,
+  ValidateEndTime,
+  ValidateMemo,
+} from "./ErrorMessageContainer";
 
 export default function EditModalPresenter({
-  handleClickOutOfModal,
-  handleSubmit,
-  handleClickTrash,
-  handleClickClose,
-  handleChangeTitle,
-  handleChangeDate,
-  handleChangeStartTime,
-  handleChangeEndTime,
-  handleChangeMemo,
+  handleOutOfModalClick,
+  handleSaveButtonClick,
+  handleTrashButtonClick,
+  handleCloseButtonClick,
+  handleTitleChange,
+  handleDateChange,
+  handleStartTimeChange,
+  handleEndTimeChange,
+  handleMemoChange,
   today,
-  errorMessageTitle,
-  errorMessageDate,
-  errorMessageStartTime,
-  errorMessageEndTime,
-  errorMessageMemo,
+  titleError,
+  dateError,
+  startTimeError,
+  endTimeError,
+  memoError,
   title,
   date,
   startTime,
@@ -27,25 +33,25 @@ export default function EditModalPresenter({
 }: EditModalPresenterProps) {
   return (
     <>
-      <div className="outOfModal" onClick={(e) => handleClickOutOfModal(e)}>
+      <div className="outOfModal" onClick={(e) => handleOutOfModalClick(e)}>
         <div className="editModal">
           <header>
             <span className="editHeader">予定の編集</span>
             <button
               className="headerIcons"
               type="submit"
-              onClick={handleSubmit}
+              onClick={handleSaveButtonClick}
             >
               <FaCheck />
             </button>
             <button
               className="headerIcons"
               type="submit"
-              onClick={handleClickTrash}
+              onClick={handleTrashButtonClick}
             >
               <IoTrash />
             </button>
-            <button className="headerIcons" onClick={handleClickClose}>
+            <button className="headerIcons" onClick={handleCloseButtonClick}>
               <IoCloseSharp />
             </button>
           </header>
@@ -56,22 +62,10 @@ export default function EditModalPresenter({
               type="text"
               placeholder="タイトルを入力"
               value={title}
-              className={errorMessageTitle ? "invalidTitle" : "validTitle"}
-              onChange={(e) => handleChangeTitle(e)}
+              className={titleError ? "invalidTitle" : "validTitle"}
+              onChange={(e) => handleTitleChange(e)}
             ></input>
-            <span
-              id="titleError"
-              className={errorMessageTitle ? "isError" : "isNormally"}
-            >
-              <button
-                className={
-                  errorMessageTitle ? "isErrorCaution" : "isNormallyCaution"
-                }
-              >
-                <FiAlertTriangle color="#ff0000" />
-              </button>
-              <span id="titleErrorMessage">{errorMessageTitle}</span>
-            </span>
+            {titleError && <ValidateTitle titleError={titleError} />}
           </div>
           <div>
             <input
@@ -80,22 +74,10 @@ export default function EditModalPresenter({
               value={date}
               min={today}
               max={"9999-12-31"}
-              className={errorMessageDate ? "invalidDate" : "validDate"}
-              onChange={(e) => handleChangeDate(e)}
+              className={dateError ? "invalidDate" : "validDate"}
+              onChange={(e) => handleDateChange(e)}
             />
-            <span
-              id="dateError"
-              className={errorMessageDate ? "isError" : "isNormally"}
-            >
-              <button
-                className={
-                  errorMessageDate ? "isErrorCaution" : "isNormallyCaution"
-                }
-              >
-                <FiAlertTriangle color="#ff0000" />
-              </button>
-              <span id="dateErrorMessage">{errorMessageDate}</span>
-            </span>
+            {dateError && <ValidateDate dateError={dateError} />}
           </div>
           <div>
             <input
@@ -103,10 +85,8 @@ export default function EditModalPresenter({
               type="time"
               placeholder="--:--"
               value={startTime}
-              className={
-                errorMessageStartTime ? "invalidStartTime" : "validStartTime"
-              }
-              onChange={(e) => handleChangeStartTime(e)}
+              className={startTimeError ? "invalidStartTime" : "validStartTime"}
+              onChange={(e) => handleStartTimeChange(e)}
             />
             ~
             <input
@@ -114,59 +94,23 @@ export default function EditModalPresenter({
               type="time"
               placeholder="--:--"
               value={endTime}
-              className={
-                errorMessageEndTime ? "invalidEndTime" : "validEndTime"
-              }
-              onChange={(e) => handleChangeEndTime(e)}
+              className={endTimeError ? "invalidEndTime" : "validEndTime"}
+              onChange={(e) => handleEndTimeChange(e)}
             />
-            <span
-              id="startTimeError"
-              className={errorMessageStartTime ? "isError" : "isNormally"}
-            >
-              <button
-                className={
-                  errorMessageStartTime ? "isErrorCaution" : "isNormallyCaution"
-                }
-              >
-                <FiAlertTriangle color="#ff0000" />
-              </button>
-              <span id="startTimeErrorMessage">{errorMessageStartTime}</span>
-            </span>
-            <span
-              id="endTimeError"
-              className={errorMessageEndTime ? "isError" : "isNormally"}
-            >
-              <button
-                className={
-                  errorMessageEndTime ? "isErrorCaution" : "isNormallyCaution"
-                }
-              >
-                <FiAlertTriangle color="#ff0000" />
-              </button>
-              <span id="endTimeErrorMessage">{errorMessageEndTime}</span>
-            </span>
+            {startTimeError && (
+              <ValidateStartTime startTimeError={startTimeError} />
+            )}
+            {endTimeError && <ValidateEndTime endTimeError={endTimeError} />}
           </div>
           <div>
             <textarea
               id="memo"
               placeholder="memo"
               value={memo}
-              className={errorMessageMemo ? "invalidMemo" : "validMemo"}
-              onChange={(e) => handleChangeMemo(e)}
+              className={memoError ? "invalidMemo" : "validMemo"}
+              onChange={(e) => handleMemoChange(e)}
             ></textarea>
-            <span
-              id="memoError"
-              className={errorMessageMemo ? "isError" : "isNormally"}
-            >
-              <button
-                className={
-                  errorMessageMemo ? "isErrorCaution" : "isNormallyCaution"
-                }
-              >
-                <FiAlertTriangle color="#ff0000" />
-              </button>
-              <span id="memoErrorMessage">{errorMessageMemo}</span>
-            </span>
+            {memoError && <ValidateMemo memoError={memoError} />}
           </div>
         </div>
       </div>

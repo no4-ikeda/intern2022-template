@@ -5,18 +5,18 @@ import { MdTitle } from "react-icons/md";
 import type { HolidayModalPresenterProps } from "./types/types";
 
 export default function HolidayModalPresenter({
-  handleClickOutOfModal,
-  handleClickClose,
+  handleOutOfModalClick,
+  handleCloseButtonClick,
   holidayName,
   selectedDay,
 }: HolidayModalPresenterProps) {
   return (
     <>
-      <div className="outOfModal" onClick={(e) => handleClickOutOfModal(e)}>
+      <div className="outOfModal" onClick={(e) => handleOutOfModalClick(e)}>
         <div className="holidayModal">
           <header>
             <span className="holidayHeader">予定の確認</span>
-            <button className="headerIcons" onClick={handleClickClose}>
+            <button className="headerIcons" onClick={handleCloseButtonClick}>
               <IoCloseSharp />
             </button>
           </header>

@@ -11,7 +11,7 @@ export default function CreateNewModalContainer({
   startTimeError,
   endTimeError,
   memoError,
-  handleClickSubmit,
+  handleSubmitClick,
 }: CreateNewModalContainerProps) {
   // 今日をYYYY-MM-DDで取ってくる
   const today = dayjs().format("YYYY-MM-DD");
@@ -24,7 +24,7 @@ export default function CreateNewModalContainer({
   const [memo, setMemo] = useState<string>("");
 
   // 送信ボタンが押されたとき
-  const handleSubmit = () => {
+  const handleSaveButtonClick = () => {
     const calendarSchedule = {
       title: title,
       date: date,
@@ -34,11 +34,11 @@ export default function CreateNewModalContainer({
       id: Date.now(),
     };
 
-    handleClickSubmit(calendarSchedule);
+    handleSubmitClick(calendarSchedule);
   };
 
   // モーダルの外側を押したときモーダルを消す
-  const handleClickOutOfModal = useCallback(
+  const handleOutOfModalClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       e.target === e.currentTarget && setIsShowCreateNewModal(false);
     },
@@ -46,36 +46,36 @@ export default function CreateNewModalContainer({
   );
 
   // ×ボタンが押されたとき
-  const handleClickClose = useCallback(() => {
+  const handleCloseButtonClick = useCallback(() => {
     setIsShowCreateNewModal(false);
   }, [setIsShowCreateNewModal]);
 
   // テキストボックスの値が変化したとき、Stateにセットされる
-  const handleChangeTitle = useCallback(
+  const handleTitleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setTitle(e.target.value);
     },
     []
   );
-  const handleChangeDate = useCallback(
+  const handleDateChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setDate(e.target.value);
     },
     []
   );
-  const handleChangeStartTime = useCallback(
+  const handleStartTimeChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setStartTime(e.target.value);
     },
     []
   );
-  const handleChangeEndTime = useCallback(
+  const handleEndTimeChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setEndTime(e.target.value);
     },
     []
   );
-  const handleChangeMemo = useCallback(
+  const handleMemoChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       setMemo(e.target.value);
     },
@@ -83,14 +83,14 @@ export default function CreateNewModalContainer({
   );
   return (
     <CreateNewModalPresenter
-      handleClickOutOfModal={handleClickOutOfModal}
-      handleSubmit={handleSubmit}
-      handleClickClose={handleClickClose}
-      handleChangeTitle={handleChangeTitle}
-      handleChangeDate={handleChangeDate}
-      handleChangeStartTime={handleChangeStartTime}
-      handleChangeEndTime={handleChangeEndTime}
-      handleChangeMemo={handleChangeMemo}
+      handleOutOfModalClick={handleOutOfModalClick}
+      handleSaveButtonClick={handleSaveButtonClick}
+      handleCloseButtonClick={handleCloseButtonClick}
+      handleTitleChange={handleTitleChange}
+      handleDateChange={handleDateChange}
+      handleStartTimeChange={handleStartTimeChange}
+      handleEndTimeChange={handleEndTimeChange}
+      handleMemoChange={handleMemoChange}
       date={date}
       today={today}
       titleError={titleError}

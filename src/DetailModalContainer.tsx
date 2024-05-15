@@ -10,7 +10,7 @@ export default function DetailModalContainer({
     useContext(YearMonthContext);
 
   // モーダルの外側を押したときモーダルを消す
-  const handleClickOutOfModal = useCallback(
+  const handleOutOfModalClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       e.target === e.currentTarget && setIsShowDetailModal(false);
     },
@@ -18,12 +18,12 @@ export default function DetailModalContainer({
   );
 
   // 編集、削除、クローズボタンが押されたとき
-  const handleClickEdit = useCallback(() => {
+  const handleEditButtonClick = useCallback(() => {
     setIsShowDetailModal(false);
     setIsShowEditModal(true);
   }, [setIsShowDetailModal, setIsShowEditModal]);
 
-  const handleClickTrash = useCallback(() => {
+  const handleTrashButtonClick = useCallback(() => {
     if (selectedSchedule == null) {
       return null;
     }
@@ -31,7 +31,7 @@ export default function DetailModalContainer({
     setIsShowDetailModal(false);
   }, [dispatchCalEvent, selectedSchedule, setIsShowDetailModal]);
 
-  const handleClickClose = useCallback(() => {
+  const handleCloseButtonClick = useCallback(() => {
     setIsShowDetailModal(false);
   }, [setIsShowDetailModal]);
 
@@ -40,10 +40,10 @@ export default function DetailModalContainer({
   }
   return (
     <DetailModalPresenter
-      handleClickOutOfModal={handleClickOutOfModal}
-      handleClickEdit={handleClickEdit}
-      handleClickTrash={handleClickTrash}
-      handleClickClose={handleClickClose}
+      handleOutOfModalClick={handleOutOfModalClick}
+      handleEditButtonClick={handleEditButtonClick}
+      handleTrashButtonClick={handleTrashButtonClick}
+      handleCloseButtonClick={handleCloseButtonClick}
       selectedSchedule={selectedSchedule}
     />
   );

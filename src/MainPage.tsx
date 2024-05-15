@@ -32,20 +32,21 @@ export default function App() {
     dispatchCalEvent,
   } = useContext(YearMonthContext);
 
-  // 現在ページに表示されている月 0~11
+  // 現在ページに表示されている月
+  // currentPageMonthは1~12ではなく、マイナスや12以上の値が入りdayjsの機能で前年、翌年に対応している
   const [currentPageMonth, setCurrentPageMonth] = useState<number>(
     dayjs().month()
   );
-  const [selectedDay, setselectedDay] = useState<Dayjs>(dayjs());
-  const [selectedSchedule, setselectedSchedule] = useState<Schedule | null>(
+  const [selectedDay, setSelectedDay] = useState<Dayjs>(dayjs());
+  const [selectedSchedule, setSelectedSchedule] = useState<Schedule | null>(
     null
   );
 
   // 次月、前月ボタンを押したとき
-  const handleBackMonth = () => {
+  const handleBackMonthButtonClick = () => {
     setCurrentPageMonth((currentPageMonth) => currentPageMonth - 1);
   };
-  const handelNextMonth = () => {
+  const handelNextMonthButtonClick = () => {
     setCurrentPageMonth((currentPageMonth) => currentPageMonth + 1);
   };
 
@@ -58,28 +59,28 @@ export default function App() {
   const dateMatrix = useDateMatrix(currentPageMonth);
 
   // 日付のセルが押されたとき
-  const handleClickCreateNew = useCallback(
+  const handleCreateNewClick = useCallback(
     (date: Dayjs) => {
-      setselectedDay(date);
+      setSelectedDay(date);
       setIsShowCreateNewModal(true);
     },
     [setIsShowCreateNewModal]
   );
 
   // 祝日がクリックされたとき
-  const handleClickHoliday = useCallback(
+  const handleHolidayClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>, date: dayjs.Dayjs) => {
       setIsShowHolidayModal(true);
-      setselectedDay(date);
+      setSelectedDay(date);
       e.stopPropagation();
     },
     [setIsShowHolidayModal]
   );
 
   // 予定がクリックされたとき
-  const handleClickEvent = useCallback(
+  const handleScheduleClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>, event: Schedule) => {
-      setselectedSchedule(event);
+      setSelectedSchedule(event);
       setIsShowDetailModal(true);
       e.stopPropagation();
     },
@@ -96,7 +97,7 @@ export default function App() {
   const [memoError, setMemoError] = useState<MemoError | undefined>();
 
   //入力された値の妥当性チェック
-  const handleClickSubmit = useCallback(
+  const handleSubmitClick = useCallback(
     (enteredSchedule: Schedule, selectedSchedule: Schedule | null = null) => {
       if (enteredSchedule.title == "") {
         setTitleError("empty");
@@ -156,7 +157,7 @@ export default function App() {
     <>
       {isShowCreateNewModal && (
         <CreateNewModalContainer
-          handleClickSubmit={handleClickSubmit}
+          handleSubmitClick={handleSubmitClick}
           titleError={titleError}
           dateError={dateError}
           startTimeError={startTimeError}
@@ -167,7 +168,7 @@ export default function App() {
       {isShowEditModal && (
         <EditModalContainer
           selectedSchedule={selectedSchedule}
-          handleClickSubmit={handleClickSubmit}
+          handleSubmitClick={handleSubmitClick}
           titleError={titleError}
           dateError={dateError}
           startTimeError={startTimeError}
@@ -182,16 +183,16 @@ export default function App() {
         <HolidayModalContainer selectedDay={selectedDay} />
       )}
       <CalenderHeader
-        handleBackMonth={handleBackMonth}
-        handleNextMonth={handelNextMonth}
+        handleBackMonthButtonClick={handleBackMonthButtonClick}
+        handleNextMonthButtonClick={handelNextMonthButtonClick}
         currentPageMonth={currentPageMonth}
       />
       <Month
         currentPageMonth={currentPageMonth}
         dateMatrix={dateMatrix}
-        handleClickCreateNew={handleClickCreateNew}
-        handleClickHoliday={handleClickHoliday}
-        handleClickEvent={handleClickEvent}
+        handleCreateNewClick={handleCreateNewClick}
+        handleHolidayClick={handleHolidayClick}
+        handleScheduleClick={handleScheduleClick}
       />
     </>
   );

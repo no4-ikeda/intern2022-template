@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 
 export default function EditModalContainer({
   selectedSchedule,
-  handleClickSubmit,
+  handleSubmitClick,
   titleError,
   dateError,
   startTimeError,
@@ -38,7 +38,7 @@ export default function EditModalContainer({
   );
 
   // モーダルの外側を押したときモーダルを消す
-  const handleClickOutOfModal = useCallback(
+  const handleOutOfModalClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       e.target === e.currentTarget && setIsShowEditModal(false);
     },
@@ -46,7 +46,7 @@ export default function EditModalContainer({
   );
 
   // 削除、クローズボタンが押されたとき
-  const handleClickTrash = useCallback(() => {
+  const handleTrashButtonClick = useCallback(() => {
     if (selectedSchedule == null) {
       return null;
     }
@@ -54,36 +54,36 @@ export default function EditModalContainer({
     setIsShowEditModal(false);
   }, [dispatchCalEvent, selectedSchedule, setIsShowEditModal]);
 
-  const handleClickClose = useCallback(() => {
+  const handleCloseButtonClick = useCallback(() => {
     setIsShowEditModal(false);
   }, [setIsShowEditModal]);
 
   // テキストボックスの値が変化したとき、Stateにセットされる
-  const handleChangeTitle = useCallback(
+  const handleTitleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setTitle(e.target.value);
     },
     []
   );
-  const handleChangeDate = useCallback(
+  const handleDateChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setDate(e.target.value);
     },
     []
   );
-  const handleChangeStartTime = useCallback(
+  const handleStartTimeChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setStartTime(e.target.value);
     },
     []
   );
-  const handleChangeEndTime = useCallback(
+  const handleEndTimeChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setEndTime(e.target.value);
     },
     []
   );
-  const handleChangeMemo = useCallback(
+  const handleMemoChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       setMemo(e.target.value);
     },
@@ -96,7 +96,7 @@ export default function EditModalContainer({
 
   // 送信ボタンが押されたとき
 
-  const handleSubmit = () => {
+  const handleSaveButtonClick = () => {
     const calendarSchedule = {
       title: title,
       date: date,
@@ -106,20 +106,20 @@ export default function EditModalContainer({
       id: selectedSchedule ? selectedSchedule.id : Date.now(),
     };
 
-    handleClickSubmit(calendarSchedule, selectedSchedule);
+    handleSubmitClick(calendarSchedule, selectedSchedule);
   };
 
   return (
     <EditModalPresenter
-      handleClickOutOfModal={handleClickOutOfModal}
-      handleSubmit={handleSubmit}
-      handleClickTrash={handleClickTrash}
-      handleClickClose={handleClickClose}
-      handleChangeTitle={handleChangeTitle}
-      handleChangeDate={handleChangeDate}
-      handleChangeStartTime={handleChangeStartTime}
-      handleChangeEndTime={handleChangeEndTime}
-      handleChangeMemo={handleChangeMemo}
+      handleOutOfModalClick={handleOutOfModalClick}
+      handleSaveButtonClick={handleSaveButtonClick}
+      handleTrashButtonClick={handleTrashButtonClick}
+      handleCloseButtonClick={handleCloseButtonClick}
+      handleTitleChange={handleTitleChange}
+      handleDateChange={handleDateChange}
+      handleStartTimeChange={handleStartTimeChange}
+      handleEndTimeChange={handleEndTimeChange}
+      handleMemoChange={handleMemoChange}
       today={today}
       titleError={titleError}
       dateError={dateError}

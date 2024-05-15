@@ -1,17 +1,17 @@
 import type { DayPresenterProps } from "./types/types";
 
 export default function DayPresenter({
-  handleClickCreateNew,
+  handleCreateNewClick,
   isToday,
-  handleClickHoliday,
-  handleClickEvent,
+  handleHolidayClick,
+  handleScheduleClick,
   date,
   currentMonthIndex,
   holidayToday,
   dayEvents,
 }: DayPresenterProps) {
   return (
-    <div className="gridChild" onClick={() => handleClickCreateNew(date)}>
+    <div className="gridChild" onClick={() => handleCreateNewClick(date)}>
       <div>
         <div>
           {/* 当日にtodayというクラス名にする */}
@@ -28,7 +28,7 @@ export default function DayPresenter({
         </div>
 
         {/* 祝日表示 */}
-        <div className="holiday" onClick={(e) => handleClickHoliday(e, date)}>
+        <div className="holiday" onClick={(e) => handleHolidayClick(e, date)}>
           {holidayToday}
         </div>
 
@@ -38,7 +38,7 @@ export default function DayPresenter({
             key={idx}
             className="dayEvent"
             onClick={(e) => {
-              handleClickEvent(e, event);
+              handleScheduleClick(e, event);
             }}
           >
             {event.title}

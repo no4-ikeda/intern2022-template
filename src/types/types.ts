@@ -7,20 +7,20 @@ export type WrapperProps = {
 };
 
 export type CalendarHeaderProps = {
-  handleBackMonth: () => void;
-  handleNextMonth: () => void;
+  handleBackMonthButtonClick: () => void;
+  handleNextMonthButtonClick: () => void;
   currentPageMonth: number;
 };
 
 export type DayContainerProps = {
   currentPageMonth: number;
   date: dayjs.Dayjs;
-  handleClickCreateNew: (date: Dayjs) => void;
-  handleClickHoliday: (
+  handleCreateNewClick: (date: Dayjs) => void;
+  handleHolidayClick: (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     date: Dayjs
   ) => void;
-  handleClickEvent: (
+  handleScheduleClick: (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     event: Schedule
   ) => void;
@@ -29,12 +29,12 @@ export type DayContainerProps = {
 export type MonthProps = {
   currentPageMonth: number;
   dateMatrix: Dayjs[];
-  handleClickCreateNew: (date: Dayjs) => void;
-  handleClickHoliday: (
+  handleCreateNewClick: (date: Dayjs) => void;
+  handleHolidayClick: (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     date: Dayjs
   ) => void;
-  handleClickEvent: (
+  handleScheduleClick: (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     event: Schedule
   ) => void;
@@ -72,7 +72,7 @@ export type DetailModalContainerProps = {
 };
 
 export type CreateNewModalContainerProps = {
-  handleClickSubmit: (enteredSchedule: Schedule) => void;
+  handleSubmitClick: (enteredSchedule: Schedule) => void;
   titleError: TitleError | undefined;
   dateError: DateError | undefined;
   startTimeError: StartTimeError | undefined;
@@ -82,7 +82,7 @@ export type CreateNewModalContainerProps = {
 
 export type EditModalContainerProps = {
   selectedSchedule: Schedule | null;
-  handleClickSubmit: (
+  handleSubmitClick: (
     enteredSchedule: Schedule,
     selectedSchedule?: Schedule | null
   ) => void;
@@ -94,13 +94,13 @@ export type EditModalContainerProps = {
 };
 
 export type DayPresenterProps = {
-  handleClickCreateNew: (date: Dayjs) => void;
+  handleCreateNewClick: (date: Dayjs) => void;
   isToday: () => boolean;
-  handleClickHoliday: (
+  handleHolidayClick: (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     date: dayjs.Dayjs
   ) => void;
-  handleClickEvent: (
+  handleScheduleClick: (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     event: Schedule
   ) => void;
@@ -111,16 +111,16 @@ export type DayPresenterProps = {
 };
 
 export type CreateNewModalPresenterProps = {
-  handleClickOutOfModal: (
+  handleOutOfModalClick: (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => void;
-  handleSubmit: () => void;
-  handleClickClose: () => void;
-  handleChangeTitle: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleChangeDate: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleChangeStartTime: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleChangeEndTime: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleChangeMemo: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  handleSaveButtonClick: () => void;
+  handleCloseButtonClick: () => void;
+  handleTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleDateChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleStartTimeChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleEndTimeChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleMemoChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   date: string;
   today: string;
   titleError: TitleError | undefined;
@@ -131,17 +131,17 @@ export type CreateNewModalPresenterProps = {
 };
 
 export type EditModalPresenterProps = {
-  handleClickOutOfModal: (
+  handleOutOfModalClick: (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => void;
-  handleSubmit: () => void;
-  handleClickTrash: () => void;
-  handleClickClose: () => void;
-  handleChangeTitle: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleChangeDate: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleChangeStartTime: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleChangeEndTime: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleChangeMemo: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  handleSaveButtonClick: () => void;
+  handleTrashButtonClick: () => void;
+  handleCloseButtonClick: () => void;
+  handleTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleDateChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleStartTimeChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleEndTimeChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleMemoChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   today: string;
   titleError: TitleError | undefined;
   dateError: DateError | undefined;
@@ -156,20 +156,20 @@ export type EditModalPresenterProps = {
 };
 
 export type DetailModalPresenterProps = {
-  handleClickOutOfModal: (
+  handleOutOfModalClick: (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => void;
-  handleClickEdit: () => void;
-  handleClickTrash: () => void;
-  handleClickClose: () => void;
+  handleEditButtonClick: () => void;
+  handleTrashButtonClick: () => void;
+  handleCloseButtonClick: () => void;
   selectedSchedule: Schedule;
 };
 
 export type HolidayModalPresenterProps = {
-  handleClickOutOfModal: (
+  handleOutOfModalClick: (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => void;
-  handleClickClose: () => void;
+  handleCloseButtonClick: () => void;
   holidayName: string;
   selectedDay: Dayjs;
 };
