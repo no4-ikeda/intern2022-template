@@ -6,9 +6,9 @@ import type { MonthProps } from "./types/types";
 export const Month = ({
   currentPageMonth,
   dateMatrix,
-  handleCreateNewClick,
-  handleHolidayClick,
-  handleScheduleClick,
+  onCreateNewClick,
+  onHolidayClick,
+  onScheduleClick,
 }: MonthProps) => {
   return (
     <>
@@ -27,9 +27,9 @@ export const Month = ({
             currentPageMonth={currentPageMonth}
             date={date}
             key={idx}
-            handleCreateNewClick={handleCreateNewClick}
-            handleHolidayClick={handleHolidayClick}
-            handleScheduleClick={handleScheduleClick}
+            onCreateNewClick={onCreateNewClick}
+            onHolidayClick={onHolidayClick}
+            onScheduleClick={onScheduleClick}
           />
         ))}
       </div>

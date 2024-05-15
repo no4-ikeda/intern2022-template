@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 
 export default function EditModalContainer({
   selectedSchedule,
-  handleSubmitClick,
+  onSubmitClick,
   titleError,
   dateError,
   startTimeError,
@@ -106,20 +106,20 @@ export default function EditModalContainer({
       id: selectedSchedule ? selectedSchedule.id : Date.now(),
     };
 
-    handleSubmitClick(calendarSchedule, selectedSchedule);
+    onSubmitClick(calendarSchedule, selectedSchedule);
   };
 
   return (
     <EditModalPresenter
-      handleOutOfModalClick={handleOutOfModalClick}
-      handleSaveButtonClick={handleSaveButtonClick}
-      handleTrashButtonClick={handleTrashButtonClick}
-      handleCloseButtonClick={handleCloseButtonClick}
-      handleTitleChange={handleTitleChange}
-      handleDateChange={handleDateChange}
-      handleStartTimeChange={handleStartTimeChange}
-      handleEndTimeChange={handleEndTimeChange}
-      handleMemoChange={handleMemoChange}
+      onOutOfModalClick={handleOutOfModalClick}
+      onSaveButtonClick={handleSaveButtonClick}
+      onTrashButtonClick={handleTrashButtonClick}
+      onCloseButtonClick={handleCloseButtonClick}
+      onTitleChange={handleTitleChange}
+      onDateChange={handleDateChange}
+      onStartTimeChange={handleStartTimeChange}
+      onEndTimeChange={handleEndTimeChange}
+      onMemoChange={handleMemoChange}
       today={today}
       titleError={titleError}
       dateError={dateError}

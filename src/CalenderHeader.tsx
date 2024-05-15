@@ -7,8 +7,8 @@ import type { CalendarHeaderProps } from "./types/types";
 dayjs.locale(ja);
 
 export default function CalenderHeader({
-  handleBackMonthButtonClick,
-  handleNextMonthButtonClick,
+  onBackMonthButtonClick,
+  onNextMonthButtonClick,
   currentPageMonth,
 }: CalendarHeaderProps) {
   return (
@@ -16,13 +16,13 @@ export default function CalenderHeader({
       <span className="calenderHeader">
         <img src={src} className="img" alt="logo" />
         <p className="calendar">カレンダー</p>
-        <button onClick={handleBackMonthButtonClick} className="toBackMonth">
+        <button onClick={onBackMonthButtonClick} className="toBackMonth">
           <MdChevronLeft />
         </button>
         <label className="yearMonth">
           {dayjs(dayjs().month(currentPageMonth)).format("YYYY MMMM")}
         </label>
-        <button onClick={handleNextMonthButtonClick} className="toNextMonth">
+        <button onClick={onNextMonthButtonClick} className="toNextMonth">
           <MdChevronRight />
         </button>
       </span>

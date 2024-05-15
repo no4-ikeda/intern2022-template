@@ -10,15 +10,15 @@ import {
 } from "./ErrorMessageContainer";
 
 export default function EditModalPresenter({
-  handleOutOfModalClick,
-  handleSaveButtonClick,
-  handleTrashButtonClick,
-  handleCloseButtonClick,
-  handleTitleChange,
-  handleDateChange,
-  handleStartTimeChange,
-  handleEndTimeChange,
-  handleMemoChange,
+  onOutOfModalClick,
+  onSaveButtonClick,
+  onTrashButtonClick,
+  onCloseButtonClick,
+  onTitleChange,
+  onDateChange,
+  onStartTimeChange,
+  onEndTimeChange,
+  onMemoChange,
   today,
   titleError,
   dateError,
@@ -33,25 +33,25 @@ export default function EditModalPresenter({
 }: EditModalPresenterProps) {
   return (
     <>
-      <div className="outOfModal" onClick={(e) => handleOutOfModalClick(e)}>
+      <div className="outOfModal" onClick={(e) => onOutOfModalClick(e)}>
         <div className="editModal">
           <header>
             <span className="editHeader">予定の編集</span>
             <button
               className="headerIcons"
               type="submit"
-              onClick={handleSaveButtonClick}
+              onClick={onSaveButtonClick}
             >
               <FaCheck />
             </button>
             <button
               className="headerIcons"
               type="submit"
-              onClick={handleTrashButtonClick}
+              onClick={onTrashButtonClick}
             >
               <IoTrash />
             </button>
-            <button className="headerIcons" onClick={handleCloseButtonClick}>
+            <button className="headerIcons" onClick={onCloseButtonClick}>
               <IoCloseSharp />
             </button>
           </header>
@@ -63,7 +63,7 @@ export default function EditModalPresenter({
               placeholder="タイトルを入力"
               value={title}
               className={titleError ? "invalidTitle" : "validTitle"}
-              onChange={(e) => handleTitleChange(e)}
+              onChange={(e) => onTitleChange(e)}
             ></input>
             {titleError && (
               <TitleErrorMessageContainer titleError={titleError} />
@@ -77,7 +77,7 @@ export default function EditModalPresenter({
               min={today}
               max={"9999-12-31"}
               className={dateError ? "invalidDate" : "validDate"}
-              onChange={(e) => handleDateChange(e)}
+              onChange={(e) => onDateChange(e)}
             />
             {dateError && <DateErrorMessageContainer dateError={dateError} />}
           </div>
@@ -88,7 +88,7 @@ export default function EditModalPresenter({
               placeholder="--:--"
               value={startTime}
               className={startTimeError ? "invalidStartTime" : "validStartTime"}
-              onChange={(e) => handleStartTimeChange(e)}
+              onChange={(e) => onStartTimeChange(e)}
             />
             ~
             <input
@@ -97,7 +97,7 @@ export default function EditModalPresenter({
               placeholder="--:--"
               value={endTime}
               className={endTimeError ? "invalidEndTime" : "validEndTime"}
-              onChange={(e) => handleEndTimeChange(e)}
+              onChange={(e) => onEndTimeChange(e)}
             />
             {startTimeError && (
               <StartTimeErrorMessageContainer startTimeError={startTimeError} />
@@ -112,7 +112,7 @@ export default function EditModalPresenter({
               placeholder="memo"
               value={memo}
               className={memoError ? "invalidMemo" : "validMemo"}
-              onChange={(e) => handleMemoChange(e)}
+              onChange={(e) => onMemoChange(e)}
             ></textarea>
             {memoError && <MemoErrorMessageContainer memoError={memoError} />}
           </div>

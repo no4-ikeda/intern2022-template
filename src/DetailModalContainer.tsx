@@ -40,10 +40,10 @@ export default function DetailModalContainer({
   }
   return (
     <DetailModalPresenter
-      handleOutOfModalClick={handleOutOfModalClick}
-      handleEditButtonClick={handleEditButtonClick}
-      handleTrashButtonClick={handleTrashButtonClick}
-      handleCloseButtonClick={handleCloseButtonClick}
+      onOutOfModalClick={handleOutOfModalClick}
+      onEditButtonClick={handleEditButtonClick}
+      onTrashButtonClick={handleTrashButtonClick}
+      onCloseButtonClick={handleCloseButtonClick}
       selectedSchedule={selectedSchedule}
     />
   );

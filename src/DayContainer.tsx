@@ -7,9 +7,9 @@ import DayPresentation from "./DayPresenter";
 export const DayContainer = ({
   currentPageMonth,
   date,
-  handleCreateNewClick,
-  handleHolidayClick,
-  handleScheduleClick,
+  onCreateNewClick,
+  onHolidayClick,
+  onScheduleClick,
 }: DayContainerProps) => {
   const { savedEvents, holiday } = useContext(YearMonthContext);
 
@@ -43,10 +43,10 @@ export const DayContainer = ({
   return (
     <>
       <DayPresentation
-        handleCreateNewClick={handleCreateNewClick}
+        onCreateNewClick={onCreateNewClick}
         isToday={isToday}
-        handleHolidayClick={handleHolidayClick}
-        handleScheduleClick={handleScheduleClick}
+        onHolidayClick={onHolidayClick}
+        onScheduleClick={onScheduleClick}
         date={date}
         currentMonthIndex={currentMonthIndex}
         holidayToday={holidayToday}

@@ -10,30 +10,30 @@ import { MdTitle } from "react-icons/md";
 import type { DetailModalPresenterProps } from "./types/types";
 
 export default function DetailModalPresenter({
-  handleOutOfModalClick,
-  handleEditButtonClick,
-  handleTrashButtonClick,
-  handleCloseButtonClick,
+  onOutOfModalClick,
+  onEditButtonClick,
+  onTrashButtonClick,
+  onCloseButtonClick,
   selectedSchedule,
 }: DetailModalPresenterProps) {
   return (
     <>
       {/**モーダルの外側を押したときモーダルを消す*/}
-      <div className="outOfModal" onClick={(e) => handleOutOfModalClick(e)}>
+      <div className="outOfModal" onClick={(e) => onOutOfModalClick(e)}>
         <div className="detailModal">
           <header>
             <span className="detailHeader">予定の確認</span>
-            <button className="headerIcons" onClick={handleEditButtonClick}>
+            <button className="headerIcons" onClick={onEditButtonClick}>
               <IoPencil />
             </button>
             <button
               className="headerIcons"
               type="submit"
-              onClick={handleTrashButtonClick}
+              onClick={onTrashButtonClick}
             >
               <IoTrash />
             </button>
-            <button className="headerIcons" onClick={handleCloseButtonClick}>
+            <button className="headerIcons" onClick={onCloseButtonClick}>
               <IoCloseSharp />
             </button>
           </header>

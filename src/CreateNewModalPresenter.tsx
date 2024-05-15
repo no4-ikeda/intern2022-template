@@ -10,14 +10,14 @@ import {
 } from "./ErrorMessageContainer";
 
 export default function CreateNewModalPresenter({
-  handleOutOfModalClick,
-  handleSaveButtonClick,
-  handleCloseButtonClick,
-  handleTitleChange,
-  handleDateChange,
-  handleStartTimeChange,
-  handleEndTimeChange,
-  handleMemoChange,
+  onOutOfModalClick,
+  onSaveButtonClick,
+  onCloseButtonClick,
+  onTitleChange,
+  onDateChange,
+  onStartTimeChange,
+  onEndTimeChange,
+  onMemoChange,
   date,
   today,
   titleError,
@@ -28,7 +28,7 @@ export default function CreateNewModalPresenter({
 }: CreateNewModalPresenterProps) {
   return (
     <>
-      <div className="outOfModal" onClick={(e) => handleOutOfModalClick(e)}>
+      <div className="outOfModal" onClick={(e) => onOutOfModalClick(e)}>
         {/**モーダル内容 */}
         <div className="createNewModal">
           <header>
@@ -36,11 +36,11 @@ export default function CreateNewModalPresenter({
             <button
               className="headerIcons"
               type="submit"
-              onClick={handleSaveButtonClick}
+              onClick={onSaveButtonClick}
             >
               <FaCheck />
             </button>
-            <button className="headerIcons" onClick={handleCloseButtonClick}>
+            <button className="headerIcons" onClick={onCloseButtonClick}>
               <IoCloseSharp />
             </button>
           </header>
@@ -50,7 +50,7 @@ export default function CreateNewModalPresenter({
               type="text"
               placeholder="タイトルを入力"
               className={titleError ? "invalidTitle" : "validTitle"}
-              onChange={(e) => handleTitleChange(e)}
+              onChange={(e) => onTitleChange(e)}
             ></input>
             {titleError && (
               <TitleErrorMessageContainer titleError={titleError} />
@@ -64,7 +64,7 @@ export default function CreateNewModalPresenter({
               min={today}
               max={"9999-12-31"}
               className={dateError ? "invalidDate" : "validDate"}
-              onChange={(e) => handleDateChange(e)}
+              onChange={(e) => onDateChange(e)}
             />
             {dateError && <DateErrorMessageContainer dateError={dateError} />}
           </div>
@@ -74,7 +74,7 @@ export default function CreateNewModalPresenter({
               type="time"
               placeholder="--:--"
               className={startTimeError ? "invalidStartTime" : "validStartTime"}
-              onChange={(e) => handleStartTimeChange(e)}
+              onChange={(e) => onStartTimeChange(e)}
             />
             ~
             <input
@@ -82,7 +82,7 @@ export default function CreateNewModalPresenter({
               type="time"
               placeholder="--:--"
               className={endTimeError ? "invalidEndTime" : "validEndTime"}
-              onChange={(e) => handleEndTimeChange(e)}
+              onChange={(e) => onEndTimeChange(e)}
             />
             {startTimeError && (
               <StartTimeErrorMessageContainer startTimeError={startTimeError} />
@@ -96,7 +96,7 @@ export default function CreateNewModalPresenter({
               id="memo"
               placeholder="memo"
               className={memoError ? "invalidMemo" : "validMemo"}
-              onChange={(e) => handleMemoChange(e)}
+              onChange={(e) => onMemoChange(e)}
             ></textarea>
             {memoError && <MemoErrorMessageContainer memoError={memoError} />}
           </div>

@@ -11,7 +11,7 @@ export default function CreateNewModalContainer({
   startTimeError,
   endTimeError,
   memoError,
-  handleSubmitClick,
+  onSubmitClick,
 }: CreateNewModalContainerProps) {
   // 今日をYYYY-MM-DDで取ってくる
   const today = dayjs().format("YYYY-MM-DD");
@@ -34,7 +34,7 @@ export default function CreateNewModalContainer({
       id: Date.now(),
     };
 
-    handleSubmitClick(calendarSchedule);
+    onSubmitClick(calendarSchedule);
   };
 
   // モーダルの外側を押したときモーダルを消す
@@ -83,14 +83,14 @@ export default function CreateNewModalContainer({
   );
   return (
     <CreateNewModalPresenter
-      handleOutOfModalClick={handleOutOfModalClick}
-      handleSaveButtonClick={handleSaveButtonClick}
-      handleCloseButtonClick={handleCloseButtonClick}
-      handleTitleChange={handleTitleChange}
-      handleDateChange={handleDateChange}
-      handleStartTimeChange={handleStartTimeChange}
-      handleEndTimeChange={handleEndTimeChange}
-      handleMemoChange={handleMemoChange}
+      onOutOfModalClick={handleOutOfModalClick}
+      onSaveButtonClick={handleSaveButtonClick}
+      onCloseButtonClick={handleCloseButtonClick}
+      onTitleChange={handleTitleChange}
+      onDateChange={handleDateChange}
+      onStartTimeChange={handleStartTimeChange}
+      onEndTimeChange={handleEndTimeChange}
+      onMemoChange={handleMemoChange}
       date={date}
       today={today}
       titleError={titleError}

@@ -17,7 +17,7 @@ export default function HolidayModalContainer({
   const holidayName = holidayValues[holidayIndex];
 
   // モーダルの外側を押したときモーダルを消す
-  const handleOutOfModalClick = useCallback(
+  const onOutOfModalClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       e.target === e.currentTarget && setIsShowHolidayModal(false);
     },
@@ -25,14 +25,14 @@ export default function HolidayModalContainer({
   );
 
   // ×ボタンが押されたとき
-  const handleCloseButtonClick = useCallback(() => {
+  const onCloseButtonClick = useCallback(() => {
     setIsShowHolidayModal(false);
   }, [setIsShowHolidayModal]);
 
   return (
     <HolidayModalPresenter
-      handleOutOfModalClick={handleOutOfModalClick}
-      handleCloseButtonClick={handleCloseButtonClick}
+      onOutOfModalClick={onOutOfModalClick}
+      onCloseButtonClick={onCloseButtonClick}
       holidayName={holidayName}
       selectedDay={selectedDay}
     />

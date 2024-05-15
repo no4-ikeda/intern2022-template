@@ -46,7 +46,7 @@ export default function MainPage() {
   const handleBackMonthButtonClick = () => {
     setCurrentPageMonth((currentPageMonth) => currentPageMonth - 1);
   };
-  const handelNextMonthButtonClick = () => {
+  const handleNextMonthButtonClick = () => {
     setCurrentPageMonth((currentPageMonth) => currentPageMonth + 1);
   };
 
@@ -157,7 +157,7 @@ export default function MainPage() {
     <>
       {isShowCreateNewModal && (
         <CreateNewModalContainer
-          handleSubmitClick={handleSubmitClick}
+          onSubmitClick={handleSubmitClick}
           titleError={titleError}
           dateError={dateError}
           startTimeError={startTimeError}
@@ -168,7 +168,7 @@ export default function MainPage() {
       {isShowEditModal && (
         <EditModalContainer
           selectedSchedule={selectedSchedule}
-          handleSubmitClick={handleSubmitClick}
+          onSubmitClick={handleSubmitClick}
           titleError={titleError}
           dateError={dateError}
           startTimeError={startTimeError}
@@ -183,16 +183,16 @@ export default function MainPage() {
         <HolidayModalContainer selectedDay={selectedDay} />
       )}
       <CalenderHeader
-        handleBackMonthButtonClick={handleBackMonthButtonClick}
-        handleNextMonthButtonClick={handelNextMonthButtonClick}
+        onBackMonthButtonClick={handleBackMonthButtonClick}
+        onNextMonthButtonClick={handleNextMonthButtonClick}
         currentPageMonth={currentPageMonth}
       />
       <Month
         currentPageMonth={currentPageMonth}
         dateMatrix={dateMatrix}
-        handleCreateNewClick={handleCreateNewClick}
-        handleHolidayClick={handleHolidayClick}
-        handleScheduleClick={handleScheduleClick}
+        onCreateNewClick={handleCreateNewClick}
+        onHolidayClick={handleHolidayClick}
+        onScheduleClick={handleScheduleClick}
       />
     </>
   );
