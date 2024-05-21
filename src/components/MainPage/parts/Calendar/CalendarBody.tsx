@@ -1,15 +1,26 @@
 import type React from "react";
-import { DayContainer } from "./DayContainer";
 import type { Dayjs } from "dayjs";
-import type { MonthProps } from "./types/types";
+import { useDateMatrix } from "~/hooks/useDateMatrix";
+import type { Schedule } from "~/types/types";
+import Day from "./Day";
 
-export const Month = ({
-  currentPageMonth,
-  dateMatrix,
+type CalendarBodyProps = {
+  onCreateNewClick: (date: Dayjs) => void;
+  onHolidayClick: (date: Dayjs) => void;
+  onScheduleClick: (schedule: Schedule) => void;
+  currentPageYear: number;
+  currentPageMonth: number;
+};
+
+export const CalendarBody = ({
   onCreateNewClick,
   onHolidayClick,
   onScheduleClick,
-}: MonthProps) => {
+  currentPageYear,
+  currentPageMonth,
+}: CalendarBodyProps) => {
+  const dateMatrix = useDateMatrix(currentPageYear, currentPageMonth);
+
   return (
     <>
       <div className="dayOfWeek">
@@ -23,13 +34,13 @@ export const Month = ({
       </div>
       <div className="gridParent">
         {dateMatrix.map<React.ReactElement>((date: Dayjs, idx: number) => (
-          <DayContainer
-            currentPageMonth={currentPageMonth}
-            date={date}
+          <Day
             key={idx}
             onCreateNewClick={onCreateNewClick}
             onHolidayClick={onHolidayClick}
             onScheduleClick={onScheduleClick}
+            currentPageMonth={currentPageMonth}
+            date={date}
           />
         ))}
       </div>

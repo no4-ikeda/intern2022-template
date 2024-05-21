@@ -1,5 +1,5 @@
 /* ヘッダー*/
-.calenderHeader {
+.calendarHeader {
   display: flex;
   padding-top: 100px;
   padding-left: 100px;
@@ -66,17 +66,17 @@
 .calendar {
   padding-right: 720px;
   padding-left: 20px;
-  padding-top: 12px;
+  padding-top: 15px;
 }
 .yearMonth {
   padding-left: 20px;
-  padding-top: 12px;
+  padding-top: 15px;
   padding-right: 20px;
 }
 
 /* 祝日、予定*/
 .holiday,
-.dayEvent {
+.daySchedule {
   background-color: #12bd45;
   font-size: 11px;
   color: #ffffff;
@@ -98,14 +98,14 @@
 }
 
 /* モーダルヘッダー*/
-.eventHeader,
-.editHeader {
-  padding-right: 190px;
+.createNewHeader {
+  padding-right: 210px;
 }
 .detailHeader {
   padding-right: 150px;
 }
-.holidayHeader {
+.holidayHeader,
+.editHeader {
   padding-right: 190px;
 }
 .headerIcons {
@@ -163,6 +163,23 @@ textarea.invalidMemo {
   border: solid 1px #ff0000;
 }
 
+/* バリデーションスタイル*/
+.isNormally {
+  display: none;
+  padding-left: 10px;
+}
+.isError {
+  color: #ff0000;
+  display: flex;
+}
+.isNormallyCaution {
+  display: none;
+}
+.isErrorCaution {
+  display: block;
+  padding-top: 0px;
+}
+
 /* 新規作成ボタン*/
 .createNew {
   opacity: 0;
@@ -215,21 +232,4 @@ span.memo {
 .icons {
   padding-top: 10px;
   padding-left: 10px;
-}
-
-/* バリデーションスタイル*/
-.isNormally {
-  display: none;
-  padding-left: 10px;
-}
-.isError {
-  color: #ff0000;
-  display: flex;
-}
-.isNormallyCaution {
-  display: none;
-}
-.isErrorCaution {
-  display: block;
-  padding-top: 0px;
 }

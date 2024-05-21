@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { GoClock } from "react-icons/go";
 import { IoIosCalendar } from "react-icons/io";
 import {
@@ -7,30 +8,34 @@ import {
   IoNewspaperOutline,
 } from "react-icons/io5";
 import { MdTitle } from "react-icons/md";
-import type { DetailModalPresenterProps } from "./types/types";
+import type { Schedule } from "~/types/types";
 
-export default function DetailModalPresenter({
+type DetailModalPresentationalProps = {
+  onOutOfModalClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onEditButtonClick: () => void;
+  onTrashButtonClick: () => void;
+  onCloseButtonClick: () => void;
+  selectedSchedule: Schedule;
+};
+
+export default function DetailModalPresentational({
   onOutOfModalClick,
   onEditButtonClick,
   onTrashButtonClick,
   onCloseButtonClick,
   selectedSchedule,
-}: DetailModalPresenterProps) {
+}: DetailModalPresentationalProps) {
   return (
     <>
       {/**モーダルの外側を押したときモーダルを消す*/}
-      <div className="outOfModal" onClick={(e) => onOutOfModalClick(e)}>
+      <div className="outOfModal" onClick={onOutOfModalClick}>
         <div className="detailModal">
           <header>
             <span className="detailHeader">予定の確認</span>
             <button className="headerIcons" onClick={onEditButtonClick}>
               <IoPencil />
             </button>
-            <button
-              className="headerIcons"
-              type="submit"
-              onClick={onTrashButtonClick}
-            >
+            <button className="headerIcons" onClick={onTrashButtonClick}>
               <IoTrash />
             </button>
             <button className="headerIcons" onClick={onCloseButtonClick}>
@@ -48,7 +53,9 @@ export default function DetailModalPresenter({
             <span className="icons">
               <IoIosCalendar size={25} />
             </span>
-            <span className="date">：{selectedSchedule.date}</span>
+            <span className="date">
+              ：{dayjs(selectedSchedule.date).format("YYYY-MM-DD")}
+            </span>
           </div>
           <div className="detailTime">
             <span className="icons">

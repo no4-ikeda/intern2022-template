@@ -2,17 +2,25 @@ import { GoClock } from "react-icons/go";
 import { IoIosCalendar } from "react-icons/io";
 import { IoCloseSharp } from "react-icons/io5";
 import { MdTitle } from "react-icons/md";
-import type { HolidayModalPresenterProps } from "./types/types";
+import type { Dayjs } from "dayjs";
+import type { Holiday } from "~/types/types";
 
-export default function HolidayModalPresenter({
+type HolidayModalPresentationalProps = {
+  onOutOfModalClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onCloseButtonClick: () => void;
+  holiday: Holiday[];
+  selectedDay: Dayjs;
+};
+
+export default function HolidayListModalPresentational({
   onOutOfModalClick,
   onCloseButtonClick,
-  holidayName,
+  holiday,
   selectedDay,
-}: HolidayModalPresenterProps) {
+}: HolidayModalPresentationalProps) {
   return (
     <>
-      <div className="outOfModal" onClick={(e) => onOutOfModalClick(e)}>
+      <div className="outOfModal" onClick={onOutOfModalClick}>
         <div className="holidayModal">
           <header>
             <span className="holidayHeader">予定の確認</span>
@@ -25,7 +33,7 @@ export default function HolidayModalPresenter({
             <span className="icons">
               <MdTitle size={25} />
             </span>
-            <span className="title">：{holidayName}</span>
+            <span className="title">：{holiday[0]?.text ?? ""}</span>
           </div>
           <div className="detailDate">
             <span className="icons">

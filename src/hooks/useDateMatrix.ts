@@ -4,23 +4,24 @@ import { useMemo } from "react";
 
 dayjs.locale(ja);
 
-export function useDateMatrix(currentPageMonth: number) {
+export function useDateMatrix(
+  currentPageYear: number,
+  currentPageMonth: number
+) {
   const dateMatrix: dayjs.Dayjs[] = useMemo(() => {
-    // 現在の年を取得
-    // 2024年0月＝2023年12月という風に年は固定で月だけで年月を計算する
-    const year = dayjs().year();
-
     // 月の最終日を取得
     const lastOfMonth = Number(
-      dayjs(new Date(year, currentPageMonth)).endOf("month").format("D")
+      dayjs(new Date(currentPageYear, currentPageMonth))
+        .endOf("month")
+        .format("D")
     );
 
     // カレンダーの先頭・末尾の隙間を埋めるための先月、来月の情報
     const firstDayOfWeekOfMonth = dayjs(
-      new Date(year, currentPageMonth, 1)
+      new Date(currentPageYear, currentPageMonth, 1)
     ).day();
     const lastDayOfWeekOfMonth = dayjs(
-      new Date(year, currentPageMonth, lastOfMonth)
+      new Date(currentPageYear, currentPageMonth, lastOfMonth)
     ).day();
     let topOfCalendar = 0 - firstDayOfWeekOfMonth;
     const lastOfCalendar = 6 - lastDayOfWeekOfMonth;
@@ -37,11 +38,11 @@ export function useDateMatrix(currentPageMonth: number) {
     ) {
       topOfCalendar++;
       calendarMatrix[day] = dayjs(
-        new Date(year, currentPageMonth, topOfCalendar)
+        new Date(currentPageYear, currentPageMonth, topOfCalendar)
       );
     }
 
     return calendarMatrix;
-  }, [currentPageMonth]);
+  }, [currentPageYear, currentPageMonth]);
   return dateMatrix;
 }

@@ -1,9 +1,14 @@
+import type { ReactNode } from "react";
 import { useState, useEffect, useReducer } from "react";
 import YearMonthContext from "./YearMonthContext";
-import type { Action, Schedule, WrapperProps } from "~/types/types";
+import type { Action, Holiday, Schedule } from "~/types/types";
+
+type WrapperProps = {
+  children: ReactNode;
+};
 
 // 追加、編集、削除処理
-const savedEventsReducer = (
+const savedSchedulesReducer = (
   stateList: Schedule[],
   { type, payload }: Action
 ) => {
@@ -20,12 +25,12 @@ const savedEventsReducer = (
 };
 
 // ストレージに入った予定を返す
-const initEvents = (): Schedule[] => {
-  const storageEvents = localStorage.getItem("savedEvents");
-  const parsedEvents: Schedule[] = storageEvents
-    ? (JSON.parse(storageEvents) as Schedule[])
+const initSchedules = (): Schedule[] => {
+  const storageSchedules = localStorage.getItem("savedSchedules");
+  const parsedSchedules: Schedule[] = storageSchedules
+    ? (JSON.parse(storageSchedules) as Schedule[])
     : [];
-  return parsedEvents;
+  return parsedSchedules;
 };
 
 const ContextWrapper = (props: WrapperProps) => {
@@ -34,33 +39,33 @@ const ContextWrapper = (props: WrapperProps) => {
   const [isShowEditModal, setIsShowEditModal] = useState<boolean>(false);
   const [isShowDetailModal, setIsShowDetailModal] = useState<boolean>(false);
   const [isShowHolidayModal, setIsShowHolidayModal] = useState<boolean>(false);
-  const [holiday, setHoliday] = useState<string[]>([]);
-  const [savedEvents, dispatchCalEvent] = useReducer(
-    savedEventsReducer,
+  const [holidayList, setHolidayList] = useState<Holiday[]>([]);
+  const [savedSchedules, dispatchCalSchedule] = useReducer(
+    savedSchedulesReducer,
     [],
-    initEvents
+    initSchedules
   );
 
-  // savedEventが更新されたとき実行
+  // savedScheduleが更新されたとき実行
   useEffect(() => {
-    localStorage.setItem("savedEvents", JSON.stringify(savedEvents));
-  }, [savedEvents]);
+    localStorage.setItem("savedSchedules", JSON.stringify(savedSchedules));
+  }, [savedSchedules]);
 
   return (
     <YearMonthContext.Provider
       value={{
-        isShowCreateNewModal,
         setIsShowCreateNewModal,
-        isShowEditModal,
         setIsShowEditModal,
-        isShowDetailModal,
         setIsShowDetailModal,
-        isShowHolidayModal,
         setIsShowHolidayModal,
-        holiday,
-        setHoliday,
-        dispatchCalEvent,
-        savedEvents,
+        setHolidayList,
+        dispatchCalSchedule,
+        isShowCreateNewModal,
+        isShowEditModal,
+        isShowDetailModal,
+        isShowHolidayModal,
+        holidayList,
+        savedSchedules,
       }}
     >
       {props.children}

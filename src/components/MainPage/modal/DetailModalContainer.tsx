@@ -1,12 +1,16 @@
 import { useCallback, useContext } from "react";
-import YearMonthContext from "./context/YearMonthContext";
-import type { DetailModalContainerProps } from "./types/types";
-import DetailModalPresenter from "./DetailModalPresenter";
+import YearMonthContext from "../../../contexts/YearMonthContext";
+import DetailModalPresentational from "./DetailModalPresentational";
+import type { Schedule } from "~/types/types";
+
+type DetailModalContainerProps = {
+  selectedSchedule: Schedule | null;
+};
 
 export default function DetailModalContainer({
   selectedSchedule,
 }: DetailModalContainerProps) {
-  const { setIsShowEditModal, setIsShowDetailModal, dispatchCalEvent } =
+  const { setIsShowEditModal, setIsShowDetailModal, dispatchCalSchedule } =
     useContext(YearMonthContext);
 
   // モーダルの外側を押したときモーダルを消す
@@ -27,9 +31,9 @@ export default function DetailModalContainer({
     if (selectedSchedule == null) {
       return null;
     }
-    dispatchCalEvent({ type: "delete", payload: selectedSchedule });
+    dispatchCalSchedule({ type: "delete", payload: selectedSchedule });
     setIsShowDetailModal(false);
-  }, [dispatchCalEvent, selectedSchedule, setIsShowDetailModal]);
+  }, [dispatchCalSchedule, selectedSchedule, setIsShowDetailModal]);
 
   const handleCloseButtonClick = useCallback(() => {
     setIsShowDetailModal(false);
@@ -39,7 +43,7 @@ export default function DetailModalContainer({
     return null;
   }
   return (
-    <DetailModalPresenter
+    <DetailModalPresentational
       onOutOfModalClick={handleOutOfModalClick}
       onEditButtonClick={handleEditButtonClick}
       onTrashButtonClick={handleTrashButtonClick}

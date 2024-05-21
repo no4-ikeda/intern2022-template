@@ -1,20 +1,20 @@
 import { useCallback, useContext } from "react";
-import YearMonthContext from "./context/YearMonthContext";
-import type { HolidayModalContainerProps } from "./types/types";
-import HolidayModalPresenter from "./HolidayModalPreseter";
+import YearMonthContext from "../../../contexts/YearMonthContext";
+import HolidayListModalPresentational from "./HolidayModalPresetational";
+import type { Dayjs } from "dayjs";
 
-export default function HolidayModalContainer({
+type HolidayModalContainerProps = {
+  selectedDay: Dayjs;
+};
+
+export default function HolidayListModalContainer({
   selectedDay,
 }: HolidayModalContainerProps) {
-  const { setIsShowHolidayModal, holiday } = useContext(YearMonthContext);
+  const { setIsShowHolidayModal, holidayList } = useContext(YearMonthContext);
 
-  const holidayKeys = Object.keys(holiday);
-  const holidayValues = Object.values(holiday);
-
-  const holidayIndex = holidayKeys.findIndex(
-    (data) => data === selectedDay.format("YYYY-MM-DD")
-  );
-  const holidayName = holidayValues[holidayIndex];
+  const holiday = holidayList.filter((holiday) => {
+    return holiday.date.isSame(selectedDay);
+  });
 
   // モーダルの外側を押したときモーダルを消す
   const onOutOfModalClick = useCallback(
@@ -30,10 +30,10 @@ export default function HolidayModalContainer({
   }, [setIsShowHolidayModal]);
 
   return (
-    <HolidayModalPresenter
+    <HolidayListModalPresentational
       onOutOfModalClick={onOutOfModalClick}
       onCloseButtonClick={onCloseButtonClick}
-      holidayName={holidayName}
+      holiday={holiday}
       selectedDay={selectedDay}
     />
   );
