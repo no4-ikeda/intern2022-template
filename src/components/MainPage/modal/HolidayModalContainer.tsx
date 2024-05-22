@@ -3,13 +3,11 @@ import YearMonthContext from "../../../contexts/YearMonthContext";
 import HolidayListModalPresentational from "./HolidayModalPresetational";
 import type { Dayjs } from "dayjs";
 
-type HolidayModalContainerProps = {
+type Props = {
   selectedDay: Dayjs;
 };
 
-export default function HolidayListModalContainer({
-  selectedDay,
-}: HolidayModalContainerProps) {
+export default function HolidayListModalContainer({ selectedDay }: Props) {
   const { setIsShowHolidayModal, holidayList } = useContext(YearMonthContext);
 
   const holiday = holidayList.filter((holiday) => {
@@ -17,7 +15,7 @@ export default function HolidayListModalContainer({
   });
 
   // モーダルの外側を押したときモーダルを消す
-  const onOutOfModalClick = useCallback(
+  const handleOutOfModalClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       e.target === e.currentTarget && setIsShowHolidayModal(false);
     },
@@ -25,16 +23,16 @@ export default function HolidayListModalContainer({
   );
 
   // ×ボタンが押されたとき
-  const onCloseButtonClick = useCallback(() => {
+  const handleCloseButtonClick = useCallback(() => {
     setIsShowHolidayModal(false);
   }, [setIsShowHolidayModal]);
 
   return (
     <HolidayListModalPresentational
-      onOutOfModalClick={onOutOfModalClick}
-      onCloseButtonClick={onCloseButtonClick}
       holiday={holiday}
       selectedDay={selectedDay}
+      onOutOfModalClick={handleOutOfModalClick}
+      onCloseButtonClick={handleCloseButtonClick}
     />
   );
 }

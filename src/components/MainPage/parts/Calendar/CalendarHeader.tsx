@@ -5,19 +5,19 @@ import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 
 dayjs.locale(ja);
 
-type CalendarHeaderPresentationalProps = {
-  onBackMonthButtonClick: () => void;
-  onNextMonthButtonClick: () => void;
+type Props = {
   currentPageYear: number;
   currentPageMonth: number;
+  onBackMonthButtonClick: () => void;
+  onNextMonthButtonClick: () => void;
 };
 
 export default function CalendarHeaderPresentational({
-  onBackMonthButtonClick,
-  onNextMonthButtonClick,
   currentPageYear,
   currentPageMonth,
-}: CalendarHeaderPresentationalProps) {
+  onBackMonthButtonClick,
+  onNextMonthButtonClick,
+}: Props) {
   return (
     <>
       <span className="calendarHeader">

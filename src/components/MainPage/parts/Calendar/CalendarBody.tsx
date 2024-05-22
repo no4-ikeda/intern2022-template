@@ -4,21 +4,21 @@ import { useDateMatrix } from "~/hooks/useDateMatrix";
 import type { Schedule } from "~/types/types";
 import Day from "./Day";
 
-type CalendarBodyProps = {
+type Props = {
+  currentPageYear: number;
+  currentPageMonth: number;
   onCreateNewClick: (date: Dayjs) => void;
   onHolidayClick: (date: Dayjs) => void;
   onScheduleClick: (schedule: Schedule) => void;
-  currentPageYear: number;
-  currentPageMonth: number;
 };
 
 export const CalendarBody = ({
+  currentPageYear,
+  currentPageMonth,
   onCreateNewClick,
   onHolidayClick,
   onScheduleClick,
-  currentPageYear,
-  currentPageMonth,
-}: CalendarBodyProps) => {
+}: Props) => {
   const dateMatrix = useDateMatrix(currentPageYear, currentPageMonth);
 
   return (
@@ -36,11 +36,11 @@ export const CalendarBody = ({
         {dateMatrix.map<React.ReactElement>((date: Dayjs, idx: number) => (
           <Day
             key={idx}
+            currentPageMonth={currentPageMonth}
+            date={date}
             onCreateNewClick={onCreateNewClick}
             onHolidayClick={onHolidayClick}
             onScheduleClick={onScheduleClick}
-            currentPageMonth={currentPageMonth}
-            date={date}
           />
         ))}
       </div>

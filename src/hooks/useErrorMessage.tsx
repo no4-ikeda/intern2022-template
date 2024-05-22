@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import type {
   DateError,
   EndTimeError,
@@ -7,66 +7,67 @@ import type {
   TitleError,
 } from "~/types/types";
 
-type UseErrorMessageProps = {
+type Props = {
   titleError: TitleError | undefined;
   dateError: DateError | undefined;
   startTimeError: StartTimeError | undefined;
   endTimeError: EndTimeError | undefined;
   memoError: MemoError | undefined;
 };
+
 export default function useErrorMessage({
   titleError,
   dateError,
   startTimeError,
   endTimeError,
   memoError,
-}: UseErrorMessageProps) {
-  const [titleErrorMessage, setTitleErrorMessage] = useState<string>("");
-  const [dateErrorMessage, setDateErrorMessage] = useState<string>("");
-  const [startTimeErrorMessage, setStartTimeErrorMessage] =
-    useState<string>("");
-  const [endTimeErrorMessage, setEndTimeErrorMessage] = useState<string>("");
-  const [memoErrorMessage, setMemoErrorMessage] = useState<string>("");
+}: Props) {
+  const errorMessage = useMemo(() => {
+    let titleErrorMessage,
+      dateErrorMessage,
+      startTimeErrorMessage,
+      endTimeErrorMessage,
+      memoErrorMessage;
 
-  useEffect(() => {
     if (titleError == "empty") {
-      setTitleErrorMessage("タイトルは必須項目です");
+      titleErrorMessage = "タイトルは必須項目です";
     } else if (titleError == "length") {
-      setTitleErrorMessage("タイトルは１０文字以内で入力してください");
+      titleErrorMessage = "タイトルは１０文字以内で入力してください";
     } else {
-      setTitleErrorMessage("");
+      titleErrorMessage = "";
     }
 
     if (dateError) {
-      setDateErrorMessage("有効な日付を入力してください");
+      dateErrorMessage = "有効な日付を入力してください";
     } else {
-      setDateErrorMessage("");
+      dateErrorMessage = "";
     }
 
     if (startTimeError) {
-      setStartTimeErrorMessage("開始時刻は必須項目です");
+      startTimeErrorMessage = "開始時刻は必須項目です";
     } else {
-      setStartTimeErrorMessage("");
+      startTimeErrorMessage = "";
     }
 
     if (endTimeError) {
-      setEndTimeErrorMessage("終了時刻は必須項目です");
+      endTimeErrorMessage = "終了時刻は必須項目です";
     } else {
-      setEndTimeErrorMessage("");
+      endTimeErrorMessage = "";
     }
 
     if (memoError) {
-      setMemoErrorMessage("メモは２５５文字以内で入力してください");
+      memoErrorMessage = "メモは２５５文字以内で入力してください";
     } else {
-      setMemoErrorMessage("");
+      memoErrorMessage = "";
     }
+    return [
+      titleErrorMessage,
+      dateErrorMessage,
+      startTimeErrorMessage,
+      endTimeErrorMessage,
+      memoErrorMessage,
+    ];
   }, [dateError, endTimeError, memoError, startTimeError, titleError]);
 
-  return {
-    titleErrorMessage,
-    dateErrorMessage,
-    startTimeErrorMessage,
-    endTimeErrorMessage,
-    memoErrorMessage,
-  };
+  return errorMessage;
 }

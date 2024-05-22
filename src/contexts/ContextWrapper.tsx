@@ -3,7 +3,7 @@ import { useState, useEffect, useReducer } from "react";
 import YearMonthContext from "./YearMonthContext";
 import type { Action, Holiday, Schedule } from "~/types/types";
 
-type WrapperProps = {
+type Props = {
   children: ReactNode;
 };
 
@@ -33,7 +33,7 @@ const initSchedules = (): Schedule[] => {
   return parsedSchedules;
 };
 
-const ContextWrapper = (props: WrapperProps) => {
+const ContextWrapper = (props: Props) => {
   const [isShowCreateNewModal, setIsShowCreateNewModal] =
     useState<boolean>(false);
   const [isShowEditModal, setIsShowEditModal] = useState<boolean>(false);
@@ -54,18 +54,18 @@ const ContextWrapper = (props: WrapperProps) => {
   return (
     <YearMonthContext.Provider
       value={{
-        setIsShowCreateNewModal,
-        setIsShowEditModal,
-        setIsShowDetailModal,
-        setIsShowHolidayModal,
-        setHolidayList,
-        dispatchCalSchedule,
         isShowCreateNewModal,
         isShowEditModal,
         isShowDetailModal,
         isShowHolidayModal,
         holidayList,
         savedSchedules,
+        setIsShowCreateNewModal,
+        setIsShowEditModal,
+        setIsShowDetailModal,
+        setIsShowHolidayModal,
+        setHolidayList,
+        dispatchCalSchedule,
       }}
     >
       {props.children}

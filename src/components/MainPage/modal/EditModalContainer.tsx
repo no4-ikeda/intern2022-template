@@ -15,18 +15,16 @@ import dayjs from "dayjs";
 import useErrorMessage from "../../../hooks/useErrorMessage";
 import { useValidation } from "../../../hooks/useValidation";
 
-type EditModalContainerProps = {
+type Props = {
   selectedSchedule: Schedule | null;
 };
 
-export default function EditModalContainer({
-  selectedSchedule,
-}: EditModalContainerProps) {
+export default function EditModalContainer({ selectedSchedule }: Props) {
   const today = dayjs();
   const { setIsShowEditModal, dispatchCalSchedule } =
     useContext(YearMonthContext);
 
-  // selectedScheduleがtrueならば初期値にイベントの中身を、falseなら空 */
+  // selectedScheduleがtrueならば初期値にイベントの中身を、falseなら空
   const [title, setTitle] = useState<string>(
     selectedSchedule ? selectedSchedule.title : ""
   );
@@ -132,12 +130,11 @@ export default function EditModalContainer({
     setMemoError(validateMemo(enteredSchedule.memo));
 
     if (
-      enteredSchedule.title !== "" &&
-      enteredSchedule.title.length <= 10 &&
-      dayjs(enteredSchedule.date, "YYYY-MM-DD", true).isValid() &&
-      enteredSchedule.startTime !== "" &&
-      enteredSchedule.endTime !== "" &&
-      enteredSchedule.memo.length <= 255
+      !validateTitle(enteredSchedule.title) &&
+      !validateDate(enteredSchedule.date) &&
+      !validateStartTime(enteredSchedule.startTime) &&
+      !validateEndTime(enteredSchedule.endTime) &&
+      !validateMemo(enteredSchedule.memo)
     ) {
       // エラーがないとき
       if (selectedSchedule) {
@@ -149,13 +146,13 @@ export default function EditModalContainer({
       }
     }
   };
-  const {
+  const [
     titleErrorMessage,
     dateErrorMessage,
     startTimeErrorMessage,
     endTimeErrorMessage,
     memoErrorMessage,
-  } = useErrorMessage({
+  ] = useErrorMessage({
     titleError,
     dateError,
     startTimeError,
@@ -165,15 +162,6 @@ export default function EditModalContainer({
 
   return (
     <EditModalPresentational
-      onOutOfModalClick={handleOutOfModalClick}
-      onSaveButtonClick={handleSaveButtonClick}
-      onTrashButtonClick={handleTrashButtonClick}
-      onCloseButtonClick={handleCloseButtonClick}
-      onTitleChange={handleTitleChange}
-      onDateChange={handleDateChange}
-      onStartTimeChange={handleStartTimeChange}
-      onEndTimeChange={handleEndTimeChange}
-      onMemoChange={handleMemoChange}
       today={today}
       titleErrorMessage={titleErrorMessage}
       dateErrorMessage={dateErrorMessage}
@@ -185,6 +173,15 @@ export default function EditModalContainer({
       startTime={startTime}
       endTime={endTime}
       memo={memo}
+      onOutOfModalClick={handleOutOfModalClick}
+      onSaveButtonClick={handleSaveButtonClick}
+      onTrashButtonClick={handleTrashButtonClick}
+      onCloseButtonClick={handleCloseButtonClick}
+      onTitleChange={handleTitleChange}
+      onDateChange={handleDateChange}
+      onStartTimeChange={handleStartTimeChange}
+      onEndTimeChange={handleEndTimeChange}
+      onMemoChange={handleMemoChange}
     />
   );
 }

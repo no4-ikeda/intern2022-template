@@ -3,7 +3,14 @@ import { IoCloseSharp } from "react-icons/io5";
 import ErrorMessage from "./parts/ErrorMessage";
 import type { Dayjs } from "dayjs";
 
-type CreateNewModalPresentationalProps = {
+type Props = {
+  today: Dayjs;
+  date: Dayjs;
+  titleErrorMessage: string;
+  dateErrorMessage: string;
+  startTimeErrorMessage: string;
+  endTimeErrorMessage: string;
+  memoErrorMessage: string;
   onOutOfModalClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   onSaveButtonClick: () => void;
   onCloseButtonClick: () => void;
@@ -12,16 +19,16 @@ type CreateNewModalPresentationalProps = {
   onStartTimeChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onEndTimeChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onMemoChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  today: Dayjs;
-  date: Dayjs;
-  titleErrorMessage: string;
-  dateErrorMessage: string;
-  startTimeErrorMessage: string;
-  endTimeErrorMessage: string;
-  memoErrorMessage: string;
 };
 
 export default function CreateNewModalPresentational({
+  date,
+  today,
+  titleErrorMessage,
+  dateErrorMessage,
+  startTimeErrorMessage,
+  endTimeErrorMessage,
+  memoErrorMessage,
   onOutOfModalClick,
   onSaveButtonClick,
   onCloseButtonClick,
@@ -30,14 +37,7 @@ export default function CreateNewModalPresentational({
   onStartTimeChange,
   onEndTimeChange,
   onMemoChange,
-  date,
-  today,
-  titleErrorMessage,
-  dateErrorMessage,
-  startTimeErrorMessage,
-  endTimeErrorMessage,
-  memoErrorMessage,
-}: CreateNewModalPresentationalProps) {
+}: Props) {
   return (
     <>
       <div className="outOfModal" onClick={onOutOfModalClick}>

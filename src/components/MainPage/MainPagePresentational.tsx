@@ -8,12 +8,7 @@ import type { Dayjs } from "dayjs";
 import type { Schedule } from "~/types/types";
 import type dayjs from "dayjs";
 
-type MainPagePresentationalProps = {
-  onBackMonthButtonClick: () => void;
-  onNextMonthButtonClick: () => void;
-  onCreateNewClick: (date: dayjs.Dayjs) => void;
-  onHolidayClick: (date: dayjs.Dayjs) => void;
-  onScheduleClick: (schedule: Schedule) => void;
+type Props = {
   isShowCreateNewModal: boolean;
   isShowEditModal: boolean;
   isShowDetailModal: boolean;
@@ -22,14 +17,14 @@ type MainPagePresentationalProps = {
   selectedSchedule: Schedule | null;
   currentPageYear: number;
   currentPageMonth: number;
+  onBackMonthButtonClick: () => void;
+  onNextMonthButtonClick: () => void;
+  onCreateNewClick: (date: dayjs.Dayjs) => void;
+  onHolidayClick: (date: dayjs.Dayjs) => void;
+  onScheduleClick: (schedule: Schedule) => void;
 };
 
 export default function MainPagePresentational({
-  onBackMonthButtonClick,
-  onNextMonthButtonClick,
-  onCreateNewClick,
-  onHolidayClick,
-  onScheduleClick,
   isShowCreateNewModal,
   isShowEditModal,
   isShowDetailModal,
@@ -38,7 +33,12 @@ export default function MainPagePresentational({
   selectedSchedule,
   currentPageYear,
   currentPageMonth,
-}: MainPagePresentationalProps) {
+  onBackMonthButtonClick,
+  onNextMonthButtonClick,
+  onCreateNewClick,
+  onHolidayClick,
+  onScheduleClick,
+}: Props) {
   return (
     <>
       {isShowCreateNewModal && (
@@ -54,17 +54,17 @@ export default function MainPagePresentational({
         <HolidayModalContainer selectedDay={selectedDay} />
       )}
       <CalendarHeader
-        onBackMonthButtonClick={onBackMonthButtonClick}
-        onNextMonthButtonClick={onNextMonthButtonClick}
         currentPageYear={currentPageYear}
         currentPageMonth={currentPageMonth}
+        onBackMonthButtonClick={onBackMonthButtonClick}
+        onNextMonthButtonClick={onNextMonthButtonClick}
       />
       <CalendarBody
+        currentPageYear={currentPageYear}
+        currentPageMonth={currentPageMonth}
         onCreateNewClick={onCreateNewClick}
         onHolidayClick={onHolidayClick}
         onScheduleClick={onScheduleClick}
-        currentPageYear={currentPageYear}
-        currentPageMonth={currentPageMonth}
       />
     </>
   );

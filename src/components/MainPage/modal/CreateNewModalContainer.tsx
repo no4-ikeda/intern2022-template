@@ -15,12 +15,10 @@ import type {
 import { useValidation } from "../../../hooks/useValidation";
 import useErrorMessage from "../../../hooks/useErrorMessage";
 
-type CreateNewModalContainerProps = {
+type Props = {
   selectedDay: Dayjs | null;
 };
-export default function CreateNewModalContainer({
-  selectedDay,
-}: CreateNewModalContainerProps) {
+export default function CreateNewModalContainer({ selectedDay }: Props) {
   // 今日の日付を取得
   const today = dayjs();
 
@@ -111,19 +109,18 @@ export default function CreateNewModalContainer({
       memo: memo,
       id: Date.now(),
     };
+
     setTitleError(validateTitle(enteredSchedule.title));
     setDateError(validateDate(enteredSchedule.date));
     setStartTimeError(validateStartTime(enteredSchedule.startTime));
     setEndTimeError(validateEndTime(enteredSchedule.endTime));
     setMemoError(validateMemo(enteredSchedule.memo));
-
     if (
-      enteredSchedule.title !== "" &&
-      enteredSchedule.title.length <= 10 &&
-      dayjs(enteredSchedule.date, "YYYY-MM-DD", true).isValid() &&
-      enteredSchedule.startTime !== "" &&
-      enteredSchedule.endTime !== "" &&
-      enteredSchedule.memo.length <= 255
+      !validateTitle(enteredSchedule.title) &&
+      !validateDate(enteredSchedule.date) &&
+      !validateStartTime(enteredSchedule.startTime) &&
+      !validateEndTime(enteredSchedule.endTime) &&
+      !validateMemo(enteredSchedule.memo)
     ) {
       // エラーがないとき
       dispatchCalSchedule({ type: "push", payload: enteredSchedule });
@@ -131,13 +128,13 @@ export default function CreateNewModalContainer({
     }
   };
 
-  const {
+  const [
     titleErrorMessage,
     dateErrorMessage,
     startTimeErrorMessage,
     endTimeErrorMessage,
     memoErrorMessage,
-  } = useErrorMessage({
+  ] = useErrorMessage({
     titleError,
     dateError,
     startTimeError,
@@ -147,6 +144,13 @@ export default function CreateNewModalContainer({
 
   return (
     <CreateNewModalPresentational
+      date={date}
+      today={today}
+      titleErrorMessage={titleErrorMessage ? titleErrorMessage : ""}
+      dateErrorMessage={dateErrorMessage ? dateErrorMessage : ""}
+      startTimeErrorMessage={startTimeErrorMessage ? startTimeErrorMessage : ""}
+      endTimeErrorMessage={endTimeErrorMessage ? endTimeErrorMessage : ""}
+      memoErrorMessage={memoErrorMessage ? memoErrorMessage : ""}
       onOutOfModalClick={handleOutOfModalClick}
       onSaveButtonClick={handleSaveButtonClick}
       onCloseButtonClick={handleCloseButtonClick}
@@ -155,13 +159,6 @@ export default function CreateNewModalContainer({
       onStartTimeChange={handleStartTimeChange}
       onEndTimeChange={handleEndTimeChange}
       onMemoChange={handleMemoChange}
-      date={date}
-      today={today}
-      titleErrorMessage={titleErrorMessage ? titleErrorMessage : ""}
-      dateErrorMessage={dateErrorMessage ? dateErrorMessage : ""}
-      startTimeErrorMessage={startTimeErrorMessage ? startTimeErrorMessage : ""}
-      endTimeErrorMessage={endTimeErrorMessage ? endTimeErrorMessage : ""}
-      memoErrorMessage={memoErrorMessage ? memoErrorMessage : ""}
     />
   );
 }

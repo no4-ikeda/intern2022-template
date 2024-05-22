@@ -10,21 +10,21 @@ import {
 import { MdTitle } from "react-icons/md";
 import type { Schedule } from "~/types/types";
 
-type DetailModalPresentationalProps = {
+type Props = {
+  selectedSchedule: Schedule;
   onOutOfModalClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   onEditButtonClick: () => void;
   onTrashButtonClick: () => void;
   onCloseButtonClick: () => void;
-  selectedSchedule: Schedule;
 };
 
 export default function DetailModalPresentational({
+  selectedSchedule,
   onOutOfModalClick,
   onEditButtonClick,
   onTrashButtonClick,
   onCloseButtonClick,
-  selectedSchedule,
-}: DetailModalPresentationalProps) {
+}: Props) {
   return (
     <>
       {/**モーダルの外側を押したときモーダルを消す*/}

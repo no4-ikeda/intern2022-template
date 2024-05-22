@@ -9,11 +9,11 @@ import MainPagePresentational from "./MainPagePresentational";
 export default function MainPageContainer() {
   const {
     isShowCreateNewModal,
-    setIsShowCreateNewModal,
     isShowEditModal,
     isShowDetailModal,
-    setIsShowDetailModal,
     isShowHolidayModal,
+    setIsShowCreateNewModal,
+    setIsShowDetailModal,
     setIsShowHolidayModal,
   } = useContext(YearMonthContext);
 
@@ -29,6 +29,9 @@ export default function MainPageContainer() {
   const [selectedSchedule, setSelectedSchedule] = useState<Schedule | null>(
     null
   );
+
+  // 祝日を取得
+  useFetchHolidayList(currentPageYear);
 
   // 次月、前月ボタンを押したとき
   const handleBackMonthButtonClick = () => {
@@ -47,9 +50,6 @@ export default function MainPageContainer() {
       setCurrentPageYear((year) => year + 1);
     }
   };
-
-  // 祝日を取得
-  useFetchHolidayList(currentPageYear);
 
   // 日付のセルが押されたとき
   const handleCreateNewClick = useCallback(
@@ -80,11 +80,6 @@ export default function MainPageContainer() {
 
   return (
     <MainPagePresentational
-      onBackMonthButtonClick={handleBackMonthButtonClick}
-      onNextMonthButtonClick={handleNextMonthButtonClick}
-      onCreateNewClick={handleCreateNewClick}
-      onHolidayClick={handleHolidayClick}
-      onScheduleClick={handleScheduleClick}
       isShowCreateNewModal={isShowCreateNewModal}
       isShowEditModal={isShowEditModal}
       isShowDetailModal={isShowDetailModal}
@@ -93,6 +88,11 @@ export default function MainPageContainer() {
       selectedSchedule={selectedSchedule}
       currentPageYear={currentPageYear}
       currentPageMonth={currentPageMonth}
+      onBackMonthButtonClick={handleBackMonthButtonClick}
+      onNextMonthButtonClick={handleNextMonthButtonClick}
+      onCreateNewClick={handleCreateNewClick}
+      onHolidayClick={handleHolidayClick}
+      onScheduleClick={handleScheduleClick}
     />
   );
 }

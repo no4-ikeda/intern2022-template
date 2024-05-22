@@ -3,13 +3,11 @@ import YearMonthContext from "../../../contexts/YearMonthContext";
 import DetailModalPresentational from "./DetailModalPresentational";
 import type { Schedule } from "~/types/types";
 
-type DetailModalContainerProps = {
+type Props = {
   selectedSchedule: Schedule | null;
 };
 
-export default function DetailModalContainer({
-  selectedSchedule,
-}: DetailModalContainerProps) {
+export default function DetailModalContainer({ selectedSchedule }: Props) {
   const { setIsShowEditModal, setIsShowDetailModal, dispatchCalSchedule } =
     useContext(YearMonthContext);
 
@@ -44,11 +42,11 @@ export default function DetailModalContainer({
   }
   return (
     <DetailModalPresentational
+      selectedSchedule={selectedSchedule}
       onOutOfModalClick={handleOutOfModalClick}
       onEditButtonClick={handleEditButtonClick}
       onTrashButtonClick={handleTrashButtonClick}
       onCloseButtonClick={handleCloseButtonClick}
-      selectedSchedule={selectedSchedule}
     />
   );
 }

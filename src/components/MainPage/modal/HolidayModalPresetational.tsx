@@ -5,19 +5,19 @@ import { MdTitle } from "react-icons/md";
 import type { Dayjs } from "dayjs";
 import type { Holiday } from "~/types/types";
 
-type HolidayModalPresentationalProps = {
-  onOutOfModalClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-  onCloseButtonClick: () => void;
+type Props = {
   holiday: Holiday[];
   selectedDay: Dayjs;
+  onOutOfModalClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onCloseButtonClick: () => void;
 };
 
 export default function HolidayListModalPresentational({
-  onOutOfModalClick,
-  onCloseButtonClick,
   holiday,
   selectedDay,
-}: HolidayModalPresentationalProps) {
+  onOutOfModalClick,
+  onCloseButtonClick,
+}: Props) {
   return (
     <>
       <div className="outOfModal" onClick={onOutOfModalClick}>

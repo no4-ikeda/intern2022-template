@@ -4,16 +4,7 @@ import ErrorMessagePresentational from "./parts/ErrorMessage";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 
-type EditModalPresentationalProps = {
-  onOutOfModalClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-  onSaveButtonClick: () => void;
-  onTrashButtonClick: () => void;
-  onCloseButtonClick: () => void;
-  onTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onDateChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onStartTimeChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onEndTimeChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onMemoChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+type Props = {
   today: Dayjs;
   titleErrorMessage: string;
   dateErrorMessage: string;
@@ -25,18 +16,18 @@ type EditModalPresentationalProps = {
   startTime: string;
   endTime: string;
   memo: string;
+  onOutOfModalClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onSaveButtonClick: () => void;
+  onTrashButtonClick: () => void;
+  onCloseButtonClick: () => void;
+  onTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onDateChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onStartTimeChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onEndTimeChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onMemoChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 };
 
 export default function EditModalPresentational({
-  onOutOfModalClick,
-  onSaveButtonClick,
-  onTrashButtonClick,
-  onCloseButtonClick,
-  onTitleChange,
-  onDateChange,
-  onStartTimeChange,
-  onEndTimeChange,
-  onMemoChange,
   today,
   titleErrorMessage,
   dateErrorMessage,
@@ -48,7 +39,16 @@ export default function EditModalPresentational({
   startTime,
   endTime,
   memo,
-}: EditModalPresentationalProps) {
+  onOutOfModalClick,
+  onSaveButtonClick,
+  onTrashButtonClick,
+  onCloseButtonClick,
+  onTitleChange,
+  onDateChange,
+  onStartTimeChange,
+  onEndTimeChange,
+  onMemoChange,
+}: Props) {
   return (
     <>
       <div className="outOfModal" onClick={onOutOfModalClick}>

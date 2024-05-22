@@ -4,21 +4,21 @@ import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import YearMonthContext from "~/contexts/YearMonthContext";
 
-type DayPresentationalProps = {
+type Props = {
+  currentPageMonth: number;
+  date: dayjs.Dayjs;
   onCreateNewClick: (date: Dayjs) => void;
   onHolidayClick: (date: dayjs.Dayjs) => void;
   onScheduleClick: (schedule: Schedule) => void;
-  currentPageMonth: number;
-  date: dayjs.Dayjs;
 };
 
 export default function DayPresentational({
+  currentPageMonth,
+  date,
   onCreateNewClick,
   onHolidayClick,
   onScheduleClick,
-  currentPageMonth,
-  date,
-}: DayPresentationalProps) {
+}: Props) {
   const { savedSchedules, holidayList } = useContext(YearMonthContext);
 
   const holiday = holidayList.filter((holiday) => {
