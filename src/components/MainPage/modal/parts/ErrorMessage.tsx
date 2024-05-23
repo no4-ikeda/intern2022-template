@@ -4,7 +4,7 @@ type ErrorMessageProps = {
   errorMessage: string;
 };
 
-export default function ErrorMessage({ errorMessage }: ErrorMessageProps) {
+export const ErrorMessage = ({ errorMessage }: ErrorMessageProps) => {
   return (
     <span className={errorMessage ? "isError" : "isNormally"}>
       <span className={errorMessage ? "isErrorCaution" : "isNormallyCaution"}>
@@ -13,4 +13,4 @@ export default function ErrorMessage({ errorMessage }: ErrorMessageProps) {
       <span>{errorMessage}</span>
     </span>
   );
-}
+};

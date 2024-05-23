@@ -1,20 +1,19 @@
 import { useCallback, useContext, useState } from "react";
-import YearMonthContext from "../../contexts/YearMonthContext";
+import { YearMonthContext } from "../../contexts/YearMonthContext";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import type { Schedule } from "../../types/types";
-import useFetchHolidayList from "../../hooks/useFetchHolidayList";
-import MainPagePresentational from "./MainPagePresentational";
+import { useFetchHolidayList } from "../../hooks/useFetchHolidayList";
+import { MainPagePresentational } from "./MainPagePresentational";
 
-export default function MainPageContainer() {
+export const MainPageContainer = () => {
   const {
-    isShowCreateNewModal,
-    isShowEditModal,
     isShowDetailModal,
     isShowHolidayModal,
-    setIsShowCreateNewModal,
+    isShowInputModal,
     setIsShowDetailModal,
     setIsShowHolidayModal,
+    setIsShowInputModal,
   } = useContext(YearMonthContext);
 
   // 現在ページに表示されている月
@@ -55,9 +54,10 @@ export default function MainPageContainer() {
   const handleCreateNewClick = useCallback(
     (date: Dayjs) => {
       setSelectedDay(date);
-      setIsShowCreateNewModal(true);
+      setIsShowInputModal(true);
+      setSelectedSchedule(null);
     },
-    [setIsShowCreateNewModal]
+    [setIsShowInputModal]
   );
 
   // 祝日がクリックされたとき
@@ -80,8 +80,7 @@ export default function MainPageContainer() {
 
   return (
     <MainPagePresentational
-      isShowCreateNewModal={isShowCreateNewModal}
-      isShowEditModal={isShowEditModal}
+      isShowInputModal={isShowInputModal}
       isShowDetailModal={isShowDetailModal}
       isShowHolidayModal={isShowHolidayModal}
       selectedDay={selectedDay}
@@ -95,4 +94,4 @@ export default function MainPageContainer() {
       onScheduleClick={handleScheduleClick}
     />
   );
-}
+};

@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { useState, useEffect, useReducer } from "react";
-import YearMonthContext from "./YearMonthContext";
+import { YearMonthContext } from "./YearMonthContext";
 import type { Action, Holiday, Schedule } from "~/types/types";
 
 type Props = {
@@ -33,12 +33,10 @@ const initSchedules = (): Schedule[] => {
   return parsedSchedules;
 };
 
-const ContextWrapper = (props: Props) => {
-  const [isShowCreateNewModal, setIsShowCreateNewModal] =
-    useState<boolean>(false);
-  const [isShowEditModal, setIsShowEditModal] = useState<boolean>(false);
+export const ContextWrapper = (props: Props) => {
   const [isShowDetailModal, setIsShowDetailModal] = useState<boolean>(false);
   const [isShowHolidayModal, setIsShowHolidayModal] = useState<boolean>(false);
+  const [isShowInputModal, setIsShowInputModal] = useState<boolean>(false);
   const [holidayList, setHolidayList] = useState<Holiday[]>([]);
   const [savedSchedules, dispatchCalSchedule] = useReducer(
     savedSchedulesReducer,
@@ -54,16 +52,14 @@ const ContextWrapper = (props: Props) => {
   return (
     <YearMonthContext.Provider
       value={{
-        isShowCreateNewModal,
-        isShowEditModal,
         isShowDetailModal,
         isShowHolidayModal,
+        isShowInputModal,
         holidayList,
         savedSchedules,
-        setIsShowCreateNewModal,
-        setIsShowEditModal,
         setIsShowDetailModal,
         setIsShowHolidayModal,
+        setIsShowInputModal,
         setHolidayList,
         dispatchCalSchedule,
       }}
@@ -72,5 +68,3 @@ const ContextWrapper = (props: Props) => {
     </YearMonthContext.Provider>
   );
 };
-
-export default ContextWrapper;

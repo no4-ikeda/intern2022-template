@@ -2,7 +2,7 @@ import { useCallback, useContext, useMemo } from "react";
 import type { Schedule } from "../../../../types/types";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
-import YearMonthContext from "~/contexts/YearMonthContext";
+import { YearMonthContext } from "~/contexts/YearMonthContext";
 
 type Props = {
   currentPageMonth: number;
@@ -12,18 +12,18 @@ type Props = {
   onScheduleClick: (schedule: Schedule) => void;
 };
 
-export default function DayPresentational({
+export const Day = ({
   currentPageMonth,
   date,
   onCreateNewClick,
   onHolidayClick,
   onScheduleClick,
-}: Props) {
+}: Props) => {
   const { savedSchedules, holidayList } = useContext(YearMonthContext);
 
   const holiday = holidayList.filter((holiday) => {
     return holiday.date.isSame(date);
-  });
+  })[0];
 
   // savedSchedulesから１日分のイベントを取り出す
   const daySchedules = useMemo(() => {
@@ -70,18 +70,24 @@ export default function DayPresentational({
       <div>
         <div>
           {/* 当日をtodayというクラス名にする */}
-          <div className={isToday() ? "today" : ""}>
+          <div className={isToday() ? "today" : "otherDay"}>
             {/** 今月分だけ色を変える */}
-            <span className={isDayInCurrentMonth ? "" : "differentMonth"}>
+            <span
+              className={
+                isDayInCurrentMonth ? "dayInCurrentMonth" : "differentMonth"
+              }
+            >
               {date.format("D")}日
             </span>
           </div>
         </div>
 
         {/* 祝日表示 */}
-        <div className="holiday" onClick={handleHolidayClick}>
-          {holiday[0]?.text ?? ""}
-        </div>
+        {holiday && (
+          <div className="holiday" onClick={handleHolidayClick}>
+            {holiday.text ?? ""}
+          </div>
+        )}
 
         {/** 予定表示 */}
         {daySchedules.map((schedule, idx) => (
@@ -99,4 +105,4 @@ export default function DayPresentational({
       </div>
     </div>
   );
-}
+};

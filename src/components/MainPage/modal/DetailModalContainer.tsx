@@ -1,14 +1,14 @@
 import { useCallback, useContext } from "react";
-import YearMonthContext from "../../../contexts/YearMonthContext";
-import DetailModalPresentational from "./DetailModalPresentational";
+import { YearMonthContext } from "../../../contexts/YearMonthContext";
+import { DetailModalPresentational } from "./DetailModalPresentational";
 import type { Schedule } from "~/types/types";
 
 type Props = {
   selectedSchedule: Schedule | null;
 };
 
-export default function DetailModalContainer({ selectedSchedule }: Props) {
-  const { setIsShowEditModal, setIsShowDetailModal, dispatchCalSchedule } =
+export const DetailModalContainer = ({ selectedSchedule }: Props) => {
+  const { setIsShowInputModal, setIsShowDetailModal, dispatchCalSchedule } =
     useContext(YearMonthContext);
 
   // モーダルの外側を押したときモーダルを消す
@@ -22,8 +22,8 @@ export default function DetailModalContainer({ selectedSchedule }: Props) {
   // 編集、削除、クローズボタンが押されたとき
   const handleEditButtonClick = useCallback(() => {
     setIsShowDetailModal(false);
-    setIsShowEditModal(true);
-  }, [setIsShowDetailModal, setIsShowEditModal]);
+    setIsShowInputModal(true);
+  }, [setIsShowDetailModal, setIsShowInputModal]);
 
   const handleTrashButtonClick = useCallback(() => {
     if (selectedSchedule == null) {
@@ -49,4 +49,4 @@ export default function DetailModalContainer({ selectedSchedule }: Props) {
       onCloseButtonClick={handleCloseButtonClick}
     />
   );
-}
+};

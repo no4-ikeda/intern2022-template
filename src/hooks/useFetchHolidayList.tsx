@@ -1,12 +1,12 @@
 import dayjs from "dayjs";
 import { useContext, useEffect } from "react";
-import YearMonthContext from "~/contexts/YearMonthContext";
+import { YearMonthContext } from "~/contexts/YearMonthContext";
 import type { Holiday } from "~/types/types";
 type HolidayInfo = {
   [key: string]: string;
 };
 
-export default function useFetchHolidayList(indicatedYear: number) {
+export const useFetchHolidayList = (indicatedYear: number) => {
   const { setHolidayList } = useContext(YearMonthContext);
 
   const urlTop = "https://holidays-jp.github.io/api/v1/";
@@ -33,6 +33,7 @@ export default function useFetchHolidayList(indicatedYear: number) {
 
       setHolidayList(holidayList);
     };
+
     void fetchHolidayList();
   }, [setHolidayList, url]);
-}
+};

@@ -1,18 +1,18 @@
 import { useCallback, useContext } from "react";
-import YearMonthContext from "../../../contexts/YearMonthContext";
-import HolidayListModalPresentational from "./HolidayModalPresetational";
+import { YearMonthContext } from "../../../contexts/YearMonthContext";
+import { HolidayModalPresentational } from "./HolidayModalPresetational";
 import type { Dayjs } from "dayjs";
 
 type Props = {
   selectedDay: Dayjs;
 };
 
-export default function HolidayListModalContainer({ selectedDay }: Props) {
+export const HolidayModalContainer = ({ selectedDay }: Props) => {
   const { setIsShowHolidayModal, holidayList } = useContext(YearMonthContext);
 
   const holiday = holidayList.filter((holiday) => {
     return holiday.date.isSame(selectedDay);
-  });
+  })[0];
 
   // モーダルの外側を押したときモーダルを消す
   const handleOutOfModalClick = useCallback(
@@ -28,11 +28,10 @@ export default function HolidayListModalContainer({ selectedDay }: Props) {
   }, [setIsShowHolidayModal]);
 
   return (
-    <HolidayListModalPresentational
+    <HolidayModalPresentational
       holiday={holiday}
-      selectedDay={selectedDay}
       onOutOfModalClick={handleOutOfModalClick}
       onCloseButtonClick={handleCloseButtonClick}
     />
   );
-}
+};

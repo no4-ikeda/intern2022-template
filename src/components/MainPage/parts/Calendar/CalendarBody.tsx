@@ -2,7 +2,7 @@ import type React from "react";
 import type { Dayjs } from "dayjs";
 import { useDateMatrix } from "~/hooks/useDateMatrix";
 import type { Schedule } from "~/types/types";
-import Day from "./Day";
+import { Day } from "./Day";
 
 type Props = {
   currentPageYear: number;

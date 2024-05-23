@@ -18,13 +18,13 @@ type Props = {
   onCloseButtonClick: () => void;
 };
 
-export default function DetailModalPresentational({
+export const DetailModalPresentational = ({
   selectedSchedule,
   onOutOfModalClick,
   onEditButtonClick,
   onTrashButtonClick,
   onCloseButtonClick,
-}: Props) {
+}: Props) => {
   return (
     <>
       {/**モーダルの外側を押したときモーダルを消す*/}
@@ -75,4 +75,4 @@ export default function DetailModalPresentational({
       </div>
     </>
   );
-}
+};

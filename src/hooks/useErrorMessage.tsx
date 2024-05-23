@@ -15,13 +15,13 @@ type Props = {
   memoError: MemoError | undefined;
 };
 
-export default function useErrorMessage({
+export const useErrorMessage = ({
   titleError,
   dateError,
   startTimeError,
   endTimeError,
   memoError,
-}: Props) {
+}: Props) => {
   const errorMessage = useMemo(() => {
     let titleErrorMessage,
       dateErrorMessage,
@@ -70,4 +70,4 @@ export default function useErrorMessage({
   }, [dateError, endTimeError, memoError, startTimeError, titleError]);
 
   return errorMessage;
-}
+};

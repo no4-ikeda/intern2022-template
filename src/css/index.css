@@ -1,7 +1,7 @@
 /* ヘッダー*/
 .calendarHeader {
   display: flex;
-  padding-top: 100px;
+  padding-top: 50px;
   padding-left: 250px;
 }
 
@@ -145,6 +145,10 @@ input.invalidDate {
   margin: 10px;
   width: 90%;
   border: solid 1px #ff0000;
+  &:focus {
+    outline: none;
+    border: 2px solid #ff0000;
+  }
 }
 input.invalidStartTime,
 input.invalidEndTime {
@@ -153,6 +157,10 @@ input.invalidEndTime {
   border: solid 1px #ff0000;
   margin: 10px;
   width: 40%;
+  &:focus {
+    outline: none;
+    border: 2px solid #ff0000;
+  }
 }
 textarea.invalidMemo {
   display: block;
@@ -161,6 +169,10 @@ textarea.invalidMemo {
   width: 90%;
   height: 90px;
   border: solid 1px #ff0000;
+  &:focus {
+    outline: none;
+    border: 2px solid #ff0000;
+  }
 }
 
 /* バリデーションスタイル*/

@@ -4,10 +4,10 @@ import { useMemo } from "react";
 
 dayjs.locale(ja);
 
-export function useDateMatrix(
+export const useDateMatrix = (
   currentPageYear: number,
   currentPageMonth: number
-) {
+) => {
   const dateMatrix: dayjs.Dayjs[] = useMemo(() => {
     // 月の最終日を取得
     const lastOfMonth = Number(
@@ -45,4 +45,4 @@ export function useDateMatrix(
     return calendarMatrix;
   }, [currentPageYear, currentPageMonth]);
   return dateMatrix;
-}
+};

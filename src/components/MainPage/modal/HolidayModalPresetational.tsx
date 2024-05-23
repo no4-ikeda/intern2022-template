@@ -2,22 +2,19 @@ import { GoClock } from "react-icons/go";
 import { IoIosCalendar } from "react-icons/io";
 import { IoCloseSharp } from "react-icons/io5";
 import { MdTitle } from "react-icons/md";
-import type { Dayjs } from "dayjs";
 import type { Holiday } from "~/types/types";
 
 type Props = {
-  holiday: Holiday[];
-  selectedDay: Dayjs;
+  holiday: Holiday;
   onOutOfModalClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   onCloseButtonClick: () => void;
 };
 
-export default function HolidayListModalPresentational({
+export const HolidayModalPresentational = ({
   holiday,
-  selectedDay,
   onOutOfModalClick,
   onCloseButtonClick,
-}: Props) {
+}: Props) => {
   return (
     <>
       <div className="outOfModal" onClick={onOutOfModalClick}>
@@ -33,13 +30,13 @@ export default function HolidayListModalPresentational({
             <span className="icons">
               <MdTitle size={25} />
             </span>
-            <span className="title">：{holiday[0]?.text ?? ""}</span>
+            <span className="title">：{holiday.text ?? ""}</span>
           </div>
           <div className="detailDate">
             <span className="icons">
               <IoIosCalendar size={25} />
             </span>
-            <span className="date">：{selectedDay.format("YYYY-MM-DD")}</span>
+            <span className="date">：{holiday.date.format("YYYY-MM-DD")}</span>
           </div>
           <div className="detailTime">
             <span className="icons">
@@ -51,4 +48,4 @@ export default function HolidayListModalPresentational({
       </div>
     </>
   );
-}
+};

@@ -12,12 +12,12 @@ type Props = {
   onNextMonthButtonClick: () => void;
 };
 
-export default function CalendarHeaderPresentational({
+export const CalendarHeader = ({
   currentPageYear,
   currentPageMonth,
   onBackMonthButtonClick,
   onNextMonthButtonClick,
-}: Props) {
+}: Props) => {
   return (
     <>
       <span className="calendarHeader">
@@ -35,4 +35,4 @@ export default function CalendarHeaderPresentational({
       </span>
     </>
   );
-}
+};

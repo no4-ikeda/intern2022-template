@@ -1,16 +1,14 @@
 import { CalendarBody } from "./parts/Calendar/CalendarBody";
-import CalendarHeader from "./parts/Calendar/CalendarHeader";
-import CreateNewModalContainer from "./modal/CreateNewModalContainer";
-import EditModalContainer from "./modal/EditModalContainer";
-import DetailModalContainer from "./modal/DetailModalContainer";
-import HolidayModalContainer from "./modal/HolidayModalContainer";
+import { CalendarHeader } from "./parts/Calendar/CalendarHeader";
+import { DetailModalContainer } from "./modal/DetailModalContainer";
+import { HolidayModalContainer } from "./modal/HolidayModalContainer";
 import type { Dayjs } from "dayjs";
 import type { Schedule } from "~/types/types";
 import type dayjs from "dayjs";
+import { InputModalContainer } from "./modal/InputModalContainer";
 
 type Props = {
-  isShowCreateNewModal: boolean;
-  isShowEditModal: boolean;
+  isShowInputModal: boolean;
   isShowDetailModal: boolean;
   isShowHolidayModal: boolean;
   selectedDay: Dayjs | null;
@@ -24,9 +22,8 @@ type Props = {
   onScheduleClick: (schedule: Schedule) => void;
 };
 
-export default function MainPagePresentational({
-  isShowCreateNewModal,
-  isShowEditModal,
+export const MainPagePresentational = ({
+  isShowInputModal,
   isShowDetailModal,
   isShowHolidayModal,
   selectedDay,
@@ -38,14 +35,14 @@ export default function MainPagePresentational({
   onCreateNewClick,
   onHolidayClick,
   onScheduleClick,
-}: Props) {
+}: Props) => {
   return (
     <>
-      {isShowCreateNewModal && (
-        <CreateNewModalContainer selectedDay={selectedDay} />
-      )}
-      {isShowEditModal && (
-        <EditModalContainer selectedSchedule={selectedSchedule} />
+      {isShowInputModal && (
+        <InputModalContainer
+          selectedDay={selectedDay}
+          selectedSchedule={selectedSchedule}
+        />
       )}
       {isShowDetailModal && (
         <DetailModalContainer selectedSchedule={selectedSchedule} />
@@ -68,4 +65,4 @@ export default function MainPagePresentational({
       />
     </>
   );
-}
+};
