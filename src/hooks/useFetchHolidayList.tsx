@@ -1,13 +1,14 @@
 import dayjs from "dayjs";
-import { useContext, useEffect } from "react";
-import { YearMonthContext } from "~/contexts/YearMonthContext";
+import { useEffect } from "react";
+import { useSetRecoilState } from "recoil";
+import { holidayListAtom } from "~/globalState/states";
 import type { Holiday } from "~/types/types";
 type HolidayInfo = {
   [key: string]: string;
 };
 
 export const useFetchHolidayList = (indicatedYear: number) => {
-  const { setHolidayList } = useContext(YearMonthContext);
+  const setHolidayList = useSetRecoilState(holidayListAtom);
 
   const urlTop = "https://holidays-jp.github.io/api/v1/";
   const urlBottom = "/date.json";

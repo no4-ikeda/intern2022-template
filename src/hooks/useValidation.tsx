@@ -11,7 +11,7 @@ import { useMemo } from "react";
 
 type Props = {
   title: string;
-  date: Dayjs;
+  date: Dayjs | null;
   startTime: string;
   endTime: string;
   memo: string;

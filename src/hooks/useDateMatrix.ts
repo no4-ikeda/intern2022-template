@@ -10,7 +10,7 @@ export const useDateMatrix = (
 ) => {
   const dateMatrix: dayjs.Dayjs[] = useMemo(() => {
     // 月の最終日を取得
-    const lastOfMonth = Number(
+    const numberOfDaysInMonth = Number(
       dayjs(new Date(currentPageYear, currentPageMonth))
         .endOf("month")
         .format("D")
@@ -21,24 +21,24 @@ export const useDateMatrix = (
       new Date(currentPageYear, currentPageMonth, 1)
     ).day();
     const lastDayOfWeekOfMonth = dayjs(
-      new Date(currentPageYear, currentPageMonth, lastOfMonth)
+      new Date(currentPageYear, currentPageMonth, numberOfDaysInMonth)
     ).day();
-    let topOfCalendar = 0 - firstDayOfWeekOfMonth;
-    const lastOfCalendar = 6 - lastDayOfWeekOfMonth;
+    let startDateOfCalendar = 0 - firstDayOfWeekOfMonth;
+    const nextMonthDate = 6 - lastDayOfWeekOfMonth;
 
-    // lastOfMonth:1ヶ月の日数
-    // lastOfCalendar:カレンダーページ内の来月分の日数
+    // numberOfDaysInMonth:1ヶ月の日数
+    // nextMonthDate:カレンダーページ内の来月分の日数
     // firstDayOfWeekOfMonth:カレンダーページ内の先月分の日数
     // 3つの合計が取ってくる日数の合計
     const calendarMatrix: dayjs.Dayjs[] = [];
     for (
       let day = 0;
-      day < lastOfMonth + lastOfCalendar + firstDayOfWeekOfMonth;
+      day < numberOfDaysInMonth + nextMonthDate + firstDayOfWeekOfMonth;
       day++
     ) {
-      topOfCalendar++;
+      startDateOfCalendar++;
       calendarMatrix[day] = dayjs(
-        new Date(currentPageYear, currentPageMonth, topOfCalendar)
+        new Date(currentPageYear, currentPageMonth, startDateOfCalendar)
       );
     }
 

@@ -1,20 +1,14 @@
-import { useCallback, useContext, useState } from "react";
-import { YearMonthContext } from "../../contexts/YearMonthContext";
+import { useCallback, useState } from "react";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import type { Schedule } from "../../types/types";
 import { useFetchHolidayList } from "../../hooks/useFetchHolidayList";
 import { MainPagePresentational } from "./MainPagePresentational";
+import { useSetRecoilState } from "recoil";
+import { isShowModalAtom } from "~/globalState/states";
 
 export const MainPageContainer = () => {
-  const {
-    isShowDetailModal,
-    isShowHolidayModal,
-    isShowInputModal,
-    setIsShowDetailModal,
-    setIsShowHolidayModal,
-    setIsShowInputModal,
-  } = useContext(YearMonthContext);
+  const setIsShowModal = useSetRecoilState(isShowModalAtom);
 
   // 現在ページに表示されている月
   const [currentPageYear, setCurrentPageYear] = useState<number>(
@@ -54,35 +48,46 @@ export const MainPageContainer = () => {
   const handleCreateNewClick = useCallback(
     (date: Dayjs) => {
       setSelectedDay(date);
-      setIsShowInputModal(true);
+
+      // 入力モーダルを開く
+      setIsShowModal((modal) => ({
+        ...modal,
+        ...{ isShowInputModal: true },
+      }));
       setSelectedSchedule(null);
     },
-    [setIsShowInputModal]
+    [setIsShowModal]
   );
 
   // 祝日がクリックされたとき
   const handleHolidayClick = useCallback(
     (date: dayjs.Dayjs) => {
-      setIsShowHolidayModal(true);
+      // 祝日モーダルを開く
+      setIsShowModal((modal) => ({
+        ...modal,
+        ...{ isShowHolidayModal: true },
+      }));
       setSelectedDay(date);
     },
-    [setIsShowHolidayModal]
+    [setIsShowModal]
   );
 
   // 予定がクリックされたとき
   const handleScheduleClick = useCallback(
     (schedule: Schedule) => {
       setSelectedSchedule(schedule);
-      setIsShowDetailModal(true);
+
+      // 詳細モーダルを開く
+      setIsShowModal((modal) => ({
+        ...modal,
+        ...{ isShowDetailModal: true },
+      }));
     },
-    [setIsShowDetailModal]
+    [setIsShowModal]
   );
 
   return (
     <MainPagePresentational
-      isShowInputModal={isShowInputModal}
-      isShowDetailModal={isShowDetailModal}
-      isShowHolidayModal={isShowHolidayModal}
       selectedDay={selectedDay}
       selectedSchedule={selectedSchedule}
       currentPageYear={currentPageYear}

@@ -6,11 +6,10 @@ import type { Dayjs } from "dayjs";
 import type { Schedule } from "~/types/types";
 import type dayjs from "dayjs";
 import { InputModalContainer } from "./modal/InputModalContainer";
+import { useRecoilValue } from "recoil";
+import { isShowModalAtom } from "~/globalState/states";
 
 type Props = {
-  isShowInputModal: boolean;
-  isShowDetailModal: boolean;
-  isShowHolidayModal: boolean;
   selectedDay: Dayjs | null;
   selectedSchedule: Schedule | null;
   currentPageYear: number;
@@ -23,9 +22,6 @@ type Props = {
 };
 
 export const MainPagePresentational = ({
-  isShowInputModal,
-  isShowDetailModal,
-  isShowHolidayModal,
   selectedDay,
   selectedSchedule,
   currentPageYear,
@@ -36,18 +32,20 @@ export const MainPagePresentational = ({
   onHolidayClick,
   onScheduleClick,
 }: Props) => {
+  const isShowModal = useRecoilValue(isShowModalAtom);
+
   return (
     <>
-      {isShowInputModal && (
+      {isShowModal.isShowInputModal && (
         <InputModalContainer
           selectedDay={selectedDay}
           selectedSchedule={selectedSchedule}
         />
       )}
-      {isShowDetailModal && (
+      {isShowModal.isShowDetailModal && (
         <DetailModalContainer selectedSchedule={selectedSchedule} />
       )}
-      {isShowHolidayModal && selectedDay && (
+      {isShowModal.isShowHolidayModal && selectedDay && (
         <HolidayModalContainer selectedDay={selectedDay} />
       )}
       <CalendarHeader

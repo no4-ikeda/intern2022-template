@@ -1,40 +1,69 @@
-import { useCallback, useContext } from "react";
-import { YearMonthContext } from "../../../contexts/YearMonthContext";
+import { useCallback } from "react";
 import { DetailModalPresentational } from "./DetailModalPresentational";
 import type { Schedule } from "~/types/types";
+import { useSetRecoilState } from "recoil";
+import { isShowModalAtom, savedScheduleSelector } from "~/globalState/states";
 
 type Props = {
   selectedSchedule: Schedule | null;
 };
 
 export const DetailModalContainer = ({ selectedSchedule }: Props) => {
-  const { setIsShowInputModal, setIsShowDetailModal, dispatchCalSchedule } =
-    useContext(YearMonthContext);
+  const setSaveSchedule = useSetRecoilState(savedScheduleSelector);
+  const setIsShowDetailModal = useSetRecoilState(isShowModalAtom);
 
   // モーダルの外側を押したときモーダルを消す
   const handleOutOfModalClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      e.target === e.currentTarget && setIsShowDetailModal(false);
+      e.target === e.currentTarget &&
+        setIsShowDetailModal((modal) => ({
+          ...modal,
+          ...{ isShowDetailModal: false },
+        }));
     },
     [setIsShowDetailModal]
   );
 
   // 編集、削除、クローズボタンが押されたとき
   const handleEditButtonClick = useCallback(() => {
-    setIsShowDetailModal(false);
-    setIsShowInputModal(true);
-  }, [setIsShowDetailModal, setIsShowInputModal]);
+    // 詳細モーダルを閉じる
+    setIsShowDetailModal((modal) => ({
+      ...modal,
+      ...{ isShowDetailModal: false },
+    }));
+
+    // 入力モーダルを開く
+    setIsShowDetailModal((modal) => ({
+      ...modal,
+      ...{ isShowInputModal: true },
+    }));
+  }, [setIsShowDetailModal]);
 
   const handleTrashButtonClick = useCallback(() => {
     if (selectedSchedule == null) {
       return null;
     }
-    dispatchCalSchedule({ type: "delete", payload: selectedSchedule });
-    setIsShowDetailModal(false);
-  }, [dispatchCalSchedule, selectedSchedule, setIsShowDetailModal]);
+
+    // ローカルストレージへの削除処理
+    setSaveSchedule({
+      savedSchedules: [],
+      type: "delete",
+      payload: selectedSchedule,
+    });
+
+    // 詳細モーダルを閉じる
+    setIsShowDetailModal((modal) => ({
+      ...modal,
+      ...{ isShowDetailModal: false },
+    }));
+  }, [selectedSchedule, setIsShowDetailModal, setSaveSchedule]);
 
   const handleCloseButtonClick = useCallback(() => {
-    setIsShowDetailModal(false);
+    // 詳細モーダルを閉じる
+    setIsShowDetailModal((modal) => ({
+      ...modal,
+      ...{ isShowDetailModal: false },
+    }));
   }, [setIsShowDetailModal]);
 
   if (selectedSchedule == null) {

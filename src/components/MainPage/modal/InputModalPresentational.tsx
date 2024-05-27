@@ -13,7 +13,7 @@ type Props = {
   endTimeErrorMessage: string;
   memoErrorMessage: string;
   title: string;
-  date: Dayjs;
+  date: Dayjs | null;
   startTime: string;
   endTime: string;
   memo: string;
@@ -54,6 +54,17 @@ export const InputModalPresentational = ({
   onEndTimeChange,
   onMemoChange,
 }: Props) => {
+  // 新規作成のエラーであるか、編集のエラーであるか
+  const isTitleErrorOfCreateNew = selectedSchedule && titleErrorMessage;
+  const isTitleErrorOfEdit = isSaveButtonClicked && titleErrorMessage;
+  const isDateErrorOfCreateNew = selectedSchedule && dateErrorMessage;
+  const isDateErrorOfEdit = isSaveButtonClicked && dateErrorMessage;
+  const isStartTimeErrorOfCreateNew = selectedSchedule && startTimeErrorMessage;
+  const isStartTimeErrorOfEdit = isSaveButtonClicked && startTimeErrorMessage;
+  const isEndTimeErrorOfCreateNew = selectedSchedule && endTimeErrorMessage;
+  const isEndTimeErrorOfEdit = isSaveButtonClicked && endTimeErrorMessage;
+  const isMemoErrorOfCreateNew = selectedSchedule && memoErrorMessage;
+  const isMemoErrorOfEdit = isSaveButtonClicked && memoErrorMessage;
   // selectedCheduleの有無で新規作成モーダルか編集モーダルか判断
   return (
     <>
@@ -94,20 +105,17 @@ export const InputModalPresentational = ({
               placeholder="タイトルを入力"
               value={title}
               className={
-                selectedSchedule && titleErrorMessage
-                  ? "invalidTitle"
-                  : isSaveButtonClicked && titleErrorMessage
+                isTitleErrorOfCreateNew || isTitleErrorOfEdit || false
                   ? "invalidTitle"
                   : "validTitle"
               }
               onChange={onTitleChange}
             ></input>
 
-            {selectedSchedule && titleErrorMessage ? (
+            {isTitleErrorOfCreateNew ? (
               <ErrorMessage errorMessage={titleErrorMessage} />
             ) : (
-              isSaveButtonClicked &&
-              titleErrorMessage && (
+              isTitleErrorOfEdit && (
                 <ErrorMessage errorMessage={titleErrorMessage} />
               )
             )}
@@ -120,19 +128,16 @@ export const InputModalPresentational = ({
               min={today.format("YYYY-MM-DD")}
               max={"9999-12-31"}
               className={
-                selectedSchedule && dateErrorMessage
-                  ? "invalidDate"
-                  : isSaveButtonClicked && dateErrorMessage
+                isDateErrorOfCreateNew || isDateErrorOfEdit || false
                   ? "invalidDate"
                   : "validDate"
               }
               onChange={onDateChange}
             />
-            {selectedSchedule && dateErrorMessage ? (
+            {isDateErrorOfCreateNew ? (
               <ErrorMessage errorMessage={dateErrorMessage} />
             ) : (
-              isSaveButtonClicked &&
-              dateErrorMessage && (
+              isDateErrorOfEdit && (
                 <ErrorMessage errorMessage={dateErrorMessage} />
               )
             )}
@@ -144,9 +149,7 @@ export const InputModalPresentational = ({
               placeholder="--:--"
               value={startTime}
               className={
-                selectedSchedule && startTimeErrorMessage
-                  ? "invalidStartTime"
-                  : isSaveButtonClicked && startTimeErrorMessage
+                isStartTimeErrorOfCreateNew || isStartTimeErrorOfEdit || false
                   ? "invalidStartTime"
                   : "validStartTime"
               }
@@ -159,27 +162,23 @@ export const InputModalPresentational = ({
               placeholder="--:--"
               value={endTime}
               className={
-                selectedSchedule && endTimeErrorMessage
-                  ? "invalidEndTime"
-                  : isSaveButtonClicked && endTimeErrorMessage
+                isEndTimeErrorOfCreateNew || isEndTimeErrorOfEdit || false
                   ? "invalidEndTime"
                   : "validEndTime"
               }
               onChange={onEndTimeChange}
             />
-            {selectedSchedule && startTimeErrorMessage ? (
+            {isStartTimeErrorOfCreateNew ? (
               <ErrorMessage errorMessage={startTimeErrorMessage} />
             ) : (
-              isSaveButtonClicked &&
-              startTimeErrorMessage && (
+              isStartTimeErrorOfEdit && (
                 <ErrorMessage errorMessage={startTimeErrorMessage} />
               )
             )}
-            {selectedSchedule && endTimeErrorMessage ? (
+            {isEndTimeErrorOfCreateNew ? (
               <ErrorMessage errorMessage={endTimeErrorMessage} />
             ) : (
-              isSaveButtonClicked &&
-              endTimeErrorMessage && (
+              isEndTimeErrorOfEdit && (
                 <ErrorMessage errorMessage={endTimeErrorMessage} />
               )
             )}
@@ -190,19 +189,16 @@ export const InputModalPresentational = ({
               placeholder="memo"
               value={memo}
               className={
-                selectedSchedule && memoErrorMessage
-                  ? "invalidMemo"
-                  : isSaveButtonClicked && memoErrorMessage
+                isMemoErrorOfCreateNew || isMemoErrorOfEdit || false
                   ? "invalidMemo"
                   : "validMemo"
               }
               onChange={onMemoChange}
             ></textarea>
-            {selectedSchedule && memoErrorMessage ? (
+            {isMemoErrorOfCreateNew ? (
               <ErrorMessage errorMessage={memoErrorMessage} />
             ) : (
-              isSaveButtonClicked &&
-              memoErrorMessage && (
+              isMemoErrorOfEdit && (
                 <ErrorMessage errorMessage={memoErrorMessage} />
               )
             )}

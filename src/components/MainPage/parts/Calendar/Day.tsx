@@ -1,8 +1,9 @@
-import { useCallback, useContext, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import type { Schedule } from "../../../../types/types";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
-import { YearMonthContext } from "~/contexts/YearMonthContext";
+import { useRecoilValue } from "recoil";
+import { holidayListAtom, saveScheduleInfoAtom } from "~/globalState/states";
 
 type Props = {
   currentPageMonth: number;
@@ -19,7 +20,8 @@ export const Day = ({
   onHolidayClick,
   onScheduleClick,
 }: Props) => {
-  const { savedSchedules, holidayList } = useContext(YearMonthContext);
+  const holidayList = useRecoilValue(holidayListAtom);
+  const savedSchedules = useRecoilValue(saveScheduleInfoAtom);
 
   const holiday = holidayList.filter((holiday) => {
     return holiday.date.isSame(date);
@@ -27,7 +29,7 @@ export const Day = ({
 
   // savedSchedulesから１日分のイベントを取り出す
   const daySchedules = useMemo(() => {
-    const schedules: Schedule[] = savedSchedules.filter(
+    const schedules: Schedule[] = savedSchedules.savedSchedules.filter(
       (schedule) =>
         dayjs(schedule.date).format("YYYY-MM-DD") === date.format("YYYY-MM-DD")
     );

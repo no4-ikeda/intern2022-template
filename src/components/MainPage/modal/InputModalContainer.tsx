@@ -1,12 +1,13 @@
 import type React from "react";
-import { useState, useContext, useCallback } from "react";
-import { YearMonthContext } from "../../../contexts/YearMonthContext";
+import { useState, useCallback } from "react";
 import dayjs from "dayjs";
 import { useValidation } from "../../../hooks/useValidation";
 import { useErrorMessage } from "../../../hooks/useErrorMessage";
 import type { Schedule } from "../../../types/types";
 import type { Dayjs } from "dayjs";
 import { InputModalPresentational } from "./InputModalPresentational";
+import { useSetRecoilState } from "recoil";
+import { isShowModalAtom, savedScheduleSelector } from "~/globalState/states";
 
 type Props = {
   selectedDay: Dayjs | null;
@@ -17,8 +18,8 @@ export const InputModalContainer = ({
   selectedDay,
   selectedSchedule,
 }: Props) => {
-  const { setIsShowInputModal, dispatchCalSchedule } =
-    useContext(YearMonthContext);
+  const setIsShowModal = useSetRecoilState(isShowModalAtom);
+  const setSaveSchedule = useSetRecoilState(savedScheduleSelector);
 
   // 今日の日付を取得
   const today = dayjs();
@@ -27,7 +28,7 @@ export const InputModalContainer = ({
   const [title, setTitle] = useState<string>(
     selectedSchedule ? selectedSchedule.title : ""
   );
-  const [date, setDate] = useState<Dayjs>(
+  const [date, setDate] = useState<Dayjs | null>(
     selectedSchedule ? selectedSchedule.date : selectedDay ? selectedDay : today
   );
   const [startTime, setStartTime] = useState<string>(
@@ -47,9 +48,13 @@ export const InputModalContainer = ({
   // モーダルの外側を押したときモーダルを消す
   const handleOutOfModalClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      e.target === e.currentTarget && setIsShowInputModal(false);
+      e.target === e.currentTarget &&
+        setIsShowModal((modal) => ({
+          ...modal,
+          ...{ isShowInputModal: false },
+        }));
     },
-    [setIsShowInputModal]
+    [setIsShowModal]
   );
 
   // 削除ボタン押下時
@@ -57,14 +62,27 @@ export const InputModalContainer = ({
     if (selectedSchedule == null) {
       return null;
     }
-    dispatchCalSchedule({ type: "delete", payload: selectedSchedule });
-    setIsShowInputModal(false);
-  }, [dispatchCalSchedule, selectedSchedule, setIsShowInputModal]);
+
+    // ローカルストレージへの削除処理を行う
+    setSaveSchedule({
+      savedSchedules: [],
+      type: "delete",
+      payload: selectedSchedule,
+    });
+    setIsShowModal((modal) => ({
+      ...modal,
+      ...{ isShowInputModal: false },
+    }));
+  }, [selectedSchedule, setIsShowModal, setSaveSchedule]);
 
   // ×ボタン押下時
   const handleCloseButtonClick = useCallback(() => {
-    setIsShowInputModal(false);
-  }, [setIsShowInputModal]);
+    // 入力モーダルを閉じる
+    setIsShowModal((modal) => ({
+      ...modal,
+      ...{ isShowInputModal: false },
+    }));
+  }, [setIsShowModal]);
 
   // テキストボックスの値が変化したとき、Stateにセットされる
   const handleTitleChange = useCallback(
@@ -140,11 +158,31 @@ export const InputModalContainer = ({
     ) {
       return;
     } else if (selectedSchedule) {
-      dispatchCalSchedule({ type: "update", payload: enteredSchedule });
-      setIsShowInputModal(false);
+      // ローカルストレージへの編集処理
+      setSaveSchedule({
+        savedSchedules: [],
+        type: "update",
+        payload: enteredSchedule,
+      });
+
+      // 入力モーダルを閉じる
+      setIsShowModal((modal) => ({
+        ...modal,
+        ...{ isShowInputModal: false },
+      }));
     } else {
-      dispatchCalSchedule({ type: "push", payload: enteredSchedule });
-      setIsShowInputModal(false);
+      // ローカルストレージへの追加処理
+      setSaveSchedule({
+        savedSchedules: [],
+        type: "push",
+        payload: enteredSchedule,
+      });
+
+      // 入力モーダルを閉じる
+      setIsShowModal((modal) => ({
+        ...modal,
+        ...{ isShowInputModal: false },
+      }));
     }
   }, [
     title,
@@ -158,8 +196,8 @@ export const InputModalContainer = ({
     endTimeError,
     memoError,
     selectedSchedule,
-    setIsShowInputModal,
-    dispatchCalSchedule,
+    setSaveSchedule,
+    setIsShowModal,
   ]);
 
   return (

@@ -2,7 +2,7 @@ import type { Dayjs } from "dayjs";
 
 export type Schedule = {
   title: string;
-  date: Dayjs;
+  date: Dayjs | null;
   startTime: string;
   endTime: string;
   memo: string;

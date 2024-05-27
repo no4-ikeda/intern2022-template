@@ -6,8 +6,8 @@ type ErrorMessageProps = {
 
 export const ErrorMessage = ({ errorMessage }: ErrorMessageProps) => {
   return (
-    <span className={errorMessage ? "isError" : "isNormally"}>
-      <span className={errorMessage ? "isErrorCaution" : "isNormallyCaution"}>
+    <span className="isError">
+      <span className="isErrorCaution">
         <FiAlertTriangle color="#ff0000" />
       </span>
       <span>{errorMessage}</span>
