@@ -3,7 +3,7 @@ import type { Schedule } from "../../../../types/types";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { useRecoilValue } from "recoil";
-import { holidayListAtom } from "~/atoms/holidayAtom";
+import { holidayListAtom } from "~/atoms/holidayListAtom";
 import { useSchedules } from "~/hooks/useSchedules";
 
 type Props = {

@@ -1,8 +1,8 @@
 import { useCallback } from "react";
-import { HolidayModalPresentational } from "./HolidayModalPresetational";
+import { HolidayModalPresentational } from "./HolidayModalPresentational";
 import type { Dayjs } from "dayjs";
 import { useRecoilValue } from "recoil";
-import { holidayListAtom } from "~/atoms/holidayAtom";
+import { holidayListAtom } from "~/atoms/holidayListAtom";
 
 type Props = {
   selectedDay: Dayjs;

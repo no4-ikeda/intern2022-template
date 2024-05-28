@@ -11,7 +11,7 @@ const initSchedules = (): Schedule[] => {
 };
 
 // ローカルストレージに保存するスケジュール
-export const saveScheduleInfoAtom = atom<SaveScheduleProps>({
+export const savedScheduleAtom = atom<SaveScheduleProps>({
   key: "saveScheduleState",
   default: {
     schedules: initSchedules(),

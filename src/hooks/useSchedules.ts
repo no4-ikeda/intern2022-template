@@ -1,11 +1,10 @@
 import { useCallback, useMemo } from "react";
 import { useRecoilState } from "recoil";
-import { saveScheduleInfoAtom } from "~/atoms/savedScheduleAtom";
+import { savedScheduleAtom } from "~/atoms/savedScheduleAtom";
 import type { Schedule, SaveScheduleProps } from "~/types/types";
 
 export const useSchedules = () => {
-  const [savedSchedules, setSaveSchedule] =
-    useRecoilState(saveScheduleInfoAtom);
+  const [savedSchedules, setSaveSchedule] = useRecoilState(savedScheduleAtom);
   const scheduleToSave = useMemo((): SaveScheduleProps => {
     return { schedules: [] };
   }, []);
