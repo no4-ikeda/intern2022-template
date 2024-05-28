@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { DetailModalPresentational } from "./DetailModalPresentational";
 import type { Schedule } from "~/types/types";
-import { useOperateSchedule } from "~/hooks/useOperateSchedule";
+import { useSchedules } from "~/hooks/useSchedules";
 
 type Props = {
   selectedSchedule: Schedule | null;
@@ -14,7 +14,7 @@ export const DetailModalContainer = ({
   closeDetailModal,
   openInputModal,
 }: Props) => {
-  const operateSchedule = useOperateSchedule();
+  const { deleteSchedule } = useSchedules();
 
   // モーダルの外側を押したときモーダルを消す
   const handleOutOfModalClick = useCallback(
@@ -38,11 +38,11 @@ export const DetailModalContainer = ({
       return null;
     }
 
-    operateSchedule({ type: "delete", payload: selectedSchedule });
+    deleteSchedule(selectedSchedule);
 
     // 詳細モーダルを閉じる
     closeDetailModal();
-  }, [closeDetailModal, operateSchedule, selectedSchedule]);
+  }, [closeDetailModal, deleteSchedule, selectedSchedule]);
 
   const handleCloseButtonClick = useCallback(() => {
     // 詳細モーダルを閉じる

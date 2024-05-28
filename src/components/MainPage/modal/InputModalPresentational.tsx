@@ -106,7 +106,7 @@ export const InputModalPresentational = ({
     [onMemoChange]
   );
 
-  // selectedCheduleの有無で新規作成モーダルか編集モーダルか判断
+  // selectedScheduleの有無で新規作成モーダルか編集モーダルか判断
   return (
     <>
       <div className="outOfModal" onClick={handleClickOutOfModal}>

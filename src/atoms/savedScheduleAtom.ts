@@ -14,14 +14,6 @@ const initSchedules = (): Schedule[] => {
 export const saveScheduleInfoAtom = atom<SaveScheduleProps>({
   key: "saveScheduleState",
   default: {
-    savedSchedules: initSchedules(),
-    payload: {
-      title: "",
-      date: null,
-      startTime: "",
-      endTime: "",
-      memo: "",
-      id: 0,
-    },
+    schedules: initSchedules(),
   },
 });

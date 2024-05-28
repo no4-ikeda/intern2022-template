@@ -55,7 +55,7 @@ export const MainPageContainer = () => {
     }
   };
   const handleNextMonthButtonClick = () => {
-    if (currentPageMonth < 10) {
+    if (currentPageMonth < 11) {
       setCurrentPageMonth((month) => month + 1);
     } else {
       setCurrentPageMonth(0);

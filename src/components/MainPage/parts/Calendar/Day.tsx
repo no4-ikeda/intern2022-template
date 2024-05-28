@@ -3,8 +3,8 @@ import type { Schedule } from "../../../../types/types";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { useRecoilValue } from "recoil";
-import { saveScheduleInfoAtom } from "~/atoms/savedScheduleAtom";
 import { holidayListAtom } from "~/atoms/holidayAtom";
+import { useSchedules } from "~/hooks/useSchedules";
 
 type Props = {
   currentPageMonth: number;
@@ -22,7 +22,7 @@ export const Day = ({
   onScheduleClick,
 }: Props) => {
   const holidayList = useRecoilValue(holidayListAtom);
-  const savedSchedules = useRecoilValue(saveScheduleInfoAtom);
+  const { savedSchedules } = useSchedules();
 
   const holiday = holidayList.filter((holiday) => {
     return holiday.date.isSame(date);
@@ -30,7 +30,7 @@ export const Day = ({
 
   // savedSchedulesから１日分のイベントを取り出す
   const daySchedules = useMemo(() => {
-    const schedules: Schedule[] = savedSchedules.savedSchedules.filter(
+    const schedules: Schedule[] = savedSchedules.schedules.filter(
       (schedule) =>
         dayjs(schedule.date).format("YYYY-MM-DD") === date.format("YYYY-MM-DD")
     );

@@ -5,7 +5,7 @@ import { useErrorMessage } from "../../../hooks/useErrorMessage";
 import type { Schedule } from "../../../types/types";
 import type { Dayjs } from "dayjs";
 import { InputModalPresentational } from "./InputModalPresentational";
-import { useOperateSchedule } from "~/hooks/useOperateSchedule";
+import { useSchedules } from "~/hooks/useSchedules";
 
 type Props = {
   selectedDay: Dayjs | null;
@@ -18,7 +18,7 @@ export const InputModalContainer = ({
   selectedSchedule,
   closeInputModal,
 }: Props) => {
-  const operateSchedule = useOperateSchedule();
+  const { addSchedule, updateSchedule, deleteSchedule } = useSchedules();
 
   // 今日の日付を取得
   const today = dayjs();
@@ -28,7 +28,7 @@ export const InputModalContainer = ({
     selectedSchedule ? selectedSchedule.title : ""
   );
   const [date, setDate] = useState<Dayjs | null>(
-    selectedSchedule ? selectedSchedule.date : selectedDay ? selectedDay : today
+    selectedSchedule ? selectedSchedule.date : selectedDay ? selectedDay : null
   );
   const [startTime, setStartTime] = useState<string>(
     selectedSchedule ? selectedSchedule.startTime : ""
@@ -58,9 +58,9 @@ export const InputModalContainer = ({
       return null;
     }
 
-    operateSchedule({ type: "delete", payload: selectedSchedule });
+    deleteSchedule(selectedSchedule);
     closeInputModal();
-  }, [selectedSchedule, closeInputModal, operateSchedule]);
+  }, [selectedSchedule, deleteSchedule, closeInputModal]);
 
   // ×ボタン押下時
   const handleCloseButtonClick = useCallback(() => {
@@ -127,12 +127,12 @@ export const InputModalContainer = ({
     ) {
       return;
     } else if (selectedSchedule) {
-      operateSchedule({ type: "update", payload: enteredSchedule });
+      updateSchedule(enteredSchedule);
 
       // 入力モーダルを閉じる
       closeInputModal();
     } else {
-      operateSchedule({ type: "add", payload: enteredSchedule });
+      addSchedule(enteredSchedule);
 
       // 入力モーダルを閉じる
       closeInputModal();
@@ -149,8 +149,9 @@ export const InputModalContainer = ({
     endTimeError,
     memoError,
     selectedSchedule,
-    operateSchedule,
+    updateSchedule,
     closeInputModal,
+    addSchedule,
   ]);
 
   return (

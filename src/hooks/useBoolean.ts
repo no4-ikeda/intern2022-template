@@ -1,12 +1,12 @@
 import { useCallback, useState } from "react";
 
-type useBooleanOutput = {
+type UseBooleanOutput = {
   value: boolean;
   setTrue: () => void;
   setFalse: () => void;
 };
 
-export const useBoolean = (defaultValue?: boolean): useBooleanOutput => {
+export const useBoolean = (defaultValue?: boolean): UseBooleanOutput => {
   const [value, setValue] = useState(!!defaultValue);
 
   const setTrue = useCallback(() => {

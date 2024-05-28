@@ -33,6 +33,7 @@ export const useValidation = ({
       return undefined;
     }
   }, [title]);
+
   const dateError = useMemo<DateError | undefined>(() => {
     if (dayjs(date, "YYYY-MM-DD", true).isValid()) {
       return undefined;
@@ -40,6 +41,7 @@ export const useValidation = ({
       return "invalid";
     }
   }, [date]);
+
   const startTimeError = useMemo<StartTimeError | undefined>(() => {
     if (startTime == "") {
       return "empty";
@@ -47,6 +49,7 @@ export const useValidation = ({
       return undefined;
     }
   }, [startTime]);
+
   const endTimeError = useMemo<EndTimeError | undefined>(() => {
     if (endTime == "") {
       return "empty";
@@ -54,6 +57,7 @@ export const useValidation = ({
       return undefined;
     }
   }, [endTime]);
+
   const memoError = useMemo<MemoError | undefined>(() => {
     if (memo.length > 255) {
       return "length";

@@ -35,7 +35,7 @@ export const DetailModalPresentational = ({
   };
   return (
     <>
-      {/**モーダルの外側を押したときモーダルを消す*/}
+      {/**モーダルの外側*/}
       <div className="outOfModal" onClick={handleClickOutOfModal}>
         <div className="detailModal">
           <header>
