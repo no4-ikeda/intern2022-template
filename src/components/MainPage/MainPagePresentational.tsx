@@ -6,14 +6,19 @@ import type { Dayjs } from "dayjs";
 import type { Schedule } from "~/types/types";
 import type dayjs from "dayjs";
 import { InputModalContainer } from "./modal/InputModalContainer";
-import { useRecoilValue } from "recoil";
-import { isShowModalAtom } from "~/globalState/states";
 
 type Props = {
+  isOpenDetailModal: boolean;
+  isOpenHolidayModal: boolean;
+  isOpenInputModal: boolean;
   selectedDay: Dayjs | null;
   selectedSchedule: Schedule | null;
   currentPageYear: number;
   currentPageMonth: number;
+  openInputModal: () => void;
+  closeDetailModal: () => void;
+  closeHolidayModal: () => void;
+  closeInputModal: () => void;
   onBackMonthButtonClick: () => void;
   onNextMonthButtonClick: () => void;
   onCreateNewClick: (date: dayjs.Dayjs) => void;
@@ -22,31 +27,44 @@ type Props = {
 };
 
 export const MainPagePresentational = ({
+  isOpenDetailModal,
+  isOpenHolidayModal,
+  isOpenInputModal,
   selectedDay,
   selectedSchedule,
   currentPageYear,
   currentPageMonth,
+  openInputModal,
+  closeDetailModal,
+  closeHolidayModal,
+  closeInputModal,
   onBackMonthButtonClick,
   onNextMonthButtonClick,
   onCreateNewClick,
   onHolidayClick,
   onScheduleClick,
 }: Props) => {
-  const isShowModal = useRecoilValue(isShowModalAtom);
-
   return (
     <>
-      {isShowModal.isShowInputModal && (
+      {isOpenDetailModal && (
+        <DetailModalContainer
+          selectedSchedule={selectedSchedule}
+          openInputModal={openInputModal}
+          closeDetailModal={closeDetailModal}
+        />
+      )}
+      {isOpenHolidayModal && selectedDay && (
+        <HolidayModalContainer
+          selectedDay={selectedDay}
+          closeHolidayModal={closeHolidayModal}
+        />
+      )}
+      {isOpenInputModal && (
         <InputModalContainer
           selectedDay={selectedDay}
           selectedSchedule={selectedSchedule}
+          closeInputModal={closeInputModal}
         />
-      )}
-      {isShowModal.isShowDetailModal && (
-        <DetailModalContainer selectedSchedule={selectedSchedule} />
-      )}
-      {isShowModal.isShowHolidayModal && selectedDay && (
-        <HolidayModalContainer selectedDay={selectedDay} />
       )}
       <CalendarHeader
         currentPageYear={currentPageYear}

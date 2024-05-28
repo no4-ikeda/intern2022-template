@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
-import { holidayListAtom } from "~/globalState/states";
+import { holidayListAtom } from "~/atoms/holidayAtom";
 import type { Holiday } from "~/types/types";
 type HolidayInfo = {
   [key: string]: string;

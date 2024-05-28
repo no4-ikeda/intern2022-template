@@ -1,4 +1,3 @@
-import type React from "react";
 import { useState, useCallback } from "react";
 import dayjs from "dayjs";
 import { useValidation } from "../../../hooks/useValidation";
@@ -6,25 +5,25 @@ import { useErrorMessage } from "../../../hooks/useErrorMessage";
 import type { Schedule } from "../../../types/types";
 import type { Dayjs } from "dayjs";
 import { InputModalPresentational } from "./InputModalPresentational";
-import { useSetRecoilState } from "recoil";
-import { isShowModalAtom, savedScheduleSelector } from "~/globalState/states";
+import { useOperateSchedule } from "~/hooks/useOperateSchedule";
 
 type Props = {
   selectedDay: Dayjs | null;
   selectedSchedule: Schedule | null;
+  closeInputModal: () => void;
 };
 
 export const InputModalContainer = ({
   selectedDay,
   selectedSchedule,
+  closeInputModal,
 }: Props) => {
-  const setIsShowModal = useSetRecoilState(isShowModalAtom);
-  const setSaveSchedule = useSetRecoilState(savedScheduleSelector);
+  const operateSchedule = useOperateSchedule();
 
   // 今日の日付を取得
   const today = dayjs();
 
-  // スケジュールの内容 selectedScheduleがtrueならば初期値にイベントの中身を、falseなら空
+  // スケジュールの内容 selectedScheduleがtrueならば初期値にスケジュールの中身を、falseなら空
   const [title, setTitle] = useState<string>(
     selectedSchedule ? selectedSchedule.title : ""
   );
@@ -47,14 +46,10 @@ export const InputModalContainer = ({
 
   // モーダルの外側を押したときモーダルを消す
   const handleOutOfModalClick = useCallback(
-    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      e.target === e.currentTarget &&
-        setIsShowModal((modal) => ({
-          ...modal,
-          ...{ isShowInputModal: false },
-        }));
+    (target: EventTarget, currentTarget: EventTarget & HTMLDivElement) => {
+      target === currentTarget && closeInputModal();
     },
-    [setIsShowModal]
+    [closeInputModal]
   );
 
   // 削除ボタン押下時
@@ -63,60 +58,34 @@ export const InputModalContainer = ({
       return null;
     }
 
-    // ローカルストレージへの削除処理を行う
-    setSaveSchedule({
-      savedSchedules: [],
-      type: "delete",
-      payload: selectedSchedule,
-    });
-    setIsShowModal((modal) => ({
-      ...modal,
-      ...{ isShowInputModal: false },
-    }));
-  }, [selectedSchedule, setIsShowModal, setSaveSchedule]);
+    operateSchedule({ type: "delete", payload: selectedSchedule });
+    closeInputModal();
+  }, [selectedSchedule, closeInputModal, operateSchedule]);
 
   // ×ボタン押下時
   const handleCloseButtonClick = useCallback(() => {
     // 入力モーダルを閉じる
-    setIsShowModal((modal) => ({
-      ...modal,
-      ...{ isShowInputModal: false },
-    }));
-  }, [setIsShowModal]);
+    closeInputModal();
+  }, [closeInputModal]);
 
   // テキストボックスの値が変化したとき、Stateにセットされる
-  const handleTitleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setTitle(e.target.value);
-    },
-    []
-  );
-  const handleDateChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setDate(dayjs(e.target.value));
-    },
-    []
-  );
-  const handleStartTimeChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setStartTime(e.target.value);
-    },
-    []
-  );
-  const handleEndTimeChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setEndTime(e.target.value);
-    },
-    []
-  );
-  const handleMemoChange = useCallback(
-    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setMemo(e.target.value);
-    },
-    []
-  );
+  const handleTitleChange = useCallback((title: string) => {
+    setTitle(title);
+  }, []);
+  const handleDateChange = useCallback((date: string) => {
+    setDate(dayjs(date));
+  }, []);
+  const handleStartTimeChange = useCallback((startTime: string) => {
+    setStartTime(startTime);
+  }, []);
+  const handleEndTimeChange = useCallback((endTime: string) => {
+    setEndTime(endTime);
+  }, []);
+  const handleMemoChange = useCallback((memo: string) => {
+    setMemo(memo);
+  }, []);
 
-  // エラーなしならundefinedを返す
+  // エラーの種類を返す、エラーなしならundefinedを返す
   const { titleError, dateError, startTimeError, endTimeError, memoError } =
     useValidation({ title, date, startTime, endTime, memo });
 
@@ -158,31 +127,15 @@ export const InputModalContainer = ({
     ) {
       return;
     } else if (selectedSchedule) {
-      // ローカルストレージへの編集処理
-      setSaveSchedule({
-        savedSchedules: [],
-        type: "update",
-        payload: enteredSchedule,
-      });
+      operateSchedule({ type: "update", payload: enteredSchedule });
 
       // 入力モーダルを閉じる
-      setIsShowModal((modal) => ({
-        ...modal,
-        ...{ isShowInputModal: false },
-      }));
+      closeInputModal();
     } else {
-      // ローカルストレージへの追加処理
-      setSaveSchedule({
-        savedSchedules: [],
-        type: "push",
-        payload: enteredSchedule,
-      });
+      operateSchedule({ type: "add", payload: enteredSchedule });
 
       // 入力モーダルを閉じる
-      setIsShowModal((modal) => ({
-        ...modal,
-        ...{ isShowInputModal: false },
-      }));
+      closeInputModal();
     }
   }, [
     title,
@@ -196,8 +149,8 @@ export const InputModalContainer = ({
     endTimeError,
     memoError,
     selectedSchedule,
-    setSaveSchedule,
-    setIsShowModal,
+    operateSchedule,
+    closeInputModal,
   ]);
 
   return (

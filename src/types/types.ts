@@ -10,7 +10,7 @@ export type Schedule = {
 };
 
 type PushAction = {
-  type: "push";
+  type: "add";
   payload: Schedule;
 };
 type UpdateAction = {
@@ -32,4 +32,14 @@ export type MemoError = "length";
 export type Holiday = {
   date: Dayjs;
   text: string;
+};
+
+export type ScheduleToSaveProps = {
+  schedule: Schedule[];
+};
+
+export type SaveScheduleProps = {
+  savedSchedules: Schedule[];
+  type?: "add" | "update" | "delete";
+  payload: Schedule;
 };

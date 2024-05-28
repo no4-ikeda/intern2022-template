@@ -6,7 +6,10 @@ import type { Holiday } from "~/types/types";
 
 type Props = {
   holiday: Holiday;
-  onOutOfModalClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onOutOfModalClick: (
+    target: EventTarget,
+    currentTarget: EventTarget & HTMLDivElement
+  ) => void;
   onCloseButtonClick: () => void;
 };
 
@@ -15,9 +18,14 @@ export const HolidayModalPresentational = ({
   onOutOfModalClick,
   onCloseButtonClick,
 }: Props) => {
+  const handleClickOutOfModal = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    onOutOfModalClick(e.target, e.currentTarget);
+  };
   return (
     <>
-      <div className="outOfModal" onClick={onOutOfModalClick}>
+      <div className="outOfModal" onClick={handleClickOutOfModal}>
         <div className="holidayModal">
           <header>
             <span className="holidayHeader">予定の確認</span>

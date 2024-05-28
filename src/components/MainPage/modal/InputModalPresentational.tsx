@@ -4,6 +4,7 @@ import { FaCheck } from "react-icons/fa";
 import { IoTrash, IoCloseSharp } from "react-icons/io5";
 import type { Dayjs } from "dayjs";
 import type { Schedule } from "~/types/types";
+import { useCallback } from "react";
 
 type Props = {
   today: Dayjs;
@@ -19,15 +20,18 @@ type Props = {
   memo: string;
   isSaveButtonClicked: boolean;
   selectedSchedule: Schedule | null;
-  onOutOfModalClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onOutOfModalClick: (
+    target: EventTarget,
+    currentTarget: EventTarget & HTMLDivElement
+  ) => void;
   onSaveButtonClick: () => void;
   onTrashButtonClick: () => void;
   onCloseButtonClick: () => void;
-  onTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onDateChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onStartTimeChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onEndTimeChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onMemoChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onTitleChange: (title: string) => void;
+  onDateChange: (date: string) => void;
+  onStartTimeChange: (startTime: string) => void;
+  onEndTimeChange: (endTime: string) => void;
+  onMemoChange: (memo: string) => void;
 };
 
 export const InputModalPresentational = ({
@@ -65,10 +69,47 @@ export const InputModalPresentational = ({
   const isEndTimeErrorOfEdit = isSaveButtonClicked && endTimeErrorMessage;
   const isMemoErrorOfCreateNew = selectedSchedule && memoErrorMessage;
   const isMemoErrorOfEdit = isSaveButtonClicked && memoErrorMessage;
+  const handleClickOutOfModal = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    onOutOfModalClick(e.target, e.currentTarget);
+  };
+
+  const handleTitleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      onTitleChange(e.target.value);
+    },
+    [onTitleChange]
+  );
+  const handleDateChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      onDateChange(e.target.value);
+    },
+    [onDateChange]
+  );
+  const handleStartTimeChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      onStartTimeChange(e.target.value);
+    },
+    [onStartTimeChange]
+  );
+  const handleEndTimeChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      onEndTimeChange(e.target.value);
+    },
+    [onEndTimeChange]
+  );
+  const handleMemoChange = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      onMemoChange(e.target.value);
+    },
+    [onMemoChange]
+  );
+
   // selectedCheduleの有無で新規作成モーダルか編集モーダルか判断
   return (
     <>
-      <div className="outOfModal" onClick={onOutOfModalClick}>
+      <div className="outOfModal" onClick={handleClickOutOfModal}>
         <div className={selectedSchedule ? "editModal" : "createNewModal"}>
           <header>
             <span
@@ -109,7 +150,7 @@ export const InputModalPresentational = ({
                   ? "invalidTitle"
                   : "validTitle"
               }
-              onChange={onTitleChange}
+              onChange={handleTitleChange}
             ></input>
 
             {isTitleErrorOfCreateNew ? (
@@ -132,7 +173,7 @@ export const InputModalPresentational = ({
                   ? "invalidDate"
                   : "validDate"
               }
-              onChange={onDateChange}
+              onChange={handleDateChange}
             />
             {isDateErrorOfCreateNew ? (
               <ErrorMessage errorMessage={dateErrorMessage} />
@@ -153,7 +194,7 @@ export const InputModalPresentational = ({
                   ? "invalidStartTime"
                   : "validStartTime"
               }
-              onChange={onStartTimeChange}
+              onChange={handleStartTimeChange}
             />
             ~
             <input
@@ -166,7 +207,7 @@ export const InputModalPresentational = ({
                   ? "invalidEndTime"
                   : "validEndTime"
               }
-              onChange={onEndTimeChange}
+              onChange={handleEndTimeChange}
             />
             {isStartTimeErrorOfCreateNew ? (
               <ErrorMessage errorMessage={startTimeErrorMessage} />
@@ -193,7 +234,7 @@ export const InputModalPresentational = ({
                   ? "invalidMemo"
                   : "validMemo"
               }
-              onChange={onMemoChange}
+              onChange={handleMemoChange}
             ></textarea>
             {isMemoErrorOfCreateNew ? (
               <ErrorMessage errorMessage={memoErrorMessage} />

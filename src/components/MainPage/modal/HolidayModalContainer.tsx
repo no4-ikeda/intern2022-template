@@ -1,15 +1,18 @@
 import { useCallback } from "react";
 import { HolidayModalPresentational } from "./HolidayModalPresetational";
 import type { Dayjs } from "dayjs";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { holidayListAtom, isShowModalAtom } from "~/globalState/states";
+import { useRecoilValue } from "recoil";
+import { holidayListAtom } from "~/atoms/holidayAtom";
 
 type Props = {
   selectedDay: Dayjs;
+  closeHolidayModal: () => void;
 };
 
-export const HolidayModalContainer = ({ selectedDay }: Props) => {
-  const setIsShowModal = useSetRecoilState(isShowModalAtom);
+export const HolidayModalContainer = ({
+  selectedDay,
+  closeHolidayModal,
+}: Props) => {
   const holidayList = useRecoilValue(holidayListAtom);
 
   const holiday = holidayList.filter((holiday) => {
@@ -18,24 +21,17 @@ export const HolidayModalContainer = ({ selectedDay }: Props) => {
 
   // モーダルの外側を押したときモーダルを消す
   const handleOutOfModalClick = useCallback(
-    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      e.target === e.currentTarget &&
-        setIsShowModal((modal) => ({
-          ...modal,
-          ...{ isShowHolidayModal: false },
-        }));
+    (target: EventTarget, currentTarget: EventTarget & HTMLDivElement) => {
+      target === currentTarget && closeHolidayModal();
     },
-    [setIsShowModal]
+    [closeHolidayModal]
   );
 
   // ×ボタンが押されたとき
   const handleCloseButtonClick = useCallback(() => {
     // 祝日モーダルを閉じる
-    setIsShowModal((modal) => ({
-      ...modal,
-      ...{ isShowHolidayModal: false },
-    }));
-  }, [setIsShowModal]);
+    closeHolidayModal();
+  }, [closeHolidayModal]);
 
   return (
     <HolidayModalPresentational

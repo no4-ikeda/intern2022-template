@@ -3,7 +3,8 @@ import type { Schedule } from "../../../../types/types";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { useRecoilValue } from "recoil";
-import { holidayListAtom, saveScheduleInfoAtom } from "~/globalState/states";
+import { saveScheduleInfoAtom } from "~/atoms/savedScheduleAtom";
+import { holidayListAtom } from "~/atoms/holidayAtom";
 
 type Props = {
   currentPageMonth: number;

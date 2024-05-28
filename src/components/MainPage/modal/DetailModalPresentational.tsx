@@ -12,7 +12,10 @@ import type { Schedule } from "~/types/types";
 
 type Props = {
   selectedSchedule: Schedule;
-  onOutOfModalClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onOutOfModalClick: (
+    target: EventTarget,
+    currentTarget: EventTarget & HTMLDivElement
+  ) => void;
   onEditButtonClick: () => void;
   onTrashButtonClick: () => void;
   onCloseButtonClick: () => void;
@@ -25,10 +28,15 @@ export const DetailModalPresentational = ({
   onTrashButtonClick,
   onCloseButtonClick,
 }: Props) => {
+  const handleClickOutOfModal = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    onOutOfModalClick(e.target, e.currentTarget);
+  };
   return (
     <>
       {/**モーダルの外側を押したときモーダルを消す*/}
-      <div className="outOfModal" onClick={onOutOfModalClick}>
+      <div className="outOfModal" onClick={handleClickOutOfModal}>
         <div className="detailModal">
           <header>
             <span className="detailHeader">予定の確認</span>
