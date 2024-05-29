@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import type { Schedule } from "../../types/types";
 import { useFetchHolidayList } from "../../hooks/useFetchHolidayList";
 import { MainPagePresentational } from "./MainPagePresentational";
-import { useModalState } from "~/hooks/useModal";
+import { useModalState } from "~/hooks/useModalState";
 
 export const MainPageContainer = () => {
   // 現在ページに表示されている月

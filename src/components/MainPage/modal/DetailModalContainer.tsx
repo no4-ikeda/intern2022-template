@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { DetailModalPresentational } from "./DetailModalPresentational";
 import type { Schedule } from "~/types/types";
 import { useSchedules } from "~/hooks/useSchedules";
-import { useModalState } from "~/hooks/useModal";
+import { useModalState } from "~/hooks/useModalState";
 
 type Props = {
   selectedSchedule: Schedule | null;

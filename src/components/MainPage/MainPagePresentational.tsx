@@ -6,7 +6,7 @@ import type { Dayjs } from "dayjs";
 import type { Schedule } from "~/types/types";
 import type dayjs from "dayjs";
 import { InputModalContainer } from "./modal/InputModalContainer";
-import { useModalState } from "~/hooks/useModal";
+import { useModalState } from "~/hooks/useModalState";
 
 type Props = {
   selectedDay: Dayjs | null;

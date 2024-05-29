@@ -3,7 +3,7 @@ import { HolidayModalPresentational } from "./HolidayModalPresentational";
 import type { Dayjs } from "dayjs";
 import { useRecoilValue } from "recoil";
 import { holidayListAtom } from "~/atoms/holidayListAtom";
-import { useModalState } from "~/hooks/useModal";
+import { useModalState } from "~/hooks/useModalState";
 
 type Props = {
   selectedDay: Dayjs;
