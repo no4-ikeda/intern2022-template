@@ -6,19 +6,13 @@ import type { Dayjs } from "dayjs";
 import type { Schedule } from "~/types/types";
 import type dayjs from "dayjs";
 import { InputModalContainer } from "./modal/InputModalContainer";
+import { useModalState } from "~/hooks/useModal";
 
 type Props = {
-  isOpenDetailModal: boolean;
-  isOpenHolidayModal: boolean;
-  isOpenInputModal: boolean;
   selectedDay: Dayjs | null;
   selectedSchedule: Schedule | null;
   currentPageYear: number;
   currentPageMonth: number;
-  openInputModal: () => void;
-  closeDetailModal: () => void;
-  closeHolidayModal: () => void;
-  closeInputModal: () => void;
   onBackMonthButtonClick: () => void;
   onNextMonthButtonClick: () => void;
   onCreateNewClick: (date: dayjs.Dayjs) => void;
@@ -27,43 +21,31 @@ type Props = {
 };
 
 export const MainPagePresentational = ({
-  isOpenDetailModal,
-  isOpenHolidayModal,
-  isOpenInputModal,
   selectedDay,
   selectedSchedule,
   currentPageYear,
   currentPageMonth,
-  openInputModal,
-  closeDetailModal,
-  closeHolidayModal,
-  closeInputModal,
   onBackMonthButtonClick,
   onNextMonthButtonClick,
   onCreateNewClick,
   onHolidayClick,
   onScheduleClick,
 }: Props) => {
+  const [isDetailModalOpen] = useModalState("detail");
+  const [isHolidayModalOpen] = useModalState("holiday");
+  const [isInputModalOpen] = useModalState("input");
   return (
     <>
-      {isOpenDetailModal && (
-        <DetailModalContainer
-          selectedSchedule={selectedSchedule}
-          openInputModal={openInputModal}
-          closeDetailModal={closeDetailModal}
-        />
+      {isDetailModalOpen && (
+        <DetailModalContainer selectedSchedule={selectedSchedule} />
       )}
-      {isOpenHolidayModal && selectedDay && (
-        <HolidayModalContainer
-          selectedDay={selectedDay}
-          closeHolidayModal={closeHolidayModal}
-        />
+      {isHolidayModalOpen && selectedDay && (
+        <HolidayModalContainer selectedDay={selectedDay} />
       )}
-      {isOpenInputModal && (
+      {isInputModalOpen && (
         <InputModalContainer
           selectedDay={selectedDay}
           selectedSchedule={selectedSchedule}
-          closeInputModal={closeInputModal}
         />
       )}
       <CalendarHeader

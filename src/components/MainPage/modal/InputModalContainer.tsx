@@ -6,19 +6,19 @@ import type { Schedule } from "../../../types/types";
 import type { Dayjs } from "dayjs";
 import { InputModalPresentational } from "./InputModalPresentational";
 import { useSchedules } from "~/hooks/useSchedules";
+import { useModalState } from "~/hooks/useModal";
 
 type Props = {
   selectedDay: Dayjs | null;
   selectedSchedule: Schedule | null;
-  closeInputModal: () => void;
 };
 
 export const InputModalContainer = ({
   selectedDay,
   selectedSchedule,
-  closeInputModal,
 }: Props) => {
   const { addSchedule, updateSchedule, deleteSchedule } = useSchedules();
+  const [, setIsInputModalOpen] = useModalState("input");
 
   // 今日の日付を取得
   const today = dayjs();
@@ -45,12 +45,9 @@ export const InputModalContainer = ({
     useState<boolean>(false);
 
   // モーダルの外側を押したときモーダルを消す
-  const handleOutOfModalClick = useCallback(
-    (target: EventTarget, currentTarget: EventTarget & HTMLDivElement) => {
-      target === currentTarget && closeInputModal();
-    },
-    [closeInputModal]
-  );
+  const handleOutOfModalClick = useCallback(() => {
+    setIsInputModalOpen(false);
+  }, [setIsInputModalOpen]);
 
   // 削除ボタン押下時
   const handleTrashButtonClick = useCallback(() => {
@@ -59,14 +56,14 @@ export const InputModalContainer = ({
     }
 
     deleteSchedule(selectedSchedule);
-    closeInputModal();
-  }, [selectedSchedule, deleteSchedule, closeInputModal]);
+    setIsInputModalOpen(false);
+  }, [selectedSchedule, deleteSchedule, setIsInputModalOpen]);
 
   // ×ボタン押下時
   const handleCloseButtonClick = useCallback(() => {
     // 入力モーダルを閉じる
-    closeInputModal();
-  }, [closeInputModal]);
+    setIsInputModalOpen(false);
+  }, [setIsInputModalOpen]);
 
   // テキストボックスの値が変化したとき、Stateにセットされる
   const handleTitleChange = useCallback((title: string) => {
@@ -130,12 +127,12 @@ export const InputModalContainer = ({
       updateSchedule(enteredSchedule);
 
       // 入力モーダルを閉じる
-      closeInputModal();
+      setIsInputModalOpen(false);
     } else {
       addSchedule(enteredSchedule);
 
       // 入力モーダルを閉じる
-      closeInputModal();
+      setIsInputModalOpen(false);
     }
   }, [
     title,
@@ -150,7 +147,7 @@ export const InputModalContainer = ({
     memoError,
     selectedSchedule,
     updateSchedule,
-    closeInputModal,
+    setIsInputModalOpen,
     addSchedule,
   ]);
 

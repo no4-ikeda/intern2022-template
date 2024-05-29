@@ -2,36 +2,30 @@ import { useCallback } from "react";
 import { DetailModalPresentational } from "./DetailModalPresentational";
 import type { Schedule } from "~/types/types";
 import { useSchedules } from "~/hooks/useSchedules";
+import { useModalState } from "~/hooks/useModal";
 
 type Props = {
   selectedSchedule: Schedule | null;
-  closeDetailModal: () => void;
-  openInputModal: () => void;
 };
 
-export const DetailModalContainer = ({
-  selectedSchedule,
-  closeDetailModal,
-  openInputModal,
-}: Props) => {
+export const DetailModalContainer = ({ selectedSchedule }: Props) => {
   const { deleteSchedule } = useSchedules();
+  const [, setIsDetailModalOpen] = useModalState("detail");
+  const [, setIsInputModalOpen] = useModalState("input");
 
   // モーダルの外側を押したときモーダルを消す
-  const handleOutOfModalClick = useCallback(
-    (target: EventTarget, currentTarget: EventTarget) => {
-      target === currentTarget && closeDetailModal();
-    },
-    [closeDetailModal]
-  );
+  const handleOutOfModalClick = useCallback(() => {
+    setIsDetailModalOpen(false);
+  }, [setIsDetailModalOpen]);
 
   // 編集、削除、クローズボタンが押されたとき
   const handleEditButtonClick = useCallback(() => {
     // 詳細モーダルを閉じる
-    closeDetailModal();
+    setIsDetailModalOpen(false);
 
     // 入力モーダルを開く
-    openInputModal();
-  }, [closeDetailModal, openInputModal]);
+    setIsInputModalOpen(true);
+  }, [setIsDetailModalOpen, setIsInputModalOpen]);
 
   const handleTrashButtonClick = useCallback(() => {
     if (selectedSchedule == null) {
@@ -41,13 +35,13 @@ export const DetailModalContainer = ({
     deleteSchedule(selectedSchedule);
 
     // 詳細モーダルを閉じる
-    closeDetailModal();
-  }, [closeDetailModal, deleteSchedule, selectedSchedule]);
+    setIsDetailModalOpen(false);
+  }, [selectedSchedule, deleteSchedule, setIsDetailModalOpen]);
 
   const handleCloseButtonClick = useCallback(() => {
     // 詳細モーダルを閉じる
-    closeDetailModal();
-  }, [closeDetailModal]);
+    setIsDetailModalOpen(false);
+  }, [setIsDetailModalOpen]);
 
   if (selectedSchedule == null) {
     return null;

@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import type { Schedule } from "../../types/types";
 import { useFetchHolidayList } from "../../hooks/useFetchHolidayList";
 import { MainPagePresentational } from "./MainPagePresentational";
-import { useBoolean } from "~/hooks/useBoolean";
+import { useModalState } from "~/hooks/useModal";
 
 export const MainPageContainer = () => {
   // 現在ページに表示されている月
@@ -22,25 +22,13 @@ export const MainPageContainer = () => {
 
   // モーダルのOpen/Close管理
   // 詳細モーダル
-  const {
-    value: isOpenDetailModal,
-    setTrue: openDetailModal,
-    setFalse: closeDetailModal,
-  } = useBoolean();
+  const [, setIsDetailModalOpen] = useModalState("detail");
 
   // 祝日モーダル
-  const {
-    value: isOpenHolidayModal,
-    setTrue: openHolidayModal,
-    setFalse: closeHolidayModal,
-  } = useBoolean();
+  const [, setIsHolidayModalOpen] = useModalState("holiday");
 
   // 入力モーダル
-  const {
-    value: isOpenInputModal,
-    setTrue: openInputModal,
-    setFalse: closeInputModal,
-  } = useBoolean();
+  const [, setIsInputModalOpen] = useModalState("input");
 
   // 祝日を取得
   useFetchHolidayList(currentPageYear);
@@ -69,20 +57,20 @@ export const MainPageContainer = () => {
       setSelectedDay(date);
 
       // 入力モーダルを開く
-      openInputModal();
+      setIsInputModalOpen(true);
       setSelectedSchedule(null);
     },
-    [openInputModal]
+    [setIsInputModalOpen]
   );
 
   // 祝日がクリックされたとき
   const handleHolidayClick = useCallback(
     (date: dayjs.Dayjs) => {
       // 祝日モーダルを開く
-      openHolidayModal();
+      setIsHolidayModalOpen(true);
       setSelectedDay(date);
     },
-    [openHolidayModal]
+    [setIsHolidayModalOpen]
   );
 
   // 予定がクリックされたとき
@@ -91,24 +79,17 @@ export const MainPageContainer = () => {
       setSelectedSchedule(schedule);
 
       // 詳細モーダルを開く
-      openDetailModal();
+      setIsDetailModalOpen(true);
     },
-    [openDetailModal]
+    [setIsDetailModalOpen]
   );
 
   return (
     <MainPagePresentational
-      isOpenDetailModal={isOpenDetailModal}
-      isOpenHolidayModal={isOpenHolidayModal}
-      isOpenInputModal={isOpenInputModal}
       selectedDay={selectedDay}
       selectedSchedule={selectedSchedule}
       currentPageYear={currentPageYear}
       currentPageMonth={currentPageMonth}
-      openInputModal={openInputModal}
-      closeDetailModal={closeDetailModal}
-      closeHolidayModal={closeHolidayModal}
-      closeInputModal={closeInputModal}
       onBackMonthButtonClick={handleBackMonthButtonClick}
       onNextMonthButtonClick={handleNextMonthButtonClick}
       onCreateNewClick={handleCreateNewClick}

@@ -12,10 +12,7 @@ import type { Schedule } from "~/types/types";
 
 type Props = {
   selectedSchedule: Schedule;
-  onOutOfModalClick: (
-    target: EventTarget,
-    currentTarget: EventTarget & HTMLDivElement
-  ) => void;
+  onOutOfModalClick: () => void;
   onEditButtonClick: () => void;
   onTrashButtonClick: () => void;
   onCloseButtonClick: () => void;
@@ -31,7 +28,9 @@ export const DetailModalPresentational = ({
   const handleClickOutOfModal = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
-    onOutOfModalClick(e.target, e.currentTarget);
+    if (e.target === e.currentTarget) {
+      onOutOfModalClick();
+    }
   };
   return (
     <>

@@ -10,9 +10,9 @@ const initSchedules = (): Schedule[] => {
   return parsedSchedules;
 };
 
-// ローカルストレージに保存するスケジュール
+// ローカルストレージに保存されているスケジュール
 export const savedScheduleAtom = atom<SaveScheduleProps>({
-  key: "saveScheduleState",
+  key: "savedScheduleState",
   default: {
     schedules: initSchedules(),
   },

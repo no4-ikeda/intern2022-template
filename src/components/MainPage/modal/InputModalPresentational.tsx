@@ -20,10 +20,7 @@ type Props = {
   memo: string;
   isSaveButtonClicked: boolean;
   selectedSchedule: Schedule | null;
-  onOutOfModalClick: (
-    target: EventTarget,
-    currentTarget: EventTarget & HTMLDivElement
-  ) => void;
+  onOutOfModalClick: () => void;
   onSaveButtonClick: () => void;
   onTrashButtonClick: () => void;
   onCloseButtonClick: () => void;
@@ -72,7 +69,9 @@ export const InputModalPresentational = ({
   const handleClickOutOfModal = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
-    onOutOfModalClick(e.target, e.currentTarget);
+    if (e.target === e.currentTarget) {
+      onOutOfModalClick();
+    }
   };
 
   const handleTitleChange = useCallback(
