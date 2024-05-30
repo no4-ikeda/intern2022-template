@@ -3,15 +3,17 @@ import { HolidayModalPresentational } from "./HolidayModalPresentational";
 import type { Dayjs } from "dayjs";
 import { useRecoilValue } from "recoil";
 import { holidayListAtom } from "~/atoms/holidayListAtom";
-import { useModalState } from "~/hooks/useModalState";
 
 type Props = {
   selectedDay: Dayjs;
+  onRequestCloseHolidayModal: () => void;
 };
 
-export const HolidayModalContainer = ({ selectedDay }: Props) => {
+export const HolidayModalContainer = ({
+  selectedDay,
+  onRequestCloseHolidayModal,
+}: Props) => {
   const holidayList = useRecoilValue(holidayListAtom);
-  const [, setIsHolidayModalOpen] = useModalState("holiday");
 
   const holiday = holidayList.filter((holiday) => {
     return holiday.date.isSame(selectedDay);
@@ -19,14 +21,14 @@ export const HolidayModalContainer = ({ selectedDay }: Props) => {
 
   // モーダルの外側を押したときモーダルを消す
   const handleOutOfModalClick = useCallback(() => {
-    setIsHolidayModalOpen(false);
-  }, [setIsHolidayModalOpen]);
+    onRequestCloseHolidayModal();
+  }, [onRequestCloseHolidayModal]);
 
   // ×ボタンが押されたとき
   const handleCloseButtonClick = useCallback(() => {
     // 祝日モーダルを閉じる
-    setIsHolidayModalOpen(false);
-  }, [setIsHolidayModalOpen]);
+    onRequestCloseHolidayModal();
+  }, [onRequestCloseHolidayModal]);
 
   return (
     <HolidayModalPresentational

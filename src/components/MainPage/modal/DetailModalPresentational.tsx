@@ -11,6 +11,7 @@ import { MdTitle } from "react-icons/md";
 import type { Schedule } from "~/types/types";
 
 type Props = {
+  confirmDialog: JSX.Element | undefined;
   selectedSchedule: Schedule;
   onOutOfModalClick: () => void;
   onEditButtonClick: () => void;
@@ -19,6 +20,7 @@ type Props = {
 };
 
 export const DetailModalPresentational = ({
+  confirmDialog,
   selectedSchedule,
   onOutOfModalClick,
   onEditButtonClick,
@@ -32,6 +34,7 @@ export const DetailModalPresentational = ({
       onOutOfModalClick();
     }
   };
+
   return (
     <>
       {/**モーダルの外側*/}
@@ -80,6 +83,7 @@ export const DetailModalPresentational = ({
           </div>
         </div>
       </div>
+      {confirmDialog}
     </>
   );
 };

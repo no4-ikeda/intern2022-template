@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import type { Schedule } from "../../types/types";
 import { useFetchHolidayList } from "../../hooks/useFetchHolidayList";
 import { MainPagePresentational } from "./MainPagePresentational";
-import { useModalState } from "~/hooks/useModalState";
+import { useBoolean } from "~/hooks/useBoolean";
 
 export const MainPageContainer = () => {
   // 現在ページに表示されている月
@@ -22,14 +22,38 @@ export const MainPageContainer = () => {
 
   // モーダルのOpen/Close管理
   // 詳細モーダル
-  const [, setIsDetailModalOpen] = useModalState("detail");
+  const {
+    value: isDetailModalOpen,
+    setTrue: openDetailModal,
+    setFalse: closeDetailModal,
+  } = useBoolean();
 
   // 祝日モーダル
-  const [, setIsHolidayModalOpen] = useModalState("holiday");
+  const {
+    value: isHolidayModalOpen,
+    setTrue: openHolidayModal,
+    setFalse: closeHolidayModal,
+  } = useBoolean();
 
   // 入力モーダル
-  const [, setIsInputModalOpen] = useModalState("input");
+  const {
+    value: isInputModalOpen,
+    setTrue: openInputModal,
+    setFalse: closeInputModal,
+  } = useBoolean();
 
+  const onRequestCloseDetailModal = () => {
+    closeDetailModal();
+  };
+  const onRequestCloseHolidayModal = () => {
+    closeHolidayModal();
+  };
+  const onRequestCloseInputModal = () => {
+    closeInputModal();
+  };
+  const onRequestOpenInputModal = () => {
+    openInputModal();
+  };
   // 祝日を取得
   useFetchHolidayList(currentPageYear);
 
@@ -57,20 +81,20 @@ export const MainPageContainer = () => {
       setSelectedDay(date);
 
       // 入力モーダルを開く
-      setIsInputModalOpen(true);
+      openInputModal();
       setSelectedSchedule(null);
     },
-    [setIsInputModalOpen]
+    [openInputModal]
   );
 
   // 祝日がクリックされたとき
   const handleHolidayClick = useCallback(
     (date: dayjs.Dayjs) => {
       // 祝日モーダルを開く
-      setIsHolidayModalOpen(true);
+      openHolidayModal();
       setSelectedDay(date);
     },
-    [setIsHolidayModalOpen]
+    [openHolidayModal]
   );
 
   // 予定がクリックされたとき
@@ -79,13 +103,16 @@ export const MainPageContainer = () => {
       setSelectedSchedule(schedule);
 
       // 詳細モーダルを開く
-      setIsDetailModalOpen(true);
+      openDetailModal();
     },
-    [setIsDetailModalOpen]
+    [openDetailModal]
   );
 
   return (
     <MainPagePresentational
+      isDetailModalOpen={isDetailModalOpen}
+      isHolidayModalOpen={isHolidayModalOpen}
+      isInputModalOpen={isInputModalOpen}
       selectedDay={selectedDay}
       selectedSchedule={selectedSchedule}
       currentPageYear={currentPageYear}
@@ -95,6 +122,10 @@ export const MainPageContainer = () => {
       onCreateNewClick={handleCreateNewClick}
       onHolidayClick={handleHolidayClick}
       onScheduleClick={handleScheduleClick}
+      onRequestCloseDetailModal={onRequestCloseDetailModal}
+      onRequestCloseHolidayModal={onRequestCloseHolidayModal}
+      onRequestCloseInputModal={onRequestCloseInputModal}
+      onRequestOpenInputModal={onRequestOpenInputModal}
     />
   );
 };

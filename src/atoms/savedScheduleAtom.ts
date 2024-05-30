@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import type { SaveScheduleProps, Schedule } from "~/types/types";
+import type { Schedule } from "~/types/types";
 
 // localstorageに入っている値を取得する
 const initSchedules = (): Schedule[] => {
@@ -11,9 +11,7 @@ const initSchedules = (): Schedule[] => {
 };
 
 // ローカルストレージに保存されているスケジュール
-export const savedScheduleAtom = atom<SaveScheduleProps>({
+export const savedScheduleAtom = atom<Schedule[]>({
   key: "savedScheduleState",
-  default: {
-    schedules: initSchedules(),
-  },
+  default: initSchedules(),
 });

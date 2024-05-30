@@ -30,7 +30,7 @@ export const Day = ({
 
   // savedSchedulesから１日分のイベントを取り出す
   const daySchedules = useMemo(() => {
-    const schedules: Schedule[] = savedSchedules.schedules.filter(
+    const schedules: Schedule[] = savedSchedules.filter(
       (schedule) =>
         dayjs(schedule.date).format("YYYY-MM-DD") === date.format("YYYY-MM-DD")
     );

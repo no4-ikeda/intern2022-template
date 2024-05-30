@@ -6,19 +6,19 @@ import type { Schedule } from "../../../types/types";
 import type { Dayjs } from "dayjs";
 import { InputModalPresentational } from "./InputModalPresentational";
 import { useSchedules } from "~/hooks/useSchedules";
-import { useModalState } from "~/hooks/useModalState";
 
 type Props = {
   selectedDay: Dayjs | null;
   selectedSchedule: Schedule | null;
+  onRequestCloseInputModal: () => void;
 };
 
 export const InputModalContainer = ({
   selectedDay,
   selectedSchedule,
+  onRequestCloseInputModal,
 }: Props) => {
   const { addSchedule, updateSchedule, deleteSchedule } = useSchedules();
-  const [, setIsInputModalOpen] = useModalState("input");
 
   // 今日の日付を取得
   const today = dayjs();
@@ -46,8 +46,8 @@ export const InputModalContainer = ({
 
   // モーダルの外側を押したときモーダルを消す
   const handleOutOfModalClick = useCallback(() => {
-    setIsInputModalOpen(false);
-  }, [setIsInputModalOpen]);
+    onRequestCloseInputModal();
+  }, [onRequestCloseInputModal]);
 
   // 削除ボタン押下時
   const handleTrashButtonClick = useCallback(() => {
@@ -56,14 +56,14 @@ export const InputModalContainer = ({
     }
 
     deleteSchedule(selectedSchedule);
-    setIsInputModalOpen(false);
-  }, [selectedSchedule, deleteSchedule, setIsInputModalOpen]);
+    onRequestCloseInputModal();
+  }, [selectedSchedule, deleteSchedule, onRequestCloseInputModal]);
 
   // ×ボタン押下時
   const handleCloseButtonClick = useCallback(() => {
     // 入力モーダルを閉じる
-    setIsInputModalOpen(false);
-  }, [setIsInputModalOpen]);
+    onRequestCloseInputModal();
+  }, [onRequestCloseInputModal]);
 
   // テキストボックスの値が変化したとき、Stateにセットされる
   const handleTitleChange = useCallback((title: string) => {
@@ -127,12 +127,12 @@ export const InputModalContainer = ({
       updateSchedule(enteredSchedule);
 
       // 入力モーダルを閉じる
-      setIsInputModalOpen(false);
+      onRequestCloseInputModal();
     } else {
       addSchedule(enteredSchedule);
 
       // 入力モーダルを閉じる
-      setIsInputModalOpen(false);
+      onRequestCloseInputModal();
     }
   }, [
     title,
@@ -147,7 +147,7 @@ export const InputModalContainer = ({
     memoError,
     selectedSchedule,
     updateSchedule,
-    setIsInputModalOpen,
+    onRequestCloseInputModal,
     addSchedule,
   ]);
 

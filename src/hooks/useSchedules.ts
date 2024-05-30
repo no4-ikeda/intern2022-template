@@ -1,58 +1,46 @@
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 import { useRecoilState } from "recoil";
 import { savedScheduleAtom } from "~/atoms/savedScheduleAtom";
-import type { Schedule, SaveScheduleProps } from "~/types/types";
+import type { Schedule } from "~/types/types";
+import { useLocalStorage } from "./useLocalStorage";
 
 export const useSchedules = () => {
   const [savedSchedules, setSaveSchedule] = useRecoilState(savedScheduleAtom);
-  const scheduleToSave = useMemo((): SaveScheduleProps => {
-    return { schedules: [] };
-  }, []);
+  const { saveSchedules } = useLocalStorage();
 
   const addSchedule = useCallback(
     (enteredSchedule: Schedule) => {
-      scheduleToSave.schedules = [...savedSchedules.schedules, enteredSchedule];
+      const scheduleToSave = [...savedSchedules, enteredSchedule];
 
-      setSaveSchedule({ schedules: scheduleToSave.schedules });
+      setSaveSchedule(scheduleToSave);
 
-      localStorage.setItem(
-        "savedSchedules",
-        JSON.stringify(scheduleToSave.schedules)
-      );
+      saveSchedules(scheduleToSave);
     },
-    [savedSchedules.schedules, scheduleToSave, setSaveSchedule]
+    [savedSchedules, setSaveSchedule, saveSchedules]
   );
 
   const updateSchedule = useCallback(
     (enteredSchedule: Schedule) => {
-      scheduleToSave.schedules = savedSchedules.schedules.map((schedule) =>
+      const scheduleToSave = savedSchedules.map((schedule) =>
         schedule.id === enteredSchedule.id ? enteredSchedule : schedule
       );
 
-      setSaveSchedule({ schedules: scheduleToSave.schedules });
-
-      localStorage.setItem(
-        "savedSchedules",
-        JSON.stringify(scheduleToSave.schedules)
-      );
+      setSaveSchedule(scheduleToSave);
     },
-    [scheduleToSave, savedSchedules.schedules, setSaveSchedule]
+    [savedSchedules, setSaveSchedule]
   );
 
   const deleteSchedule = useCallback(
     (selectedSchedule: Schedule) => {
-      scheduleToSave.schedules = savedSchedules.schedules.filter(
+      const scheduleToSave = savedSchedules.filter(
         (schedule) => schedule.id !== selectedSchedule.id
       );
 
-      setSaveSchedule({ schedules: scheduleToSave.schedules });
+      setSaveSchedule(scheduleToSave);
 
-      localStorage.setItem(
-        "savedSchedules",
-        JSON.stringify(scheduleToSave.schedules)
-      );
+      localStorage.setItem("savedSchedules", JSON.stringify(scheduleToSave));
     },
-    [savedSchedules.schedules, scheduleToSave, setSaveSchedule]
+    [savedSchedules, setSaveSchedule]
   );
 
   return { savedSchedules, addSchedule, updateSchedule, deleteSchedule };

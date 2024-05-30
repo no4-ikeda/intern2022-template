@@ -2,52 +2,79 @@ import { useCallback } from "react";
 import { DetailModalPresentational } from "./DetailModalPresentational";
 import type { Schedule } from "~/types/types";
 import { useSchedules } from "~/hooks/useSchedules";
-import { useModalState } from "~/hooks/useModalState";
+import { useDeleteConfirmDialog } from "~/hooks/useConfirmDialog";
 
 type Props = {
   selectedSchedule: Schedule | null;
+  onRequestCloseDetailModal: () => void;
+  onRequestOpenInputModal: () => void;
 };
 
-export const DetailModalContainer = ({ selectedSchedule }: Props) => {
+export const DetailModalContainer = ({
+  selectedSchedule,
+  onRequestCloseDetailModal,
+  onRequestOpenInputModal,
+}: Props) => {
   const { deleteSchedule } = useSchedules();
-  const [, setIsDetailModalOpen] = useModalState("detail");
-  const [, setIsInputModalOpen] = useModalState("input");
+  const { confirmDialog, openDeleteConfirmDialog } = useDeleteConfirmDialog();
 
   // モーダルの外側を押したときモーダルを消す
   const handleOutOfModalClick = useCallback(() => {
-    setIsDetailModalOpen(false);
-  }, [setIsDetailModalOpen]);
+    onRequestCloseDetailModal();
+  }, [onRequestCloseDetailModal]);
 
   // 編集、削除、クローズボタンが押されたとき
   const handleEditButtonClick = useCallback(() => {
     // 詳細モーダルを閉じる
-    setIsDetailModalOpen(false);
+    onRequestCloseDetailModal();
 
     // 入力モーダルを開く
-    setIsInputModalOpen(true);
-  }, [setIsDetailModalOpen, setIsInputModalOpen]);
+    onRequestOpenInputModal();
+  }, [onRequestCloseDetailModal, onRequestOpenInputModal]);
 
-  const handleTrashButtonClick = useCallback(() => {
+  const handleTrashButtonClick = useCallback(async () => {
     if (selectedSchedule == null) {
       return null;
+    }
+    console.log(
+      openDeleteConfirmDialog({
+        title: "本当に削除してよろしいですか？",
+        message: "削除したら元に戻すことはできません",
+      })
+    );
+
+    const isOk = await openDeleteConfirmDialog({
+      title: "本当に削除してよろしいですか？",
+      message: "削除したら元に戻すことはできません",
+    });
+    console.log("delete");
+
+    if (!isOk) {
+      return;
     }
 
     deleteSchedule(selectedSchedule);
 
     // 詳細モーダルを閉じる
-    setIsDetailModalOpen(false);
-  }, [selectedSchedule, deleteSchedule, setIsDetailModalOpen]);
+    onRequestCloseDetailModal();
+  }, [
+    selectedSchedule,
+    openDeleteConfirmDialog,
+    deleteSchedule,
+    onRequestCloseDetailModal,
+  ]);
 
   const handleCloseButtonClick = useCallback(() => {
     // 詳細モーダルを閉じる
-    setIsDetailModalOpen(false);
-  }, [setIsDetailModalOpen]);
+    onRequestCloseDetailModal();
+  }, [onRequestCloseDetailModal]);
 
   if (selectedSchedule == null) {
     return null;
   }
   return (
     <DetailModalPresentational
+      confirmDialog={confirmDialog}
       selectedSchedule={selectedSchedule}
       onOutOfModalClick={handleOutOfModalClick}
       onEditButtonClick={handleEditButtonClick}
