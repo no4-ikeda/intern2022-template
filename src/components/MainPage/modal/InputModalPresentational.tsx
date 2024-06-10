@@ -138,9 +138,8 @@ export const InputModalPresentational = ({
             </button>
           </header>
 
-          <div>
+          <div className="inputForm">
             <input
-              id="title"
               type="text"
               placeholder="タイトルを入力"
               value={title}
@@ -151,18 +150,17 @@ export const InputModalPresentational = ({
               }
               onChange={handleTitleChange}
             ></input>
-
-            {isTitleErrorOfCreateNew ? (
-              <ErrorMessage errorMessage={titleErrorMessage} />
-            ) : (
-              isTitleErrorOfEdit && (
-                <ErrorMessage errorMessage={titleErrorMessage} />
-              )
-            )}
           </div>
+
+          {isTitleErrorOfCreateNew ? (
+            <ErrorMessage errorMessage={titleErrorMessage} />
+          ) : (
+            isTitleErrorOfEdit && (
+              <ErrorMessage errorMessage={titleErrorMessage} />
+            )
+          )}
           <div>
             <input
-              id="date"
               type="date"
               value={dayjs(date).format("YYYY-MM-DD")}
               min={today.format("YYYY-MM-DD")}
@@ -184,7 +182,6 @@ export const InputModalPresentational = ({
           </div>
           <div>
             <input
-              id="startTime"
               type="time"
               placeholder="--:--"
               value={startTime}
@@ -197,7 +194,6 @@ export const InputModalPresentational = ({
             />
             ~
             <input
-              id="endTime"
               type="time"
               placeholder="--:--"
               value={endTime}
@@ -225,7 +221,6 @@ export const InputModalPresentational = ({
           </div>
           <div>
             <textarea
-              id="memo"
               placeholder="memo"
               value={memo}
               className={

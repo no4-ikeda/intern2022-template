@@ -23,7 +23,7 @@ export const DetailModalContainer = ({
     onRequestCloseDetailModal();
   }, [onRequestCloseDetailModal]);
 
-  // 編集、削除、クローズボタンが押されたとき
+  // 編集ボタン押下時
   const handleEditButtonClick = useCallback(() => {
     // 詳細モーダルを閉じる
     onRequestCloseDetailModal();
@@ -32,22 +32,16 @@ export const DetailModalContainer = ({
     onRequestOpenInputModal();
   }, [onRequestCloseDetailModal, onRequestOpenInputModal]);
 
+  // 削除ボタン押下時
   const handleTrashButtonClick = useCallback(async () => {
     if (selectedSchedule == null) {
       return null;
     }
-    console.log(
-      openDeleteConfirmDialog({
-        title: "本当に削除してよろしいですか？",
-        message: "削除したら元に戻すことはできません",
-      })
-    );
 
     const isOk = await openDeleteConfirmDialog({
-      title: "本当に削除してよろしいですか？",
-      message: "削除したら元に戻すことはできません",
+      title: "削除したら元に戻すことはできません",
+      message: "本当に削除してよろしいですか？",
     });
-    console.log("delete");
 
     if (!isOk) {
       return;
@@ -64,6 +58,7 @@ export const DetailModalContainer = ({
     onRequestCloseDetailModal,
   ]);
 
+  // 閉じるボタン押下時
   const handleCloseButtonClick = useCallback(() => {
     // 詳細モーダルを閉じる
     onRequestCloseDetailModal();

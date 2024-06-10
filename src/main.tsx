@@ -7,10 +7,10 @@ import { RecoilRoot } from "recoil";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <ChakraProvider>
-      <RecoilRoot>
+    <RecoilRoot>
+      <ChakraProvider>
         <MainPageContainer />
-      </RecoilRoot>
-    </ChakraProvider>
+      </ChakraProvider>
+    </RecoilRoot>
   </React.StrictMode>
 );

@@ -33,19 +33,19 @@ export const HolidayModalPresentational = ({
             </button>
           </header>
 
-          <div className="detailTitle">
+          <div className="readOnlyTitle">
             <span className="icons">
               <MdTitle size={25} />
             </span>
             <span className="title">：{holiday.text ?? ""}</span>
           </div>
-          <div className="detailDate">
+          <div className="readOnlyDate">
             <span className="icons">
               <IoIosCalendar size={25} />
             </span>
             <span className="date">：{holiday.date.format("YYYY-MM-DD")}</span>
           </div>
-          <div className="detailTime">
+          <div className="readOnlyTime">
             <span className="icons">
               <GoClock size={25} />
             </span>

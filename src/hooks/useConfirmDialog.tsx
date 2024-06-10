@@ -8,7 +8,7 @@ type ConfirmDialogParam = {
 };
 
 type useDeleteConfirmDialogOutput = {
-  confirmDialog: JSX.Element | undefined;
+  confirmDialog: React.ReactElement | undefined;
   openDeleteConfirmDialog: (param: ConfirmDialogParam) => Promise<boolean>;
 };
 
@@ -21,7 +21,6 @@ export const useDeleteConfirmDialog = (): useDeleteConfirmDialogOutput => {
     return new Promise<boolean>((resolve) => {
       setModalConfig({
         ...param,
-        isOpen: true,
         onRequestClose: (isOk: boolean) => {
           setModalConfig(undefined);
           resolve(isOk);

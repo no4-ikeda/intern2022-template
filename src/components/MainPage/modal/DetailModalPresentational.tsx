@@ -11,7 +11,7 @@ import { MdTitle } from "react-icons/md";
 import type { Schedule } from "~/types/types";
 
 type Props = {
-  confirmDialog: JSX.Element | undefined;
+  confirmDialog: React.ReactNode | undefined;
   selectedSchedule: Schedule;
   onOutOfModalClick: () => void;
   onEditButtonClick: () => void;
@@ -53,13 +53,13 @@ export const DetailModalPresentational = ({
             </button>
           </header>
 
-          <div className="detailTitle">
+          <div className="readOnlyTitle">
             <span className="icons">
               <MdTitle size={25} />
             </span>
             <span className="title">：{selectedSchedule.title}</span>
           </div>
-          <div className="detailDate">
+          <div className="readOnlyDate">
             <span className="icons">
               <IoIosCalendar size={25} />
             </span>
@@ -67,7 +67,7 @@ export const DetailModalPresentational = ({
               ：{dayjs(selectedSchedule.date).format("YYYY-MM-DD")}
             </span>
           </div>
-          <div className="detailTime">
+          <div className="readOnlyTime">
             <span className="icons">
               <GoClock size={25} />
             </span>
@@ -75,7 +75,7 @@ export const DetailModalPresentational = ({
               ：{selectedSchedule.startTime}~{selectedSchedule.endTime}
             </span>
           </div>
-          <div className="detailMemo">
+          <div className="readOnlyMemo">
             <span className="icons">
               <IoNewspaperOutline size={25} />
             </span>
